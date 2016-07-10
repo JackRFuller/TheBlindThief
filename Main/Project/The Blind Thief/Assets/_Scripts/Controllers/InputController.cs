@@ -11,6 +11,15 @@ public class InputController : Singleton<InputController>
         get { return targetPosition; }
     }
 
+    //Double Clicked
+    private bool doubleClicked;
+    public bool DoubleClicked
+    {
+        get { return doubleClicked; }
+    }
+    private bool oneClick = false;
+    [SerializeField] private float timeForDoubleClick;
+
     public static event Action PlayerInput; //Registers when theres been a valid input
 
     void Update()
@@ -20,9 +29,36 @@ public class InputController : Singleton<InputController>
 
     void GetPlayerInput()
     {
-        if (Input.GetMouseButtonUp(0))
+        float _delay = 0.25f;
+
+        if (Input.GetMouseButtonDown(0))
         {
+
+            if (!oneClick)
+            {
+                //Single Click
+                oneClick = true;
+                timeForDoubleClick = Time.time;
+                doubleClicked = false;
+            }
+            else
+            {
+                //Double Clicked
+                oneClick = false;
+                doubleClicked = true;
+
+                //Debug.Log("Double Clicked");
+            }
+
             SendOutRaycastFromMousePosition();
+        }
+
+        if (oneClick)
+        {
+            if ((Time.time - timeForDoubleClick) > _delay)
+            {
+                oneClick = false;
+            }
         }
     }
 

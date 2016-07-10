@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerMovementBehaviour : MonoBehaviour
+public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 {
     private List<Vector3> nodePositions;
 
@@ -18,6 +18,11 @@ public class PlayerMovementBehaviour : MonoBehaviour
     //Movement
     [SerializeField] private float sneakSpeed;
     [SerializeField] private float runSpeed;
+    private bool isSprinting;
+    public bool IsSprinting
+    {
+        get { return isSprinting; }
+    }
 
     private Vector3 desiredVelocity;
     private float lastSqrMag;
@@ -76,10 +81,6 @@ public class PlayerMovementBehaviour : MonoBehaviour
         {
             if (IsThereAHorizontalPath())
             {
-                //Event - Subscribed to by Waypoint
-                if (HasFoundLegitPath != null)
-                    HasFoundLegitPath();
-
                 Vector3 _targetPosition = new Vector3(targetPosition.x,transform.position.y,transform.position.z);
                 StartMovement(_targetPosition);
             }
@@ -92,11 +93,7 @@ public class PlayerMovementBehaviour : MonoBehaviour
         else
         {
             if (isThereAVerticalPath())
-            {
-                //Event - Subscribed to by Waypoint
-                if (HasFoundLegitPath != null)
-                    HasFoundLegitPath();
-
+            {   
                 Vector3 _targetPosition = new Vector3(transform.position.x, targetPosition.y, transform.position.z);
                 StartMovement(_targetPosition);
             }
@@ -110,7 +107,26 @@ public class PlayerMovementBehaviour : MonoBehaviour
 
     void StartMovement(Vector3 _targetVector)
     {
-        Vector3 _directionalVector = (_targetVector - transform.position).normalized*sneakSpeed;
+        Vector3 _directionalVector = Vector3.zero;
+
+        if (InputController.Instance.DoubleClicked)
+        {
+            _directionalVector = (_targetVector - transform.position).normalized*runSpeed;
+            isSprinting = true;
+        }
+
+        else
+        {
+            _directionalVector = (_targetVector - transform.position).normalized * sneakSpeed;
+            isSprinting = false;
+        }          
+
+        if (DebugMode)
+            Debug.Log("Desired Speed: " + _directionalVector);
+
+        //Event - Subscribed to by Waypoint
+        if (HasFoundLegitPath != null)
+            HasFoundLegitPath();
 
         //Calculate Mesh Look Direction
         Vector3 _targetLook = CalculateMeshLookAtVector(_targetVector);

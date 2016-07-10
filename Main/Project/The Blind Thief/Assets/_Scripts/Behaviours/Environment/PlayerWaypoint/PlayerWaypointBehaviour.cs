@@ -5,7 +5,7 @@ public class PlayerWaypointBehaviour : AnimationController
 {
     private Vector3 targetPosition;
 
-    [SerializeField] private SpriteRenderer[] sprites;
+    [SerializeField] private GameObject[] sprites;
 
     void Start()
     {
@@ -23,23 +23,38 @@ public class PlayerWaypointBehaviour : AnimationController
 
     void InitiateAnimation()
     {
-        for (int i = 0; i < sprites.Length; i++)
+        StartCoroutine(WaitToTurnOnGameObjects());
+
+        if (!PlayerMovementBehaviour.Instance.IsSprinting)
         {
-            sprites[i].enabled = true;
+            TurnOnAnimation("isSneaking");
         }
 
-        TurnOnAnimation("isActive");
+        if (PlayerMovementBehaviour.Instance.IsSprinting)
+        {
+            TurnOnAnimation("isSprinting");
+        }
 
         StartCoroutine(TurnOffWaypoint());
     }
 
+    IEnumerator WaitToTurnOnGameObjects()
+    {
+        yield return new WaitForSeconds(0.1f);
+
+        for (int i = 0; i <sprites.Length; i++)
+        {
+            sprites[i].SetActive(true);
+        }
+    }
+
     IEnumerator TurnOffWaypoint()
     {
-        yield return new WaitForSeconds(0.5f);
+        yield return new WaitForSeconds(0.6f);
 
         for (int i = 0; i < sprites.Length; i++)
         {
-            sprites[i].enabled = false;
+            sprites[i].SetActive(false);
         }
 
         TurnOnAnimation("isIdle");
