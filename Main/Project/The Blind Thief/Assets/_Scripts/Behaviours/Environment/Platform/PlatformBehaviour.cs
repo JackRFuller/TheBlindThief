@@ -3,7 +3,7 @@ using System.Collections;
 
 public class PlatformBehaviour : MonoBehaviour
 {
-    void ActivateSwitchBehaviour()
+    public virtual void ActivateSwitchBehaviour()
     {
         
     } 
