@@ -15,10 +15,14 @@ public class RotatingPlatformBehaviour : MonoBehaviour
     private Quaternion startingRotation;
     private Quaternion targetRotation;
 
-    void ActivateSwitchBehaviour()
+    private Transform parentSwitch;
+
+    void ActivateSwitchBehaviour(Transform _enabler)
     {
         InitiateRotation();
-        Debug.Log("Triggered Rotation");
+
+        if (parentSwitch == null)
+            parentSwitch = _enabler;
     }
 
     void InitiateRotation()
@@ -54,6 +58,8 @@ public class RotatingPlatformBehaviour : MonoBehaviour
         if (_percentageComplete >= 1)
         {
             isRotating = false;
+
+            parentSwitch.SendMessage("EnableSwitch");
 
             //Trigger Recalculating of the Nodes
             NodeController.Instance.GetNodes();
