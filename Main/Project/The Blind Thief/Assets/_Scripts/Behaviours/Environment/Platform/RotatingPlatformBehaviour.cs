@@ -1,11 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class RotatingPlatformBehaviour : MonoBehaviour
+public class RotatingPlatformBehaviour : PlatformBehaviour
 {
     private bool isRotating;
 
     //Movement
+    [Header("Rotation")]
     [SerializeField] private float rotationTarget;
     [SerializeField] private float rotationSpeed;
     [SerializeField] private AnimationCurve movementCurve;
@@ -17,7 +18,7 @@ public class RotatingPlatformBehaviour : MonoBehaviour
 
     private Transform parentSwitch;
 
-    void ActivateSwitchBehaviour(Transform _enabler)
+    public override void ActivateSwitchBehaviour(Transform _enabler)
     {
         InitiateRotation();
 
@@ -42,8 +43,10 @@ public class RotatingPlatformBehaviour : MonoBehaviour
         isRotating = true;
     }
 
-    void Update()
+    public override void Update()
     {
+        base.Update();
+
         if(isRotating)
             RotatePlatform();
     }

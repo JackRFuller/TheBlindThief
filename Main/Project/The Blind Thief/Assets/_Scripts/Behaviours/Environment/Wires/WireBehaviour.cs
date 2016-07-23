@@ -4,6 +4,10 @@ using System.Collections;
 
 public class WireBehaviour : MonoBehaviour
 {
+    [Header("Platform Target")]
+    [SerializeField] private GameObject targetPlatform;
+
+    [Header("Wire Objects")]
     [SerializeField] private Image[] wires;
 
     [SerializeField] private bool activateWires;
@@ -23,6 +27,11 @@ public class WireBehaviour : MonoBehaviour
     {
         wireCount = 0;
         activeWire = wires[0];
+    }
+
+    void ActivateWire()
+    {
+        activateWires = true;
     }
 
     void Update()
@@ -58,6 +67,7 @@ public class WireBehaviour : MonoBehaviour
     void EndWireFill()
     {
         activateWires = false;
+        targetPlatform.SendMessage("ActivatePlatform");
     }
 
 }

@@ -4,6 +4,7 @@ using System.Collections;
 public class MovingPlatformBehaviour : PlatformBehaviour
 {
 	//Movement
+    [Header("Movement")]
 	[SerializeField] private float movementTime;
 	[SerializeField] private AnimationCurve movementCurve;
 	private bool isMoving;
