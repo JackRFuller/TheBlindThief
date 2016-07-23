@@ -131,7 +131,7 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
         //Calculate Mesh Look Direction
         Vector3 _targetLook = CalculateMeshLookAtVector(_targetVector);
 
-        //mesh.LookAt(_targetLook);
+        mesh.localRotation = Quaternion.Euler(_targetLook);
 
         lastSqrMag = Mathf.Infinity;
 
@@ -350,23 +350,61 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     Vector3 CalculateMeshLookAtVector(Vector3 _targetPosition)
     {
-        Vector3 _lookAtTarget = Vector3.zero;
-
-        //Get Player Rotation
+       //Get Player Rotation - Used for 0/180 Rotation
         float _playerRot = GetPlayerRotation();
 
-        //Debug.Log(_playerRot);
+        Vector3 _newRotation = mesh.rotation.eulerAngles;
+
+        //Used for 90/270 Rotation
+        Quaternion rot = new Quaternion();
+        rot = Quaternion.Euler(transform.eulerAngles);
+        float _zAxis = rot.eulerAngles.z;
 
         if (_playerRot == 0)
-            _lookAtTarget = new Vector3(_targetPosition.x,transform.position.y,_targetPosition.z);
-
-        if (_playerRot == 90)
-            _lookAtTarget = new Vector3(_targetPosition.x,_targetPosition.y,transform.position.z);
-
-        if(_playerRot == 180)
-            _lookAtTarget = new Vector3(_targetPosition.x, -transform.position.y, -_targetPosition.z);
-
-        return _lookAtTarget;
+        {
+            if (_targetPosition.x > transform.position.x)
+            {
+                _newRotation = new Vector3(0, 90, 0);
+            }
+            else
+            {
+                _newRotation = new Vector3(0, 270, 0);
+            }
+        }
+        else if (_playerRot == 180)
+        {
+            if (_targetPosition.x > transform.position.x)
+            {
+                _newRotation = new Vector3(0, 270, 0);
+            }
+            else
+            {
+                _newRotation = new Vector3(0, 90, 0);
+            }
+        }
+        else if (_zAxis == 90)
+        {
+            if (_targetPosition.y > transform.position.y)
+            {
+                _newRotation = new Vector3(0, 90, 0);
+            }
+            else
+            {
+                _newRotation = new Vector3(0, 270, 0);
+            }
+        }
+        else if (_zAxis == 270)
+        {
+            if (_targetPosition.y > transform.position.y)
+            {
+                _newRotation = new Vector3(0, 270, 0);
+            }
+            else
+            {
+                _newRotation = new Vector3(0, 90, 0);
+            }
+        }
+        return _newRotation;
     }
 
     int CalculateDifferenceBetweenPlayerAndTarget(int _playerPos, int _targetPos)
@@ -386,6 +424,9 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     {
        float _playerRotation = Mathf.Abs(Quaternion.Angle(transform.rotation, Quaternion.identity));
         _playerRotation = Mathf.Round(_playerRotation);
+
+        if(DebugMode)
+            Debug.Log("Player Rotation: " + _playerRotation);
         return _playerRotation;
     }
 

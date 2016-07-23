@@ -5,6 +5,8 @@ public class KeyBehaviour : InteractableObject
 {
     [SerializeField]
     private MeshRenderer mesh;
+    [SerializeField]
+    private Collider collider;
 
     [Header("Rotation")]
     [SerializeField]
@@ -41,6 +43,7 @@ public class KeyBehaviour : InteractableObject
     void PlayerAcquiresKey()
     {
         mesh.enabled = false;
+        collider.enabled = false;
         isActive = false;
 
         //Increment The Number of Held Keys by 0
