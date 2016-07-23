@@ -4,12 +4,20 @@ using System.Collections;
 public class SwitchBehaviour : InteractableObject
 {
     [SerializeField] private GameObject[] targets;
+    private bool isEnabled;
 
     public override void HitByRaycast()
     {
-        base.HitByRaycast();
+        if (!isEnabled)
+        {
+            base.HitByRaycast();
 
-        TriggerTargetBehaviour();
+            TurnOnAnimation("Activate");
+
+            TriggerTargetBehaviour();
+
+            isEnabled = true;
+        }
     }
 
     void TriggerTargetBehaviour()
@@ -18,8 +26,21 @@ public class SwitchBehaviour : InteractableObject
         {
             for (int i = 0; i < targets.Length; i++)
             {
-                targets[i].SendMessage("ActivateSwitchBehaviour", SendMessageOptions.DontRequireReceiver);
+                targets[i].SendMessage("ActivateSwitchBehaviour",this.transform, SendMessageOptions.DontRequireReceiver);
             }
         }
+
+        StartCoroutine(WaitToTurnOffAnimation());
+    }
+
+    void EnableSwitch()
+    {
+        isEnabled = false;
+    }
+
+    IEnumerator WaitToTurnOffAnimation()
+    {
+        yield return new WaitForSeconds(0.75f);
+        TurnOnAnimation("Deactivate");
     }
 }

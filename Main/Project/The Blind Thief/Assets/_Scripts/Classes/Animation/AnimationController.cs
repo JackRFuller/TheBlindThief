@@ -8,8 +8,6 @@ public class AnimationController : MonoBehaviour
 
     public virtual void TurnOnAnimation(string _targetAnim)
     {
-        Debug.Log(_targetAnim);
-
         for (int i = 0; i < animController.parameters.Length; i++)
         {
             if (_targetAnim == animController.parameters[i].name)

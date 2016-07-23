@@ -9,6 +9,8 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 	private bool isMoving;
 	private float timeStartedLerping;
 
+    private Transform parentSwitch;
+
 	//Targets
 
 	[HideInInspector][SerializeField] private Vector3 firstPosition;
@@ -19,8 +21,11 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 
 	private int positionCount = 0;
 
-	public override void ActivateSwitchBehaviour()
+	public override void ActivateSwitchBehaviour(Transform _enablerer)
 	{
+	    if (parentSwitch == null)
+	        parentSwitch = _enablerer;
+
 		if(!isMoving)
 			InitiateMovement();
 	}
@@ -63,6 +68,7 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 		{
 			isMoving = false;
 			NodeController.Instance.GetNodes();
+            parentSwitch.SendMessage("EnableSwitch");
 		}
 	}
 

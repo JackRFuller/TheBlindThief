@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class InteractableObject : MonoBehaviour {
+public class InteractableObject : AnimationController {
 
     public virtual void HitByRaycast()
     {
