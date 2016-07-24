@@ -15,12 +15,23 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 	//Targets
 
 	[HideInInspector][SerializeField] private Vector3 firstPosition;
+    public Vector3 FirstPosition
+    {
+        get { return firstPosition; }
+    } //Access by the waypoints
 	[HideInInspector][SerializeField] private Vector3 secondPosition;
+    public Vector3 SecondPosition
+    {
+        get { return secondPosition; }
+    } //Accessed by the waypoints
 
 	private Vector3 startingPosition;
 	private Vector3 targetPosition;
 
 	private int positionCount = 0;
+
+    [Header("Waypoints")]
+    [SerializeField] private GameObject wayPoints;
 
 	public override void ActivateSwitchBehaviour(Transform _enablerer)
 	{
@@ -52,9 +63,11 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 		isMoving = true;
 	}
 
-	void Update()
+	public override void Update()
 	{
-		if(isMoving)
+        base.Update();
+
+        if (isMoving)
 			MovePlatform();
 	}
 
@@ -90,6 +103,14 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 		secondPosition = transform.localPosition;
 	}
 
+    public void CreateWaypoints()
+    {
+        GameObject _waypoint = (GameObject)Instantiate(wayPoints);
+        MovingPlatformWaypoints _mpwScript = _waypoint.GetComponent<MovingPlatformWaypoints>();
 
-	#endregion
+        _mpwScript.MPBScript = this;
+    }
+
+
+    #endregion
 }

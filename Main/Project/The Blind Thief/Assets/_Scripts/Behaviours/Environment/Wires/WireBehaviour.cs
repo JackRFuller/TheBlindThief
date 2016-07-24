@@ -5,7 +5,7 @@ using System.Collections;
 public class WireBehaviour : MonoBehaviour
 {
     [Header("Platform Target")]
-    [SerializeField] private GameObject targetPlatform;
+    [SerializeField] private GameObject[] targetPlatforms;
 
     [Header("Wire Objects")]
     [SerializeField] private Image[] wires;
@@ -67,7 +67,12 @@ public class WireBehaviour : MonoBehaviour
     void EndWireFill()
     {
         activateWires = false;
-        targetPlatform.SendMessage("ActivatePlatform");
+        
+        for (int i = 0; i < targetPlatforms.Length; i++)
+        {
+            targetPlatforms[i].SendMessage("ActivatePlatform");
+        }
+       
     }
 
 }

@@ -3,6 +3,10 @@ using System.Collections;
 
 public class PlatformBehaviour : MonoBehaviour
 {
+
+    [Header("Controlling Switch")]
+    [SerializeField] private SwitchBehaviour swScript;
+    
     [Header("Sprites")]
     [SerializeField] protected SpriteRenderer[] sprites;
     [SerializeField] protected float spriteFadeInSpeed;
@@ -38,8 +42,6 @@ public class PlatformBehaviour : MonoBehaviour
 
     void FadeInSprites()
     {
-        Debug.Log(gameObject.name);
-
         float _timeSinceStarted = Time.time - timeFadeInStarted;
         float _percentageComplete = _timeSinceStarted / spriteFadeInSpeed;
 
@@ -48,12 +50,16 @@ public class PlatformBehaviour : MonoBehaviour
             Color _spriteColor = sprites[i].color;
             _spriteColor.a = Mathf.Lerp(_spriteColor.a, 1, fadeInCurve.Evaluate(_percentageComplete));
             sprites[i].color = _spriteColor;
-            Debug.Log(sprites[i].color);
         }
 
         if (_percentageComplete >= 1.0f)
         {
             isFadingInSprite = false;
+
+            if (swScript != null)
+                swScript.IsActivated = true;
+
+
         }
 
     }

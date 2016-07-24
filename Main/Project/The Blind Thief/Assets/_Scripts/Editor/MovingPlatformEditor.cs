@@ -47,7 +47,12 @@ public class MovingPlatformEditor : Editor
 			platformScript.SetToFirstPosition();
 		}
 
-		serializedObject.ApplyModifiedProperties();
+        if (GUILayout.Button("Create Waypoints"))
+        {
+            platformScript.CreateWaypoints();
+        }
+
+        serializedObject.ApplyModifiedProperties();
 
 	}
 }

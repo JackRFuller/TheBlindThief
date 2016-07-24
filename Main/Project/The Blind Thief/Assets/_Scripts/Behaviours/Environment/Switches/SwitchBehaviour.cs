@@ -17,7 +17,13 @@ public class SwitchBehaviour : InteractableObject
     [Header("Targets")]
     [SerializeField] private GameObject[] targets;
     private bool isActivated;
+
+    public bool IsActivated
+    {
+        set { isActivated = value; }
+    }
     private bool isEnabled;
+   
 
     public override void HitByRaycast()
     {
@@ -69,7 +75,6 @@ public class SwitchBehaviour : InteractableObject
         if (_percentageComplete >= 1.0f)
         {
             isLerpingColour = false;
-            isActivated = true;
             wireTarget.SendMessage("ActivateWire",SendMessageOptions.DontRequireReceiver);
         }
     }
