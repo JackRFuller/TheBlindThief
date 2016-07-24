@@ -10,7 +10,7 @@ public class WireBehaviour : MonoBehaviour
     [Header("Wire Objects")]
     [SerializeField] private Image[] wires;
 
-    [SerializeField] private bool activateWires;
+    private bool activateWires;
 
     [Header("Fill Rate")]
     [SerializeField] private float fillRate;
@@ -70,7 +70,7 @@ public class WireBehaviour : MonoBehaviour
         
         for (int i = 0; i < targetPlatforms.Length; i++)
         {
-            targetPlatforms[i].SendMessage("ActivatePlatform");
+            targetPlatforms[i].SendMessage("ActivatePlatform",SendMessageOptions.DontRequireReceiver);
         }
        
     }

@@ -22,15 +22,12 @@ public class PlatformBehaviour : MonoBehaviour
     public virtual void ActivatePlatform()
     {
         InitiateFadeIn();
-        Debug.Log(gameObject.name +" activated");
     }
 
     void InitiateFadeIn()
     {
         timeFadeInStarted = Time.time;
         isFadingInSprite = true;
-
-        Debug.Log(gameObject.name);
     }
 
     public virtual void Update()

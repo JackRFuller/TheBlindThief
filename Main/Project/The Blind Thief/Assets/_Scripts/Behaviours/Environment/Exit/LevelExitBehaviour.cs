@@ -1,4 +1,6 @@
 ﻿using UnityEngine;
+using UnityEngine.EventSystems;
+using System;
 using System.Collections;
 
 public class LevelExitBehaviour : Singleton<LevelExitBehaviour>
@@ -13,6 +15,9 @@ public class LevelExitBehaviour : Singleton<LevelExitBehaviour>
     private SpriteRenderer[] filledKeyHoles;
     private int maxNumberOfKeys;
     private int currentNumberOfKeys;
+
+    //Events
+    public event Action EndOfLevel; //Used when the player enters the door
 
     void Start()
     {
@@ -51,14 +56,20 @@ public class LevelExitBehaviour : Singleton<LevelExitBehaviour>
     void OpenDoor()
     {
         doorCol.enabled = true;
+        doorCol.isTrigger = true;
     }
 
     public void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Trigger");
+
         if (other.tag == "Player")
         {
             Debug.Log("Level Complete");
+
+            if (EndOfLevel != null)
+                EndOfLevel();
         }
-        
+
     }
 }

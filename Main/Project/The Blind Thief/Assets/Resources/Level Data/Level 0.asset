@@ -11,4 +11,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3e902f76688b6f4cb4f19f144880af0, type: 3}
   m_Name: Level 0
   m_EditorClassIdentifier: 
+  levelGeometry: {fileID: 126800, guid: 94ad31430a214b64f93f7b09dd2fe1c5, type: 2}
   numberOfKeys: 1

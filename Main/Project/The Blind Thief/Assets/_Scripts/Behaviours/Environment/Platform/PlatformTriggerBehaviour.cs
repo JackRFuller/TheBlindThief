@@ -12,6 +12,7 @@ public class PlatformTriggerBehaviour : MonoBehaviour
             if (other.tag == "Player")
             {
                 transform.parent.SendMessage("ActivatePlatform", SendMessageOptions.DontRequireReceiver);
+                hasBeenActivated = true;
             }
             
         }

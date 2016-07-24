@@ -136,7 +136,16 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
         lastSqrMag = Mathf.Infinity;
 
         desiredVelocity = _directionalVector;
-        animController.TurnOnAnimation("isWalking");
+
+        if (InputController.Instance.DoubleClicked)
+        {
+            animController.TurnOnAnimation("isSprinting");
+        }
+        else
+        {
+            animController.TurnOnAnimation("isWalking");
+        }
+        
     }
 
     // Update is called once per frame
