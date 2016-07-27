@@ -35,6 +35,8 @@ public class SwitchBehaviour : InteractableObject
 
                 TurnOnAnimation("Activate");
 
+                PlayAudio();
+
                 TriggerTargetBehaviour();
 
                 isEnabled = true;
@@ -102,5 +104,6 @@ public class SwitchBehaviour : InteractableObject
     {
         yield return new WaitForSeconds(0.75f);
         TurnOnAnimation("Deactivate");
+        StopAudio();
     }
 }

@@ -32,6 +32,10 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     //Debug
     [SerializeField] private bool DebugMode;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip legitPathSFX;
+
     public static event Action HasFoundLegitPath;
 
 	// Use this for initialization
@@ -107,6 +111,10 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     void StartMovement(Vector3 _targetVector)
     {
+        //Audio
+        audioSource.clip = legitPathSFX;
+        audioSource.Play();
+
         Vector3 _directionalVector = Vector3.zero;
 
         if (InputController.Instance.DoubleClicked)
