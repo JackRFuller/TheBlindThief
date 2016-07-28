@@ -10,7 +10,7 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     //Components
     private Rigidbody rb;
-    private PlayerAnimationController animController;
+    [SerializeField] private PlayerAnimationController animController;
 
     //Mesh
     [SerializeField] private Transform mesh;
@@ -51,7 +51,7 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     void GetComponents()
     {
         rb = GetComponent<Rigidbody>();
-        animController = GetComponent<PlayerAnimationController>();
+        //animController = GetComponent<PlayerAnimationController>();
     }
 
     void SubscribeToEvents()
