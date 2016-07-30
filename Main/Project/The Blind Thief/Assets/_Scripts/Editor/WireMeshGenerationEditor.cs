@@ -13,7 +13,7 @@ public class WireMeshGenerationEditor : Editor
 
         if (GUILayout.Button("CreateMesh"))
         {
-            myScript.CreateWire();
+            myScript.PlaceWires();
         }
     }
 }

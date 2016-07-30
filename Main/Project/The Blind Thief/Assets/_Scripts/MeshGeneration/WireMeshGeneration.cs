@@ -4,132 +4,109 @@ using System.Collections.Generic;
 
 public class WireMeshGeneration : MonoBehaviour {
 
+    [Header("WireWaypoints")]
 	[SerializeField] private Transform[] wireWaypoints;
 
-    public void CreateWire()
+    [Header("Wire")]
+    [SerializeField] private GameObject wireMesh;
+
+    private GameObject wireHolder;
+
+    //Mesh Filters
+    private MeshFilter[] meshFilters;
+    private CombineInstance[] combine;
+
+    public void PlaceWires()
     {
-        //TO:DO = Merge meshes
-        List<MeshFilter> meshes = new List<MeshFilter>();        
+        if (wireHolder != null)
+           DestroyImmediate(wireHolder);
+
+        GameObject _WireHolder = new GameObject();
+        _WireHolder.name = "Wires";
+        //Instantiate(_WireHolder);
+
+        //Mesh
+        meshFilters = new MeshFilter[wireWaypoints.Length - 1];
+
+        _WireHolder.transform.parent = this.transform;
 
         for(int i = 0; i < wireWaypoints.Length - 1; i++)
         {
-            //Work out where in relation the second wire is
-            int _travellingDirection = GetWaypointDirection(wireWaypoints[i], wireWaypoints[i + 1]);
+            //Spawn in wire mesh
+            GameObject _wire = (GameObject)Instantiate(wireMesh);
 
-            int _amountOfQuads = GetDistanceBetween(wireWaypoints[i], wireWaypoints[i + 1]);
+            //Work out placement position
+            _wire.transform.position = GetWirePlacement(wireWaypoints[i].position, wireWaypoints[i + 1].position);
 
-            for(int j = 0; j < _amountOfQuads; j++)
-            {
-                GameObject quad = CreateQuad();
+            //Work out Rotation
+            Vector3 _wireRotation = GetWireRotation(wireWaypoints[i].position, wireWaypoints[i + 1].position);
+            _wire.transform.rotation = Quaternion.Euler(_wireRotation);
 
-                Vector3 _placementPosition = GetQuadPlacement(wireWaypoints[i].position, _travellingDirection, j);
+            //Work out Size
+            _wire.transform.localScale = GetWireSize(wireWaypoints[i].position, wireWaypoints[i + 1].position);
 
-                quad.transform.position = _placementPosition;
-            }            
+            _wire.transform.parent = _WireHolder.transform;
+
+            meshFilters[i] = _wire.GetComponent<MeshFilter>();
         }
+
+        wireHolder = _WireHolder;
+
+        //CreateMesh();
     }
 
-    void MergeQuadsInToOneMesh(MeshFilter[] _meshFilters, CombineInstance[] _combine)
+    void CreateMesh()
     {
+        combine = new CombineInstance[meshFilters.Length];
 
-    }
+        int i = 0;
 
-    
-
-    GameObject CreateQuad()
-    {
-        Mesh mesh = new Mesh();
-
-        Vector3[] _verts = new Vector3[4];
-        Vector2[] _uvs = new Vector2[4];
-        int[] tris = new int[6] { 0, 1, 2, 2, 1, 3 };        
-
-        _verts[0] = -Vector3.right + Vector3.up;
-        _verts[1] = Vector3.right + Vector3.up;
-        _verts[2] = -Vector3.right - Vector3.up;
-        _verts[3] = Vector3.right - Vector3.up; 
-        
-        _uvs[0] = new Vector2(0.0f, 1.0f);
-        _uvs[1] = new Vector2(1.0f, 1.0f);
-        _uvs[2] = new Vector2(0.0f, 0.0f);
-        _uvs[3] = new Vector2(1.0f, 0.0f);
-
-        mesh.vertices = _verts;
-        mesh.triangles = tris;
-        mesh.uv = _uvs;
-
-        mesh.RecalculateNormals();
-
-        GameObject newQuad = new GameObject();
-
-        newQuad.AddComponent<MeshFilter>().mesh = mesh;
-        newQuad.AddComponent<MeshRenderer>();
-
-        newQuad.name = "Quad";
-        newQuad.transform.parent = this.transform;
-
-        return newQuad;
-    }
-
-    Vector3 GetQuadPlacement(Vector3 _intialPosition,int _placementDirection, int _numberOfSteps)
-    {
-        Vector3 _newPosition = _intialPosition;
-
-        switch (_placementDirection)
+        while(i < meshFilters.Length)
         {
-            case (0): //Going Up
-                _newPosition.y += _numberOfSteps;
-                break;
-            case (1): //Going Down
-                _newPosition.y -= _numberOfSteps;
-                break;
-            case (2): //Going Right
-                _newPosition.x += _numberOfSteps;
-                break;
-            case (3): //Going Left
-                _newPosition.x -= _numberOfSteps;
-                break;
+            combine[i].mesh = meshFilters[i].sharedMesh;
+            combine[i].transform = meshFilters[i].transform.localToWorldMatrix;
+            meshFilters[i].gameObject.SetActive(false);
+            i++;
         }
 
-        return _newPosition;
+        transform.GetComponent<MeshFilter>().mesh = new Mesh();
+        transform.GetComponent<MeshFilter>().mesh.CombineMeshes(combine);
+        transform.gameObject.active = true;
+
+
     }
 
-    //Works out what direction we're travelling in
-    int GetWaypointDirection(Transform _waypoint1, Transform _waypoint2)
+    Vector3 GetWireSize(Vector3 _wire1Pos, Vector3 _wire2Pos)
     {
-        int _direction = 0;
+        Vector3 _wireSize = Vector3.zero;
 
-        if (_waypoint2.position.y > _waypoint1.position.y)
-            _direction = 0; //Going Up
-        else if (_waypoint2.position.y < _waypoint1.position.y)
-            _direction = 1; //Going down
-        else if (_waypoint2.position.x > _waypoint1.position.x)
-            _direction = 2; //Going right
-        else if (_waypoint2.position.x < _waypoint1.position.x)
-            _direction = 3; //Going Left
+        float _dist = Vector3.Distance(_wire2Pos, _wire1Pos);
 
-        return _direction;
+        _wireSize = new Vector3(1, _dist, 1);
+
+        return _wireSize;
     }
 
-    int GetDistanceBetween(Transform _waypoint1, Transform _waypoint2)
+    Vector3 GetWireRotation(Vector3 _wire1Pos, Vector3 _wire2Pos)
     {
-        float _distanceBetween = 0;
+        Vector3 _wireRotation = Vector3.zero;
 
-        if (_waypoint2.position.y > _waypoint1.position.y)
-            _distanceBetween = _waypoint2.position.y - _waypoint1.position.y;
+        if (_wire2Pos.y > _wire1Pos.y)
+            _wireRotation = new Vector3(0, 0, 180);
+        else if (_wire2Pos.y < _wire1Pos.y)
+            _wireRotation = new Vector3(0, 0, 0);
+        else if (_wire2Pos.x > _wire1Pos.x)
+            _wireRotation = new Vector3(0, 0, 90);
+        else if (_wire2Pos.x < _wire1Pos.x)
+            _wireRotation = new Vector3(0, 0, 270);
 
-        else if (_waypoint2.position.y < _waypoint1.position.y)
-            _distanceBetween = _waypoint2.position.y - _waypoint1.position.y;
-
-        else if (_waypoint2.position.x > _waypoint1.position.x)
-            _distanceBetween = _waypoint2.position.y - _waypoint1.position.y;
-
-        else if (_waypoint2.position.x < _waypoint1.position.x)
-            _distanceBetween = _waypoint2.position.y - _waypoint1.position.y;
-
-        return Mathf.RoundToInt(_distanceBetween);
-
+        return _wireRotation;
     }
 
-
+    Vector3 GetWirePlacement(Vector3 _wire1Pos, Vector3 _wire2Pos)
+    {
+        Vector3 _midPoint = Vector3.zero;
+        _midPoint = (_wire1Pos + _wire2Pos) / 2;
+        return _midPoint;
+    }
 }
