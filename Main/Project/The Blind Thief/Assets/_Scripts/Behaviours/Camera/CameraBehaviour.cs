@@ -10,6 +10,15 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private float movementSpeed;
     private Vector3 originalPosition = Vector3.zero;
     private Vector3 movementVector;
+    public float lookAheadDstX;
+    public float lookSmoothTimeX;
+    public float verticalSmoothTime;
+    float currentLookAheadX;
+    float targetLookAheadX;
+    float lookAheadDirX;
+    float smoothLookVelocityX;
+    float smoothVelocityY;
+    private Vector2 focusPosition;
     private bool hasMovedCamera = false;
     private bool isMovingCamera = false;
 
@@ -144,20 +153,19 @@ public class CameraBehaviour : MonoBehaviour
     {
         playerFocusArea.Update(target.bounds);
 
-        Vector2 focusPosition = playerFocusArea.centre + Vector2.up * verticalOffset;
+        focusPosition = playerFocusArea.centre + Vector2.up * verticalOffset;      
 
-        //currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, lookSmoothTimeX);
+        currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, lookSmoothTimeX);
 
-        //focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref smoothVelocityY, verticalSmoothTime);
-        //focusPosition += Vector2.right * currentLookAheadX;
+        focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref smoothVelocityY, verticalSmoothTime);
+        focusPosition += Vector2.right * currentLookAheadX;
 
-        if(!isMovingCamera && !isLerping)
+        if (!isMovingCamera && !isLerping)
             transform.position = (Vector3)focusPosition + Vector3.forward * -10;
     }
 
     void OnDrawGizmos()
     {
-
         Gizmos.color = new Color(1, 0, 0, .5f);
         if (showCameraFocusBox)
         {            
@@ -173,7 +181,7 @@ public class CameraBehaviour : MonoBehaviour
 
     void MoveCamera()
     {        
-        originalPosition = target.transform.position;
+        originalPosition = (Vector3)focusPosition + Vector3.forward * -10;
         movementVector = Vector3.zero;
         movementVector = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) * movementSpeed;
 
@@ -201,7 +209,7 @@ public class CameraBehaviour : MonoBehaviour
     void InitiateReturnToPlayer()
     {
         startPosition = transform.position;
-        endPosition = new Vector3(target.transform.position.x, target.transform.position.y, -10);
+        endPosition = originalPosition;
 
         timeStartedMoving = Time.time;
         isLerping = true;       
