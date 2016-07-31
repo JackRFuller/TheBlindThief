@@ -8,7 +8,7 @@ public class CameraBehaviour : MonoBehaviour
 
     [Header("Camera Control")]
     [SerializeField] private float movementSpeed;
-    private Vector3 originalPosition;
+    private Vector3 originalPosition = Vector3.zero;
     private Vector3 movementVector;
     private bool hasMovedCamera = false;
     private bool isMovingCamera = false;
