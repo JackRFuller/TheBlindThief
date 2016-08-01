@@ -5,7 +5,11 @@ public class WireGeneration : MonoBehaviour
 {   
     [Header("Wire Waypoints")]
     [SerializeField] private Transform[] wireWaypoints;
+    
+
+    [Header("Prefabs")]
     [SerializeField] private GameObject wire;
+    [SerializeField] private GameObject wireConnector;
     private GameObject wireHolder;
 
     public void CreateWires()
@@ -38,11 +42,17 @@ public class WireGeneration : MonoBehaviour
 
             //Rotate Wire
             Vector3 _wireRotation = GetWireRotation(wireWaypoints[i].position, wireWaypoints[i + 1].position);
-            _transform.rotation = Quaternion.Euler(_wireRotation);
-
-           
+            _transform.rotation = Quaternion.Euler(_wireRotation);           
 
             _newWire.GetComponent<RectTransform>().SetParent(wireHolder.transform);
+
+            if(i != 0)
+            {
+                GameObject _newConnector = (GameObject)Instantiate(wireConnector);
+                _newConnector.transform.position = wireWaypoints[i].position;
+                _newConnector.GetComponent<RectTransform>().SetParent(wireHolder.transform);
+            }
+            
         }
     }
 
@@ -77,11 +87,8 @@ public class WireGeneration : MonoBehaviour
 
     Vector3 GetNewWirePosition(Transform _wireWaypoint1, Transform _wireWaypoint2)
     {
-        Vector3 _newPos = Vector3.zero;
-
-        Debug.Log(_wireWaypoint2.position + " " + _wireWaypoint1.position);
-        _newPos = (_wireWaypoint2.position + _wireWaypoint1.position) * 0.5f;
-        Debug.Log(_newPos);
+        Vector3 _newPos = Vector3.zero;        
+        _newPos = (_wireWaypoint2.position + _wireWaypoint1.position) * 0.5f;       
 
         return _newPos;
     }
