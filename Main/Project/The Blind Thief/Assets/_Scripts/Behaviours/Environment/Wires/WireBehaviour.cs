@@ -2,6 +2,8 @@
 using UnityEngine.UI;
 using System.Collections;
 
+
+[RequireComponent(typeof(AudioSource))]
 public class WireBehaviour : MonoBehaviour
 {
     [Header("Platform Target")]
@@ -18,9 +20,17 @@ public class WireBehaviour : MonoBehaviour
     private Image activeWire;
     private int wireCount;
 
+    private AudioSource audioSource;
+
     void Start()
     {
         InitiateWireFill();
+        GetAudioComponent();
+    }
+
+    void GetAudioComponent()
+    {
+        audioSource = GetComponent<AudioSource>();
     }
 
     void InitiateWireFill()
@@ -32,6 +42,7 @@ public class WireBehaviour : MonoBehaviour
     void ActivateWire()
     {
         activateWires = true;
+        audioSource.Play();
     }
 
     void Update()
@@ -67,7 +78,8 @@ public class WireBehaviour : MonoBehaviour
     void EndWireFill()
     {
         activateWires = false;
-        
+        audioSource.Stop();
+
         for (int i = 0; i < targetPlatforms.Length; i++)
         {
             targetPlatforms[i].SendMessage("ActivatePlatform",SendMessageOptions.DontRequireReceiver);

@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(AudioSource))]
 public class PressurePlateBehaviour : AnimationController
 {
     [Header("Target")]
@@ -9,6 +10,18 @@ public class PressurePlateBehaviour : AnimationController
     [Header("Object Properties")]
     [SerializeField] private Collider col;
     private bool hasBeenActivated;
+
+    private AudioSource audioSource;
+
+    void Start()
+    {
+        GetAuidoComponent();
+    }
+
+    void GetAuidoComponent()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     public void OnTriggerEnter(Collider other)
     {
@@ -23,5 +36,12 @@ public class PressurePlateBehaviour : AnimationController
         TurnOnAnimation("Activate");
         col.enabled = false;
         target.SendMessage("ActivateSwitch");
+
+        PlayAudio();
+    }
+
+    void PlayAudio()
+    {
+        audioSource.Play();
     }
 }

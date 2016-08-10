@@ -38,6 +38,8 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     public static event Action HasFoundLegitPath;
 
+    private bool isDead;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -159,22 +161,32 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     // Update is called once per frame
     void Update()
     {
-        //Check Sqr Mag
-        float sqrMag = (targetPosition - transform.position).sqrMagnitude;
-
-        if (sqrMag > lastSqrMag)
+        if (!isDead)
         {
-            desiredVelocity = Vector3.zero;
-            animController.TurnOnAnimation("isIdle");
-        }
-            
+            //Check Sqr Mag
+            float sqrMag = (targetPosition - transform.position).sqrMagnitude;
 
-        lastSqrMag = sqrMag;
+            if (sqrMag > lastSqrMag)
+            {
+                desiredVelocity = Vector3.zero;
+                animController.TurnOnAnimation("isIdle");
+            }
+
+
+            lastSqrMag = sqrMag;
+        }       
     }
 
     void FixedUpdate()
     {
         rb.velocity = desiredVelocity;
+    }
+
+    void HitByEnemy()
+    {
+        desiredVelocity = Vector3.zero;
+        isDead = true;
+        animController.TurnOnAnimation("isDead");
     }
 
     bool isThereAVerticalPath()

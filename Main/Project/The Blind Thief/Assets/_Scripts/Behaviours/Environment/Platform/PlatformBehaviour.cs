@@ -3,7 +3,6 @@ using System.Collections;
 
 public class PlatformBehaviour : MonoBehaviour
 {
-
     [Header("Controlling Switch")]
     [SerializeField] private SwitchBehaviour swScript;
     
@@ -14,6 +13,9 @@ public class PlatformBehaviour : MonoBehaviour
     private bool isFadingInSprite;
     private float timeFadeInStarted;
 
+    [Header("Audio")]
+    [SerializeField] private AudioSource audioSource;
+
     public virtual void ActivateSwitchBehaviour(Transform _enablerer)
     {
         
@@ -22,6 +24,12 @@ public class PlatformBehaviour : MonoBehaviour
     public virtual void ActivatePlatform()
     {
         InitiateFadeIn();
+        PlayAudio();
+    }
+
+    void PlayAudio()
+    {
+        audioSource.Play();
     }
 
     void InitiateFadeIn()
@@ -34,7 +42,6 @@ public class PlatformBehaviour : MonoBehaviour
     {
         if(isFadingInSprite)
             FadeInSprites();
-
     }
 
     void FadeInSprites()

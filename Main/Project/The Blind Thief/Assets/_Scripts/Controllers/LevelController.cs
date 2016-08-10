@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using System;
 using System.Collections;
 
@@ -56,10 +57,18 @@ public class LevelController : Singleton<LevelController>
     {
         if(Input.GetKey(KeyCode.Escape))
             QuitApplication();
+
+        if (Input.GetKey(KeyCode.R))
+            ResetGame();
     }
 
     void QuitApplication()
     {
         Application.Quit();
+    }
+
+    void ResetGame()
+    {
+        SceneManager.LoadScene(0);
     }
 }
