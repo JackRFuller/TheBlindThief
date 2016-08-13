@@ -10,6 +10,7 @@ public class EnemyMovementBehaviour : MonoBehaviour
     [SerializeField] private Transform enemyMesh;
 
     [Header("Movement")]
+    [SerializeField] private Collider characterCollider;
     [SerializeField] private float movementSpeed;
     private Vector3 startingPosition;
     private Vector3[] targets = new Vector3[2];  
@@ -18,6 +19,12 @@ public class EnemyMovementBehaviour : MonoBehaviour
     private int target;
     private float lastSqrMag;
     private bool isMoving;
+
+    //Subscribing to Dynamic Platforms
+    private MovingPlatformBehaviour mpbScript;
+    private RotatingPlatformBehaviour rpbScript;
+    private string platformName;
+    private Transform currentPlatform;
 
     //Nodes
     private List<Vector3> nodePositions;
@@ -30,8 +37,28 @@ public class EnemyMovementBehaviour : MonoBehaviour
 
     void Start()
     {
-        GetNodeList();
+        Init();
+    }
+
+    void Init()
+    {
         GetComponents();
+        StartCoroutine(InitiateMovement());
+    }
+
+    IEnumerator InitiateMovement()
+    {       
+
+
+        while(NodeController.Instance.IsGettingNodes)
+        {
+            yield return new WaitForSeconds(1.0f);
+        }
+
+        GetNodeList();
+
+        characterCollider.enabled = true;
+             
         FindTargetPaths();
     }
 
@@ -82,11 +109,23 @@ public class EnemyMovementBehaviour : MonoBehaviour
             targets[1].y = transform.position.y;
 
         }
-        else
+        else if(enemyRotation == 90 || enemyRotation == 270)
         {
             //Get Up Extreme
+            targets[0] = GetExtremeUpY();
+
+            if (DebugMode)
+                Debug.Log("<color=yellow>Extreme Up: </color>" + targets[0]);
 
             //Get Down Extreme
+            targets[1] = GetExtremeDownY();
+
+            if (DebugMode)
+                Debug.Log("<color=yellow>Extreme Down: </color>" + targets[1]);
+
+            //Take X Into Account
+            targets[0].x = transform.position.x;
+            targets[1].x = transform.position.x;
         }
 
         //Choose which one to start towards
@@ -99,12 +138,15 @@ public class EnemyMovementBehaviour : MonoBehaviour
 
     void StartMovement()
     {
+        characterCollider.enabled = true;
         Vector3 directionalVector = (currentTarget - transform.position).normalized * movementSpeed;
         lastSqrMag = Mathf.Infinity;
         desiredVelocity = directionalVector;
         isMoving = true;
 
-        enemyMesh.LookAt(GetLookAtTarget());
+        //enemyMesh.LookAt(GetLookAtTarget());
+        enemyMesh.localPosition = Vector3.zero;
+        enemyMesh.localRotation = Quaternion.Euler(GetLookAtTarget());
 
         //Trigger Animation For Walking
         enemyAnim.TurnOnAnimation("isWalking");
@@ -118,11 +160,8 @@ public class EnemyMovementBehaviour : MonoBehaviour
 
             if (sqrMag > lastSqrMag)
             {
-                isMoving = false;
-                desiredVelocity = Vector3.zero;
-                rb.velocity = desiredVelocity;
-                enemyAnim.TurnOnAnimation("isIdle");
-                //End Movement                
+                //End Movement    
+                EndMovement();            
                 StartCoroutine(StopMovement());
             }
 
@@ -134,6 +173,15 @@ public class EnemyMovementBehaviour : MonoBehaviour
     {
         if(isMoving)
             rb.velocity = desiredVelocity;
+    }
+
+    void EndMovement()
+    {
+        characterCollider.enabled = false;
+        isMoving = false;
+        desiredVelocity = Vector3.zero;
+        rb.velocity = desiredVelocity;
+        enemyAnim.TurnOnAnimation("isIdle");
     }
 
     /// <summary>
@@ -169,14 +217,102 @@ public class EnemyMovementBehaviour : MonoBehaviour
 
         float enemyRotation = GetEnemyRotation();
 
-        if(enemyRotation == 0 || enemyRotation == 180)
+        //Horizontal
+        if (enemyRotation == 0)
         {
-            lookAtDirection = new Vector3(currentTarget.x,
-                                          enemyMesh.position.y,
-                                          currentTarget.z);
+            if (currentTarget.x > transform.position.x)
+                lookAtDirection = new Vector3(0, 90, 0);
+            else
+                lookAtDirection = new Vector3(0, -90, 0);
+        }
+        else if (enemyRotation == 180)
+        {
+            if (currentTarget.x > transform.position.x)
+                lookAtDirection = new Vector3(0, -90, 0);
+            else
+                lookAtDirection = new Vector3(0, 90, 0);
+        }
+        if(enemyRotation == 90)
+        {
+            if (currentTarget.y > transform.position.y)
+                lookAtDirection = new Vector3(0, 90, 0);
+            else
+                lookAtDirection = new Vector3(0, -90, 0);
+        }
+        if (enemyRotation == 270)
+        {
+            if (currentTarget.y > transform.position.y)
+                lookAtDirection = new Vector3(0, 90, 0);
+            else
+                lookAtDirection = new Vector3(0, -90, 0);
         }
 
+
+
+        //if(enemyRotation == 0 || enemyRotation == 180)
+        //{
+        //    lookAtDirection = new Vector3(currentTarget.x,
+        //                                  enemyMesh.position.y,
+        //                                  currentTarget.z);
+        //}
+
+        //if(enemyRotation == 90 || enemyRotation == 270)
+        //{
+        //    lookAtDirection = currentTarget;
+        //    lookAtDirection.x = enemyMesh.position.x;
+        //    lookAtDirection.z = enemyMesh.position.z;                                          
+        //}
+
         return lookAtDirection;
+    }
+
+    Vector3 GetExtremeDownY()
+    {
+        Vector3 extremeY = Vector3.zero;
+
+        Vector3 nextNodeAlong = new Vector3(startingPosition.x, startingPosition.y, startingPosition.z);
+
+        for (int i = 0; i < nodePositions.Count; i++)
+        {
+            Vector3 nextNode = nextNodeAlong;
+            nextNode.y -= i;
+
+            if (nodePositions.Exists(d => d == nextNode))
+            {
+                extremeY = nextNode;
+            }
+            else
+            {
+                return extremeY;
+            }
+        }
+
+        Debug.Log("End of the Line");
+        return extremeY;
+    }
+
+    Vector3 GetExtremeUpY()
+    {
+        Vector3 extremeY = Vector3.zero;
+
+        Vector3 nextNodeAlong = new Vector3(startingPosition.x, startingPosition.y, startingPosition.z);
+        
+        for(int i = 0; i < nodePositions.Count; i++)
+        {
+            Vector3 nextNode = nextNodeAlong;
+            nextNode.y += i;           
+
+            if (nodePositions.Exists(d => d == nextNode))
+            {
+                extremeY = nextNode;
+            }
+            else
+            {
+                return extremeY;
+            }
+        }
+
+        return extremeY;
     }
 
     Vector3 GetExtremeLeftX()
@@ -187,11 +323,12 @@ public class EnemyMovementBehaviour : MonoBehaviour
 
         for (int i = 0; i < nodePositions.Count; i++)
         {
-            nextNodeAlong.x -= (i + 1);
+            Vector3 nextNode = nextNodeAlong;
+            nextNode.x -= i;            
 
-            if (nodePositions.Exists(d => d == nextNodeAlong))
+            if (nodePositions.Exists(d => d == nextNode))
             {
-                extremeX = nextNodeAlong;
+                extremeX = nextNode;
             }
             else
             {
@@ -207,14 +344,16 @@ public class EnemyMovementBehaviour : MonoBehaviour
         Vector3 extremeX = Vector3.zero;
 
         Vector3 nextNodeAlong = new Vector3(startingPosition.x, startingPosition.y, startingPosition.z);
-
+        
+               
         for (int i = 0; i < nodePositions.Count; i++)
         {
-            nextNodeAlong.x += (i + 1);
+            Vector3 nextNode = nextNodeAlong;
+            nextNode.x += i;  
 
-            if (nodePositions.Exists(d => d == nextNodeAlong))
+            if (nodePositions.Exists(d => d == nextNode))
             {
-                extremeX = nextNodeAlong;
+                extremeX = nextNode;
             }
             else
             {
@@ -261,5 +400,73 @@ public class EnemyMovementBehaviour : MonoBehaviour
         return initialNodePosition;
 
     }
-	
+
+    void OnTriggerEnter(Collider other)
+    {
+        if(other.tag == "Node")
+        {
+            transform.parent = other.transform.parent.parent;
+
+            if(currentPlatform == null || currentPlatform != other.transform.parent.parent)
+            {
+                currentPlatform = other.transform.parent.parent;        
+                
+                if(currentPlatform.GetComponent<RotatingPlatformBehaviour>() || currentPlatform.GetComponent<MovingPlatformBehaviour>())
+                {
+                    //Check if it's rotating
+                    if (currentPlatform.GetComponent<RotatingPlatformBehaviour>())
+                    {
+                        //Unsubscribe from previous rotating platform
+                        UnSubscribeFromEvents();
+
+                        rpbScript = currentPlatform.GetComponent<RotatingPlatformBehaviour>();
+
+                        rpbScript.EndedRotating += Init;
+                        rpbScript.StartedRotating += EndMovement;
+
+                        if (DebugMode)
+                            Debug.Log("<color=yellow>Got Rotating Platform Component</color>");
+
+                    } //or if it is moving
+                    if (currentPlatform.GetComponent<MovingPlatformBehaviour>())
+                    {
+                        // Unsubscribe from previous moving platform
+                        UnSubscribeFromEvents();
+
+                        mpbScript = currentPlatform.GetComponent<MovingPlatformBehaviour>();
+
+                        mpbScript.StartedMoving += EndMovement;
+                        mpbScript.EndedMoving += Init;
+
+                        if (DebugMode)
+                            Debug.Log("<color=yellow>Got Moving Platform Component</color>");
+                    }
+                }
+                else
+                {
+                    UnSubscribeFromEvents();
+                }
+            }
+        }
+    }    
+
+    void UnSubscribeFromEvents()
+    {
+        //Rotating Platform
+        if (rpbScript != null)
+        {
+            rpbScript.EndedRotating -= Init;
+            rpbScript.StartedRotating -= EndMovement;
+        }
+
+        //Moving Platform
+        if(mpbScript != null)
+        {
+            mpbScript.StartedMoving -= EndMovement;
+            mpbScript.EndedMoving -= Init;
+        }
+    }
+
+
+
 }

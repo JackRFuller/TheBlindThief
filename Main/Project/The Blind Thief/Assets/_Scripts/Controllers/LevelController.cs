@@ -42,7 +42,7 @@ public class LevelController : Singleton<LevelController>
     {
         Instantiate(currentLevel.levelGeometry);
 
-        NodeController.Instance.GetNodes();
+        StartCoroutine(NodeController.Instance.GetNodes());
     }
 
     public void AcquireKey()

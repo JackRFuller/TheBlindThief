@@ -13,7 +13,6 @@ public class MovingPlatformBehaviour : PlatformBehaviour
     private Transform parentSwitch;
 
 	//Targets
-
 	[HideInInspector][SerializeField] private Vector3 firstPosition;
     public Vector3 FirstPosition
     {
@@ -33,13 +32,24 @@ public class MovingPlatformBehaviour : PlatformBehaviour
     [Header("Waypoints")]
     [SerializeField] private GameObject wayPoints;
 
+    //Events
+    public delegate void startedMoving();
+    public startedMoving StartedMoving;
+    public delegate void endedMoving();
+    public endedMoving EndedMoving;
+
 	public override void ActivateSwitchBehaviour(Transform _enablerer)
 	{
 	    if (parentSwitch == null)
 	        parentSwitch = _enablerer;
 
 		if(!isMoving)
-			InitiateMovement();
+        {
+            InitiateMovement();
+            if (StartedMoving != null)
+                StartedMoving();
+        }
+			
 	}
 
 	void InitiateMovement()
@@ -80,11 +90,18 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 
 		if(_percentageComplete >= 1.0f)
 		{
-			isMoving = false;
-			NodeController.Instance.GetNodes();
-            parentSwitch.SendMessage("EnableSwitch");
+            StartCoroutine(EndPlatformMovement());
 		}
 	}
+
+    IEnumerator EndPlatformMovement()
+    {
+        isMoving = false;
+        yield return StartCoroutine(NodeController.Instance.GetNodes());
+        parentSwitch.SendMessage("EnableSwitch");
+        if (EndedMoving != null)
+            EndedMoving();
+    }
 
 	#region EditorFunctions
 

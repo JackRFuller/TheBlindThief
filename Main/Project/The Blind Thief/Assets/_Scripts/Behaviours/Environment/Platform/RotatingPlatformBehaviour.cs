@@ -18,12 +18,22 @@ public class RotatingPlatformBehaviour : PlatformBehaviour
 
     private Transform parentSwitch;
 
+    //Subscribed to by Enemies & Player
+    public delegate void startedRotating();
+    public startedRotating StartedRotating;
+    public delegate void endedRotating();
+    public endedRotating EndedRotating;
+    
+
     public override void ActivateSwitchBehaviour(Transform _enabler)
     {
         InitiateRotation();
 
         if (parentSwitch == null)
             parentSwitch = _enabler;
+
+        if(StartedRotating != null)
+             StartedRotating();
     }
 
     void InitiateRotation()
@@ -60,13 +70,22 @@ public class RotatingPlatformBehaviour : PlatformBehaviour
 
         if (_percentageComplete >= 1)
         {
-            isRotating = false;
-
-            parentSwitch.SendMessage("EnableSwitch");
-
-            //Trigger Recalculating of the Nodes
-            NodeController.Instance.GetNodes();
+            StartCoroutine(EndRotation());
         }
+    }
+
+    IEnumerator EndRotation()
+    {
+        isRotating = false;
+
+        parentSwitch.SendMessage("EnableSwitch");
+
+        //Trigger Recalculating of the Nodes
+
+        yield return StartCoroutine(NodeController.Instance.GetNodes());
+
+        if(EndedRotating != null)
+            EndedRotating();
     }
 
 

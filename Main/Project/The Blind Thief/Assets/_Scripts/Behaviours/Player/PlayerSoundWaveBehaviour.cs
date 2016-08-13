@@ -7,8 +7,9 @@ public class PlayerSoundWaveBehaviour : MonoBehaviour
     [SerializeField] private float sneakSize;	
     [SerializeField] private float runSize;
 
-    [Header("Sprite")]
+    [Header("Components")]
     [SerializeField] private SpriteRenderer soundWaveSprite;
+    [SerializeField] private Collider soundWaveCollider;
     
     [Header("Lerping")]
     [SerializeField] private float sneakGrowTime;
@@ -25,6 +26,8 @@ public class PlayerSoundWaveBehaviour : MonoBehaviour
     /// <param name="isSneaking"></param>
     public void InitiateSoundWave(bool _isSneaking)
     {
+        soundWaveCollider.enabled = true;
+
         isSneaking = _isSneaking;
 
         soundWaveSizeMax = Vector3.zero;
@@ -74,6 +77,7 @@ public class PlayerSoundWaveBehaviour : MonoBehaviour
 
     void ResetSoundWave()
     {
+        soundWaveCollider.enabled = false;
         soundWaveSprite.color = Color.white;
         transform.localScale = new Vector3(0.001f, 0.001f, 1);
         gameObject.SetActive(false);

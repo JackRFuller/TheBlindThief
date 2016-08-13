@@ -85,8 +85,9 @@ MonoBehaviour:
   sneakSize: 10
   runSize: 20
   soundWaveSprite: {fileID: 212000010567589094}
-  sneakGrowTime: 5
-  runGrowTime: 5
+  soundWaveCollider: {fileID: 135000010952595790}
+  sneakGrowTime: 3
+  runGrowTime: 3
   soundWaveGrowCurve:
     serializedVersion: 2
     m_Curve:

@@ -10,22 +10,22 @@ public class NodeController : Singleton<NodeController>
         get { return nodePositions; }
     }
 
+    private bool isGettingNodes =true;
+    public bool IsGettingNodes { get { return isGettingNodes; } }
+
     public override void Awake()
     {
         base.Awake();
 
-        GetNodes();
+        StartCoroutine(GetNodes());
     }
 
-    void Nodes()
+    public IEnumerator GetNodes()
     {
-        GetNodes();   
-    }
-    
-    public void GetNodes()
-    {
+        isGettingNodes = true;
+
         //Clear Lists to make sure they don't already contain nodes
-        if(nodePositions.Count > 0)
+        if (nodePositions.Count > 0)
             nodePositions.Clear();
 
         NodeBehaviour[] nodes = FindObjectsOfType<NodeBehaviour>();
@@ -33,6 +33,10 @@ public class NodeController : Singleton<NodeController>
         for (int i = 0; i < nodes.Length; i++)
         {
             nodePositions.Add(nodes[i].transform.position);
-        }
-    }
+        }       
+
+        isGettingNodes = false;
+        yield return null;
+        
+    }    
 }
