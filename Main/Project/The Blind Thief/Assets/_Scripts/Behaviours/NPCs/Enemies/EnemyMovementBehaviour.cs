@@ -42,23 +42,25 @@ public class EnemyMovementBehaviour : MonoBehaviour
 
     void Init()
     {
+        SubscribeToEvents();
         GetComponents();
-        StartCoroutine(InitiateMovement());
+        InitiateMovement();
     }
 
-    IEnumerator InitiateMovement()
+    void SubscribeToEvents()
+    {
+        PathController.Instance.ReEvaluate += InitiateMovement;
+    }
+
+    void InitiateMovement()
     {       
-
-
-        while(NodeController.Instance.IsGettingNodes)
-        {
-            yield return new WaitForSeconds(1.0f);
-        }
+        //while(NodeController.Instance.IsGettingNodes)
+        //{
+        //    yield return new WaitForSeconds(1.0f);
+        //}
 
         GetNodeList();
-
-        characterCollider.enabled = true;
-             
+        characterCollider.enabled = true;             
         FindTargetPaths();
     }
 
@@ -128,9 +130,17 @@ public class EnemyMovementBehaviour : MonoBehaviour
             targets[1].x = transform.position.x;
         }
 
-        //Choose which one to start towards
-        target = Random.Range(0, 2);
-        currentTarget = targets[target];
+        //Check that the enemy isn't already moving
+        if(rb.velocity == Vector3.zero)
+        {
+            //Choose which one to start towards
+            target = Random.Range(0, 2);
+            currentTarget = targets[target];
+        }
+        else
+        {
+            currentTarget = targets[target];
+        }
 
         //Move towards it
         StartMovement();

@@ -23,6 +23,8 @@ public class RotatingPlatformBehaviour : PlatformBehaviour
     public startedRotating StartedRotating;
     public delegate void endedRotating();
     public endedRotating EndedRotating;
+
+    
     
 
     public override void ActivateSwitchBehaviour(Transform _enabler)
@@ -70,19 +72,18 @@ public class RotatingPlatformBehaviour : PlatformBehaviour
 
         if (_percentageComplete >= 1)
         {
-            StartCoroutine(EndRotation());
+            EndRotation();
         }
     }
 
-    IEnumerator EndRotation()
+    void EndRotation()
     {
         isRotating = false;
 
         parentSwitch.SendMessage("EnableSwitch");
 
         //Trigger Recalculating of the Nodes
-
-        yield return StartCoroutine(NodeController.Instance.GetNodes());
+        StartCoroutine(PathController.Instance.RegisterMovementOfPlatforms());       
 
         if(EndedRotating != null)
             EndedRotating();

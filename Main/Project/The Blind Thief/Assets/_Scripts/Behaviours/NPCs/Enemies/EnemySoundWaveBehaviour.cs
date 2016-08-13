@@ -13,6 +13,13 @@ public class EnemySoundWaveBehaviour : MonoBehaviour
     private float timeStartedGrowing;
 
     private AudioSource audioSource;
+
+    private Transform originalParent;
+
+    void OnEnable()
+    {
+        originalParent = transform.parent;
+    }
     
     public void InitiateSoundWave()
     {
@@ -24,6 +31,8 @@ public class EnemySoundWaveBehaviour : MonoBehaviour
         timeStartedGrowing = Time.time;
         isGrowing = true;
         audioSource.Play();
+
+        transform.parent = null;
     }
 
     void Update()
@@ -93,13 +102,15 @@ public class EnemySoundWaveBehaviour : MonoBehaviour
         foundPlayer = false;
         gameObject.SetActive(false);
         audioSource.Stop();
+        transform.parent = originalParent;
+        transform.localPosition = Vector3.zero;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if(other.tag == "Player")
+        if(other.tag == "PlayerHurtSpot")
         {
-            other.SendMessage("HitByEnemy", SendMessageOptions.DontRequireReceiver);
+            other.transform.parent.SendMessage("HitByEnemy", SendMessageOptions.DontRequireReceiver);
             ResetSoundWave();
         }
     }

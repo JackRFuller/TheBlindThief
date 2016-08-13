@@ -11,6 +11,7 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     //Components
     private Rigidbody rb;
     [SerializeField] private PlayerAnimationController animController;
+    [SerializeField] private Collider playerCollider;
 
     //Mesh
     [SerializeField] private Transform mesh;
@@ -40,6 +41,14 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     private bool isDead;
 
+    private bool isAlreadyMoving; //Used to check if the player is already moving and stop certain effects
+
+    //Platform Relationship
+    private bool isMovingOnPlatform; //Stops Registering Player Input if the Character is on a moving platform
+    private Transform currentPlatform;
+    private RotatingPlatformBehaviour rpbScript;
+    private MovingPlatformBehaviour mpbScript;
+
 	// Use this for initialization
 	void Start ()
 	{
@@ -58,6 +67,8 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     void SubscribeToEvents()
     {
+        PathController.Instance.ReEvaluate += CheckIfPlayerIsMoving;
+
         //When player makes a valid input start movement process
         InputController.PlayerInput += InitiateMovement;
     }
@@ -66,11 +77,23 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     {
         nodePositions = NodeController.Instance.NodePositions;
     }
-	
-	
+
+    /// <summary>
+    /// Used to Revaluate CHaracter Paths
+    /// </summary>
+    void CheckIfPlayerIsMoving()
+    {
+        if(rb.velocity != Vector3.zero)
+        {
+            InitiateMovement();
+        }
+    }
 
     void InitiateMovement()
     {
+        if (isMovingOnPlatform)
+            return;
+
         startingNode = GetClosestNode();
 
         if(DebugMode)
@@ -94,9 +117,11 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
             {
                 if(DebugMode)
                     Debug.Log("No Valid Path");
+
+                TurnOffMovement();
             }
         }
-        else
+        else if (_playerRotation == 90 || _playerRotation == 270)
         {
             if (isThereAVerticalPath())
             {   
@@ -107,16 +132,14 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
             {
                 if (DebugMode)
                     Debug.Log("No Valid Path");
+
+                TurnOffMovement();
             }
         }
     }
 
     void StartMovement(Vector3 _targetVector)
     {
-        //Audio
-        audioSource.clip = legitPathSFX;
-        audioSource.Play();
-
         Vector3 _directionalVector = Vector3.zero;
 
         if (InputController.Instance.DoubleClicked)
@@ -147,15 +170,22 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
         desiredVelocity = _directionalVector;
 
-        if (InputController.Instance.DoubleClicked)
+        if (!isAlreadyMoving)
         {
-            animController.TurnOnAnimation("isSprinting");
+            audioSource.clip = legitPathSFX;
+            audioSource.Play();            
+
+            if (InputController.Instance.DoubleClicked)
+            {
+                animController.TurnOnAnimation("isSprinting");
+            }
+            else
+            {
+                animController.TurnOnAnimation("isWalking");
+            }
+
+            isAlreadyMoving = true;
         }
-        else
-        {
-            animController.TurnOnAnimation("isWalking");
-        }
-        
     }
 
     // Update is called once per frame
@@ -163,23 +193,52 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     {
         if (!isDead)
         {
+            if (isMovingOnPlatform)
+                return;
+
             //Check Sqr Mag
             float sqrMag = (targetPosition - transform.position).sqrMagnitude;
 
             if (sqrMag > lastSqrMag)
             {
-                desiredVelocity = Vector3.zero;
-                animController.TurnOnAnimation("isIdle");
+                TurnOffMovement();                    
             }
 
 
             lastSqrMag = sqrMag;
         }       
-    }
+    }   
 
     void FixedUpdate()
     {
+        if (isMovingOnPlatform)
+            return;
+
         rb.velocity = desiredVelocity;
+    }
+
+    /// <summary>
+    /// Used to Subscribe to Moving/Rotating Platforms - Triggered when the platform starts moving
+    /// </summary>
+    void PlayerIsOnMovingPlatfrom()
+    {
+        isMovingOnPlatform = true;
+        playerCollider.enabled = false;
+        TurnOffMovement();
+        Debug.Log("Hit");
+    }
+
+    void PlatformHasStoppedMoving()
+    {
+        isMovingOnPlatform = false;
+        playerCollider.enabled = true;
+    }
+
+    void TurnOffMovement()
+    {
+        desiredVelocity = Vector3.zero;
+        animController.TurnOnAnimation("isIdle");
+        isAlreadyMoving = false;
     }
 
     void HitByEnemy()
@@ -524,6 +583,50 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
         if (other.tag == "Node")
         {
             transform.parent = other.transform.parent.parent;
+
+            if(currentPlatform == null || currentPlatform != other.transform.parent.parent)
+            {
+                currentPlatform = other.transform.parent.parent;
+
+                if(currentPlatform.GetComponent<RotatingPlatformBehaviour>() || currentPlatform.GetComponent<MovingPlatformBehaviour>())
+                {
+                    if (currentPlatform.GetComponent<RotatingPlatformBehaviour>())
+                    {
+                        UnSubscribeFromEvents();
+
+                        rpbScript = currentPlatform.GetComponent<RotatingPlatformBehaviour>();
+
+                        rpbScript.EndedRotating += PlatformHasStoppedMoving;
+                        rpbScript.StartedRotating += PlayerIsOnMovingPlatfrom;
+                    }
+
+                    if (currentPlatform.GetComponent<MovingPlatformBehaviour>())
+                    {
+                        UnSubscribeFromEvents();
+
+                        mpbScript = currentPlatform.GetComponent<MovingPlatformBehaviour>();
+
+                        mpbScript.StartedMoving += PlayerIsOnMovingPlatfrom;
+                        mpbScript.EndedMoving += PlatformHasStoppedMoving;
+                    }
+                }
+
+            }
+        }
+    }
+
+    void UnSubscribeFromEvents()
+    {
+        if (rpbScript != null)
+        {
+            rpbScript.EndedRotating -= PlatformHasStoppedMoving;
+            rpbScript.StartedRotating -= PlayerIsOnMovingPlatfrom;
+        }
+
+        if(mpbScript != null)
+        {
+            mpbScript.StartedMoving -= PlayerIsOnMovingPlatfrom;
+            mpbScript.EndedMoving -= PlatformHasStoppedMoving;
         }
     }
 }

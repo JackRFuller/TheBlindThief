@@ -90,14 +90,16 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 
 		if(_percentageComplete >= 1.0f)
 		{
-            StartCoroutine(EndPlatformMovement());
+            EndPlatformMovement();
 		}
 	}
 
-    IEnumerator EndPlatformMovement()
+    void EndPlatformMovement()
     {
         isMoving = false;
-        yield return StartCoroutine(NodeController.Instance.GetNodes());
+        //Trigger Recalculating of the Nodes
+        StartCoroutine(PathController.Instance.RegisterMovementOfPlatforms());
+
         parentSwitch.SendMessage("EnableSwitch");
         if (EndedMoving != null)
             EndedMoving();
