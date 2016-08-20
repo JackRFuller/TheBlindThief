@@ -61,8 +61,6 @@ public class LevelExitBehaviour : Singleton<LevelExitBehaviour>
 
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger");
-
         if (other.tag == "Player")
         {
             Debug.Log("Level Complete");

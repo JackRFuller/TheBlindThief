@@ -225,7 +225,6 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
         isMovingOnPlatform = true;
         playerCollider.enabled = false;
         TurnOffMovement();
-        Debug.Log("Hit");
     }
 
     void PlatformHasStoppedMoving()
