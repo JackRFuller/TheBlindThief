@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-
+using System.Collections.Generic;
 
 [RequireComponent(typeof(AudioSource))]
 public class WireBehaviour : MonoBehaviour
@@ -60,7 +60,7 @@ public class WireBehaviour : MonoBehaviour
             IncrementWire();
         }
     }
-
+    
     void IncrementWire()
     {
         if (wireCount < wires.Length - 1)
@@ -82,7 +82,7 @@ public class WireBehaviour : MonoBehaviour
 
         for (int i = 0; i < targetPlatforms.Length; i++)
         {
-            targetPlatforms[i].SendMessage("ActivatePlatform",SendMessageOptions.DontRequireReceiver);
+            targetPlatforms[i].SendMessage("ActivatePlatform", SendMessageOptions.DontRequireReceiver);
         }
        
     }

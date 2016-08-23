@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections;
 
 [CustomEditor(typeof(WireGeneration))]
+[CanEditMultipleObjects]
 public class WireGenerationEditor : Editor {
 
     public override void OnInspectorGUI()
