@@ -10,11 +10,12 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     //Components
     private Rigidbody rb;
-    [SerializeField] private PlayerAnimationController animController;
+    private PlayerAnimationController animController;
+   
     [SerializeField] private Collider playerCollider;
 
     //Mesh
-    [SerializeField] private Transform mesh;
+    private Transform mesh;    
 
     //Movement
     [SerializeField] private float sneakSpeed;
@@ -61,8 +62,10 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     void GetComponents()
     {
-        rb = GetComponent<Rigidbody>();
-        //animController = GetComponent<PlayerAnimationController>();
+        animController = PlayerSetupBehaviour.Instance.ActiveMesh.GetComponent<PlayerAnimationController>();
+        mesh = PlayerSetupBehaviour.Instance.ActiveMesh.transform;
+
+        rb = GetComponent<Rigidbody>();       
     }
 
     void SubscribeToEvents()

@@ -2,7 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerSoundWaveController : Singleton<PlayerSoundWaveController>
+public class PlayerSoundWaveController : MonoBehaviour
 {
     [Header("Sound Waves")]
     [SerializeField] private GameObject soundWave;

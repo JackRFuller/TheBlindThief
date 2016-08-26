@@ -1,0 +1,1193 @@
+fileFormatVersion: 2
+guid: c23e9f811db3dc348be3b30439559f94
+timeCreated: 1472237398
+licenseType: Pro
+ModelImporter:
+  serializedVersion: 19
+  fileIDToRecycleName:
+    100000: BodyGeo
+    100002: EyesGeo
+    100004: HairGeo
+    100006: LashesGeo
+    100008: Mia:Head
+    100010: Mia:HeadTop_End
+    100012: Mia:Hips
+    100014: Mia:Jaw
+    100016: Mia:JawEND
+    100018: Mia:LeftArm
+    100020: Mia:LeftCheek
+    100022: Mia:LeftEye
+    100024: Mia:LeftEye1
+    100026: Mia:LeftEyelidLower
+    100028: Mia:LeftEyelidUpper
+    100030: Mia:LeftFoot
+    100032: Mia:LeftFootToeBase_End
+    100034: Mia:LeftForeArm
+    100036: Mia:LeftHand
+    100038: Mia:LeftHandIndex1
+    100040: Mia:LeftHandIndex2
+    100042: Mia:LeftHandIndex3
+    100044: Mia:LeftHandIndex4
+    100046: Mia:LeftHandMiddle1
+    100048: Mia:LeftHandMiddle2
+    100050: Mia:LeftHandMiddle3
+    100052: Mia:LeftHandMiddle4
+    100054: Mia:LeftHandPinky1
+    100056: Mia:LeftHandPinky2
+    100058: Mia:LeftHandPinky3
+    100060: Mia:LeftHandPinky4
+    100062: Mia:LeftHandRing1
+    100064: Mia:LeftHandRing2
+    100066: Mia:LeftHandRing3
+    100068: Mia:LeftHandRing4
+    100070: Mia:LeftHandThumb1
+    100072: Mia:LeftHandThumb2
+    100074: Mia:LeftHandThumb3
+    100076: Mia:LeftHandThumb4
+    100078: Mia:LeftInnerBrow
+    100080: Mia:LeftIOuterBrow
+    100082: Mia:LeftLeg
+    100084: Mia:LeftLipCorner
+    100086: Mia:LeftLipLower
+    100088: Mia:LeftLipUpper
+    100090: Mia:LeftNostril
+    100092: Mia:LeftShoulder
+    100094: Mia:LeftToeBase
+    100096: Mia:LeftUpLeg
+    100098: Mia:Neck
+    100100: Mia:Neck1
+    100102: Mia:RightArm
+    100104: Mia:RightCheek
+    100106: Mia:RightEyelidLower
+    100108: Mia:RightEyelidUpper
+    100110: Mia:RightFoot
+    100112: Mia:RightFootToeBase_End
+    100114: Mia:RightForeArm
+    100116: Mia:RightHand
+    100118: Mia:RightHandIndex1
+    100120: Mia:RightHandIndex2
+    100122: Mia:RightHandIndex3
+    100124: Mia:RightHandIndex4
+    100126: Mia:RightHandMiddle1
+    100128: Mia:RightHandMiddle2
+    100130: Mia:RightHandMiddle3
+    100132: Mia:RightHandMiddle4
+    100134: Mia:RightHandPinky1
+    100136: Mia:RightHandPinky2
+    100138: Mia:RightHandPinky3
+    100140: Mia:RightHandPinky4
+    100142: Mia:RightHandRing1
+    100144: Mia:RightHandRing2
+    100146: Mia:RightHandRing3
+    100148: Mia:RightHandRing4
+    100150: Mia:RightHandThumb1
+    100152: Mia:RightHandThumb2
+    100154: Mia:RightHandThumb3
+    100156: Mia:RightHandThumb4
+    100158: Mia:RightInnerBrow
+    100160: Mia:RightIOuterBrow
+    100162: Mia:RightLeg
+    100164: Mia:RightLipCorner
+    100166: Mia:RightLipLower
+    100168: Mia:RightLipUpper
+    100170: Mia:RightNostril
+    100172: Mia:RightShoulder
+    100174: Mia:RightToeBase
+    100176: Mia:RightUpLeg
+    100178: Mia:Spine
+    100180: Mia:Spine1
+    100182: Mia:Spine2
+    100184: Mia:TongueBack
+    100186: Mia:TongueTip
+    100188: //RootNode
+    100190: TeethGeo
+    400000: BodyGeo
+    400002: EyesGeo
+    400004: HairGeo
+    400006: LashesGeo
+    400008: Mia:Head
+    400010: Mia:HeadTop_End
+    400012: Mia:Hips
+    400014: Mia:Jaw
+    400016: Mia:JawEND
+    400018: Mia:LeftArm
+    400020: Mia:LeftCheek
+    400022: Mia:LeftEye
+    400024: Mia:LeftEye1
+    400026: Mia:LeftEyelidLower
+    400028: Mia:LeftEyelidUpper
+    400030: Mia:LeftFoot
+    400032: Mia:LeftFootToeBase_End
+    400034: Mia:LeftForeArm
+    400036: Mia:LeftHand
+    400038: Mia:LeftHandIndex1
+    400040: Mia:LeftHandIndex2
+    400042: Mia:LeftHandIndex3
+    400044: Mia:LeftHandIndex4
+    400046: Mia:LeftHandMiddle1
+    400048: Mia:LeftHandMiddle2
+    400050: Mia:LeftHandMiddle3
+    400052: Mia:LeftHandMiddle4
+    400054: Mia:LeftHandPinky1
+    400056: Mia:LeftHandPinky2
+    400058: Mia:LeftHandPinky3
+    400060: Mia:LeftHandPinky4
+    400062: Mia:LeftHandRing1
+    400064: Mia:LeftHandRing2
+    400066: Mia:LeftHandRing3
+    400068: Mia:LeftHandRing4
+    400070: Mia:LeftHandThumb1
+    400072: Mia:LeftHandThumb2
+    400074: Mia:LeftHandThumb3
+    400076: Mia:LeftHandThumb4
+    400078: Mia:LeftInnerBrow
+    400080: Mia:LeftIOuterBrow
+    400082: Mia:LeftLeg
+    400084: Mia:LeftLipCorner
+    400086: Mia:LeftLipLower
+    400088: Mia:LeftLipUpper
+    400090: Mia:LeftNostril
+    400092: Mia:LeftShoulder
+    400094: Mia:LeftToeBase
+    400096: Mia:LeftUpLeg
+    400098: Mia:Neck
+    400100: Mia:Neck1
+    400102: Mia:RightArm
+    400104: Mia:RightCheek
+    400106: Mia:RightEyelidLower
+    400108: Mia:RightEyelidUpper
+    400110: Mia:RightFoot
+    400112: Mia:RightFootToeBase_End
+    400114: Mia:RightForeArm
+    400116: Mia:RightHand
+    400118: Mia:RightHandIndex1
+    400120: Mia:RightHandIndex2
+    400122: Mia:RightHandIndex3
+    400124: Mia:RightHandIndex4
+    400126: Mia:RightHandMiddle1
+    400128: Mia:RightHandMiddle2
+    400130: Mia:RightHandMiddle3
+    400132: Mia:RightHandMiddle4
+    400134: Mia:RightHandPinky1
+    400136: Mia:RightHandPinky2
+    400138: Mia:RightHandPinky3
+    400140: Mia:RightHandPinky4
+    400142: Mia:RightHandRing1
+    400144: Mia:RightHandRing2
+    400146: Mia:RightHandRing3
+    400148: Mia:RightHandRing4
+    400150: Mia:RightHandThumb1
+    400152: Mia:RightHandThumb2
+    400154: Mia:RightHandThumb3
+    400156: Mia:RightHandThumb4
+    400158: Mia:RightInnerBrow
+    400160: Mia:RightIOuterBrow
+    400162: Mia:RightLeg
+    400164: Mia:RightLipCorner
+    400166: Mia:RightLipLower
+    400168: Mia:RightLipUpper
+    400170: Mia:RightNostril
+    400172: Mia:RightShoulder
+    400174: Mia:RightToeBase
+    400176: Mia:RightUpLeg
+    400178: Mia:Spine
+    400180: Mia:Spine1
+    400182: Mia:Spine2
+    400184: Mia:TongueBack
+    400186: Mia:TongueTip
+    400188: //RootNode
+    400190: TeethGeo
+    4300000: EyesGeo
+    4300002: TeethGeo
+    4300004: LashesGeo
+    4300006: HairGeo
+    4300008: BodyGeo
+    9500000: //RootNode
+    13700000: BodyGeo
+    13700002: EyesGeo
+    13700004: HairGeo
+    13700006: LashesGeo
+    13700008: TeethGeo
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    animationImportErrors: '
+
+      Imported file ''Mixamo-Mia_hires'' conversion failed: Required human bone ''Hips''
+      not found
+
+
+'
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    animationCompression: 3
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1.75
+    meshCompression: 0
+    addColliders: 0
+    importBlendShapes: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    human:
+    - boneName: Mia:Hips
+      humanName: Hips
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftUpLeg
+      humanName: LeftUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightUpLeg
+      humanName: RightUpperLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftLeg
+      humanName: LeftLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightLeg
+      humanName: RightLowerLeg
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftFoot
+      humanName: LeftFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightFoot
+      humanName: RightFoot
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:Spine
+      humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:Spine1
+      humanName: Chest
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:Neck
+      humanName: Neck
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:Head
+      humanName: Head
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftShoulder
+      humanName: LeftShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightShoulder
+      humanName: RightShoulder
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftArm
+      humanName: LeftUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightArm
+      humanName: RightUpperArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftForeArm
+      humanName: LeftLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightForeArm
+      humanName: RightLowerArm
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHand
+      humanName: LeftHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHand
+      humanName: RightHand
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftToeBase
+      humanName: LeftToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightToeBase
+      humanName: RightToes
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftEye
+      humanName: LeftEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightCheek
+      humanName: RightEye
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:Jaw
+      humanName: Jaw
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandThumb1
+      humanName: Left Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandThumb2
+      humanName: Left Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandThumb3
+      humanName: Left Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandIndex1
+      humanName: Left Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandIndex2
+      humanName: Left Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandIndex3
+      humanName: Left Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandMiddle1
+      humanName: Left Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandMiddle2
+      humanName: Left Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandMiddle3
+      humanName: Left Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandRing1
+      humanName: Left Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandRing2
+      humanName: Left Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandRing3
+      humanName: Left Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandPinky1
+      humanName: Left Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandPinky2
+      humanName: Left Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:LeftHandPinky3
+      humanName: Left Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandThumb1
+      humanName: Right Thumb Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandThumb2
+      humanName: Right Thumb Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandThumb3
+      humanName: Right Thumb Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandIndex1
+      humanName: Right Index Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandIndex2
+      humanName: Right Index Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandIndex3
+      humanName: Right Index Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandMiddle1
+      humanName: Right Middle Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandMiddle2
+      humanName: Right Middle Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandMiddle3
+      humanName: Right Middle Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandRing1
+      humanName: Right Ring Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandRing2
+      humanName: Right Ring Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandRing3
+      humanName: Right Ring Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandPinky1
+      humanName: Right Little Proximal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandPinky2
+      humanName: Right Little Intermediate
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: Mia:RightHandPinky3
+      humanName: Right Little Distal
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    skeleton:
+    - name: Mixamo-Mia_hires(Clone)
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: BodyGeo
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: EyesGeo
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: HairGeo
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: LashesGeo
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: TeethGeo
+      position: {x: -0, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:Hips
+      position: {x: -0, y: 1.6866395, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:Spine
+      position: {x: 4.6322115e-25, y: 0.16146058, z: 0.02759983}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:Spine1
+      position: {x: -0, y: 0.2844455, z: -0.002898097}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:Spine2
+      position: {x: -0, y: 0.23869385, z: -0.022615338}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:Neck
+      position: {x: -0, y: 0.24285522, z: -0.07619827}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:Neck1
+      position: {x: -0, y: 0.07595047, z: 0.016220665}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:Head
+      position: {x: -1.8528846e-24, y: 0.0704657, z: 0.015024109}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:HeadTop_End
+      position: {x: -8.743005e-18, y: 0.33904064, z: 0.016999409}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:Jaw
+      position: {x: 1.8528846e-24, y: 0.03263646, z: 0.06257372}
+      rotation: {x: -0.0064446027, y: 0, z: -0, w: 0.99997926}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:JawEND
+      position: {x: -3.9232363e-25, y: -0.019287406, z: 0.14885607}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftLipCorner
+      position: {x: -0.057764865, y: 0.008171591, z: 0.118453905}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftLipLower
+      position: {x: -0.0180819, y: -0.011094177, z: 0.14490134}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:TongueTip
+      position: {x: -3.9232363e-25, y: -0.009107623, z: 0.12478735}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:TongueBack
+      position: {x: -3.9232363e-25, y: -0.0015011627, z: 0.09181489}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightLipCorner
+      position: {x: 0.05777182, y: 0.008266184, z: 0.11846292}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightLipLower
+      position: {x: 0.0180819, y: -0.011092071, z: 0.14490052}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftLipUpper
+      position: {x: -0.019418605, y: 0.04229938, z: 0.21734057}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftNostril
+      position: {x: -0.024905428, y: 0.08462915, z: 0.20661029}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightNostril
+      position: {x: 0.024905337, y: 0.08462514, z: 0.20660968}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightLipUpper
+      position: {x: 0.019418579, y: 0.042296104, z: 0.21734005}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftEye
+      position: {x: -0.05346477, y: 0.14531155, z: 0.15814479}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftEye1
+      position: {x: 0.05346477, y: 0.14531155, z: 0.15814479}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftCheek
+      position: {x: -0.0706744, y: 0.10115159, z: 0.17449242}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftEyelidLower
+      position: {x: -0.05645621, y: 0.12956941, z: 0.1846448}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftEyelidUpper
+      position: {x: -0.05645621, y: 0.1530828, z: 0.18895881}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftInnerBrow
+      position: {x: -0.029920526, y: 0.18132934, z: 0.20616111}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftIOuterBrow
+      position: {x: -0.08223064, y: 0.17878261, z: 0.17543525}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightInnerBrow
+      position: {x: 0.029920505, y: 0.18133454, z: 0.20616092}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightIOuterBrow
+      position: {x: 0.082230575, y: 0.17877795, z: 0.17543572}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightEyelidUpper
+      position: {x: 0.056456182, y: 0.15307784, z: 0.18895847}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightEyelidLower
+      position: {x: 0.056456182, y: 0.12957504, z: 0.18464413}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightCheek
+      position: {x: 0.070674375, y: 0.10116027, z: 0.17449218}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftShoulder
+      position: {x: -0.107523955, y: 0.17829195, z: -0.06638176}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftArm
+      position: {x: -0.15783349, y: -0.019496841, z: -0.031385705}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftForeArm
+      position: {x: -0.4845227, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHand
+      position: {x: -0.48779115, y: 0, z: 0}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandThumb1
+      position: {x: -0.04406094, y: -0.016372312, z: 0.043989196}
+      rotation: {x: -0.061336175, y: 0.04161886, z: -0.053027745, w: 0.9958382}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandThumb2
+      position: {x: -0.057904918, y: -0.02011153, z: 0.051192988}
+      rotation: {x: 0.013133586, y: 0.055947226, z: 0.036834914, w: 0.9976676}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandThumb3
+      position: {x: -0.049488913, y: -0.008004063, z: 0.02980242}
+      rotation: {x: 0.0060741915, y: -0.03153055, z: 0.0016185284, w: 0.99948305}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandThumb4
+      position: {x: -0.055161625, y: -0.008308814, z: 0.045150857}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandMiddle1
+      position: {x: -0.17840907, y: 0.012587172, z: 0.017117828}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandMiddle2
+      position: {x: -0.06930252, y: -0.00082380767, z: 0.0011226649}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandMiddle3
+      position: {x: -0.05005025, y: -0.0039570564, z: 0.000096511816}
+      rotation: {x: -0.000017033995, y: 0.0012466236, z: 0.042277187, w: 0.99910516}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandMiddle4
+      position: {x: -0.03499138, y: 0.0029717626, z: -0.00010173536}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandIndex1
+      position: {x: -0.17626719, y: 0.008587022, z: 0.04831914}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandIndex2
+      position: {x: -0.06534656, y: 6.7325846e-11, z: 0.0008969177}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandIndex3
+      position: {x: -0.050290037, y: -0.002387258, z: 3.8857806e-18}
+      rotation: {x: 0.000050170922, y: -0.0010568888, z: 0.051735073, w: 0.9986603}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandIndex4
+      position: {x: -0.03390094, y: 0.004578308, z: 0.00012640904}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandRing1
+      position: {x: -0.17377895, y: 0.010378427, z: -0.016775815}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandRing2
+      position: {x: -0.06762891, y: -0.0034816293, z: -0.00025803936}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandRing3
+      position: {x: -0.050959975, y: -0.0023599083, z: -0.0004971211}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandRing4
+      position: {x: -0.036458094, y: 0.00110269, z: -0.00034994286}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandPinky1
+      position: {x: -0.16936499, y: -0.0020656579, z: -0.04466922}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandPinky2
+      position: {x: -0.054141756, y: -0.001333721, z: 0.00029389927}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandPinky3
+      position: {x: -0.047643557, y: -0.0011209331, z: 0.00040524866}
+      rotation: {x: 0.00013736812, y: 0.002768379, z: 0.023807092, w: 0.99971277}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftHandPinky4
+      position: {x: -0.030244794, y: 0.0031689848, z: -0.0001939686}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightShoulder
+      position: {x: 0.107523955, y: 0.17829195, z: -0.06638176}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightArm
+      position: {x: 0.15782961, y: -0.019496841, z: -0.031385705}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightForeArm
+      position: {x: 0.47316638, y: 0.00001924984, z: 0.0000000010430813}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHand
+      position: {x: 0.49914747, y: 0, z: -7.771561e-18}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandThumb1
+      position: {x: 0.04406091, y: -0.016391672, z: 0.043989196}
+      rotation: {x: -0.06131161, y: -0.04161009, z: 0.053003404, w: 0.99584144}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandThumb2
+      position: {x: 0.057904918, y: -0.02011153, z: 0.051192988}
+      rotation: {x: 0.0131326765, y: -0.055946384, z: -0.03683326, w: 0.9976677}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandThumb3
+      position: {x: 0.049488913, y: -0.008004063, z: 0.02980242}
+      rotation: {x: 0.006386053, y: 0.04063394, z: 0.00030879036, w: 0.9991537}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandThumb4
+      position: {x: 0.052432537, y: -0.00857886, z: 0.0445533}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandIndex1
+      position: {x: 0.17626715, y: 0.008567662, z: 0.04831914}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandIndex2
+      position: {x: 0.06534656, y: 6.7325846e-11, z: 0.0008969177}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandIndex3
+      position: {x: 0.050290037, y: -0.002387258, z: 3.8857806e-18}
+      rotation: {x: 0.00016509353, y: 0.0034778293, z: -0.019494979, w: 0.9998039}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandIndex4
+      position: {x: 0.033319343, y: 0.002387769, z: 0.0007081293}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandMiddle1
+      position: {x: 0.17840904, y: 0.012567811, z: 0.017117826}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandMiddle2
+      position: {x: 0.06930252, y: -0.00082380767, z: 0.0011226649}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandMiddle3
+      position: {x: 0.05005025, y: -0.0039570564, z: 0.000096511816}
+      rotation: {x: 0.0014425864, y: 0.017724516, z: -0.021399025, w: 0.99961287}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandMiddle4
+      position: {x: 0.029948698, y: 0.00078111363, z: 0.002665896}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandRing1
+      position: {x: 0.1737789, y: 0.010359067, z: -0.016775817}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandRing2
+      position: {x: 0.06762891, y: -0.0034816293, z: -0.00025803936}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandRing3
+      position: {x: 0.050959975, y: -0.0023599083, z: -0.0004971211}
+      rotation: {x: 0.0010216653, y: 0.026431646, z: -0.020741915, w: 0.9994349}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandRing4
+      position: {x: 0.037784614, y: 0.0016954751, z: 0.0040215855}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandPinky1
+      position: {x: 0.16936496, y: -0.0020850182, z: -0.04466922}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandPinky2
+      position: {x: 0.054141756, y: -0.001333721, z: 0.00029389927}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandPinky3
+      position: {x: 0.047643557, y: -0.0011209331, z: 0.00040524866}
+      rotation: {x: 0.0016008825, y: 0.030924704, z: -0.10266515, w: 0.9942339}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightHandPinky4
+      position: {x: 0.036443207, y: 0.009411272, z: 0.0034031323}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftUpLeg
+      position: {x: -0.1685913, y: -0.057281952, z: -0.000000012516976}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftLeg
+      position: {x: -0, y: -0.81768924, z: -0.030274391}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftFoot
+      position: {x: -0.00022058249, y: -0.5984009, z: -0.014834519}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftToeBase
+      position: {x: 0.0032075166, y: -0.21320873, z: 0.14493962}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:LeftFootToeBase_End
+      position: {x: -0, y: -0.00017029763, z: 0.16800001}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightUpLeg
+      position: {x: 0.1685913, y: -0.057281952, z: -0.000000012516976}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightLeg
+      position: {x: -0, y: -0.81768924, z: -0.030274391}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightFoot
+      position: {x: -0.00022061587, y: -0.5984009, z: -0.014834519}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightToeBase
+      position: {x: 0.0032079173, y: -0.21320873, z: 0.14493962}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    - name: Mia:RightFootToeBase_End
+      position: {x: -0.000055909157, y: -0.00017029763, z: 0.16800001}
+      rotation: {x: 0, y: -0, z: -0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+      transformModified: 1
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    hasTranslationDoF: 0
+  lastHumanDescriptionAvatarSource: {fileID: 9000000, guid: 7e5f38a8f21b9894cb0f272c9b0b5237,
+    type: 3}
+  animationType: 3
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

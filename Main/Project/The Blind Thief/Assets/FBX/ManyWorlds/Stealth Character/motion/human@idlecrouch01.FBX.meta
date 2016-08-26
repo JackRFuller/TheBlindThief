@@ -124,13 +124,16 @@ ModelImporter:
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
-    resampleRotations: 1
+    resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
     animationImportErrors: 
-    animationImportWarnings: 
+    animationImportWarnings: "\nClip 'Take 001' has import animation warnings that
+      might lower retargeting quality:\nNote: Activate translation DOF on avatar to
+      improve retargeting quality.\n\t'StealthCharChest' is inbetween humanoid transforms
+      and has rotation animation that will be discarded.\n"
     animationRetargetingWarnings: 
-    animationDoRetargetingWarnings: 0
+    animationDoRetargetingWarnings: 1
     animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
@@ -156,7 +159,7 @@ ModelImporter:
       loopBlendPositionXZ: 1
       keepOriginalOrientation: 0
       keepOriginalPositionY: 0
-      keepOriginalPositionXZ: 0
+      keepOriginalPositionXZ: 1
       heightFromFeet: 1
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
@@ -301,7 +304,7 @@ ModelImporter:
     normalImportMode: 0
     tangentImportMode: 4
   importAnimation: 1
-  copyAvatar: 1
+  copyAvatar: 0
   humanDescription:
     human:
     - boneName: StealthCharPelvis
@@ -360,8 +363,16 @@ ModelImporter:
         value: {x: 0, y: 0, z: 0}
         length: 0
         modified: 0
-    - boneName: StealthCharSpine1
+    - boneName: StealthCharSpine0
       humanName: Spine
+      limit:
+        min: {x: 0, y: 0, z: 0}
+        max: {x: 0, y: 0, z: 0}
+        value: {x: 0, y: 0, z: 0}
+        length: 0
+        modified: 0
+    - boneName: StealthCharSpine1
+      humanName: Chest
       limit:
         min: {x: 0, y: 0, z: 0}
         max: {x: 0, y: 0, z: 0}
@@ -705,306 +716,286 @@ ModelImporter:
         length: 0
         modified: 0
     skeleton:
-    - name: StealthChar(Clone)
+    - name: human@idlecrouch01(Clone)
       position: {x: 0, y: 0, z: 0}
       rotation: {x: 0, y: 0, z: 0, w: 1}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: StealthChar
       position: {x: 0.0047044125, y: 0, z: 0.0058019715}
-      rotation: {x: 0.50000006, y: -0.50000006, z: -0.49999997, w: 0.49999997}
-      scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
-    - name: StealthChar_Belt
-      position: {x: 0, y: -0.037447277, z: 0}
-      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-      scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
-    - name: StealthChar_BodyMain
-      position: {x: 0, y: -0.037447277, z: 0}
-      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-      scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
-    - name: StealthChar_Coat
-      position: {x: 0, y: -0.037447277, z: 0}
-      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
-      scale: {x: 1, y: 1, z: 1}
-      transformModified: 1
-    - name: StealthChar_HoodShoulders
-      position: {x: 0, y: -0.037447277, z: 0}
-      rotation: {x: -0.7071068, y: 0, z: -0, w: 0.7071068}
+      rotation: {x: 0.5, y: -0.50000006, z: -0.49999994, w: 0.5}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: StealthCharLLegPlatform
-      position: {x: -0.35314637, y: 5.1670183e-15, z: 0.054825723}
-      rotation: {x: 0.5, y: -0.5, z: -0.50000006, w: 0.50000006}
+      position: {x: -0.15076002, y: 5.1670183e-15, z: 0.054825723}
+      rotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: StealthCharPelvis
-      position: {x: 0.0047044125, y: 0.94587356, z: 0.005801821}
-      rotation: {x: 0.5, y: -0.5, z: -0.50000006, w: 0.50000006}
+      position: {x: 0.0047044125, y: 0.9355669, z: -0.11646643}
+      rotation: {x: -0.5598533, y: 0.43193078, z: 0.5598534, w: -0.43193084}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: StealthCharLLeg1
-      position: {x: -0, y: 7.56979e-10, z: 0.092286296}
-      rotation: {x: -0.019389424, y: 0.98880523, z: 0.014974605, w: 0.14718696}
-      scale: {x: 1.0000001, y: 0.99999994, z: 0.99999976}
+      position: {x: -0, y: 0, z: 0.092286296}
+      rotation: {x: -0.22858168, y: 0.97159153, z: -0.0050707166, w: 0.06111226}
+      scale: {x: 1.0000001, y: 1.0000001, z: 0.9999999}
       transformModified: 1
     - name: StealthCharLLeg2
-      position: {x: -0.52455974, y: 0.000001586628, z: 0.00000094470977}
-      rotation: {x: 0.010562336, y: 0.04094275, z: 0.11658124, w: 0.9922807}
-      scale: {x: 1.000002, y: 0.99999976, z: 0.9999984}
+      position: {x: -0.5245596, y: 0.0000015260696, z: 0.0000009689331}
+      rotation: {x: 0.028597614, y: 0.08999449, z: 0.29990235, w: 0.9492849}
+      scale: {x: 1.0000018, y: 0.9999995, z: 0.9999981}
       transformModified: 1
     - name: StealthCharLLegAnkle
-      position: {x: -0.42797542, y: -0.000000003027916, z: 0}
-      rotation: {x: -0.13179429, y: 0.021252412, z: -0.74840885, w: 0.6496637}
-      scale: {x: 1.0000023, y: 0.9999981, z: 1.0000004}
+      position: {x: -0.4279754, y: 0, z: 0.000000012111664}
+      rotation: {x: 0.087086596, y: 0.099884875, z: 0.82152504, w: -0.55455893}
+      scale: {x: 1.000001, y: 0.99999946, z: 1.0000005}
       transformModified: 1
     - name: StealthCharLToe
-      position: {x: -0.19889152, y: -0.000000006055832, z: 0.000000048446655}
-      rotation: {x: 0.0000000144355, y: -0.000000009822541, z: -0.000000022351736,
+      position: {x: -0.19889149, y: -0.000000012111664, z: 0.00000006055832}
+      rotation: {x: -0.000000048894446, y: -0.00000007185735, z: -0.000000039115545,
         w: 1}
-      scale: {x: 1.0000002, y: 1, z: 0.99999976}
+      scale: {x: 1.0000001, y: 0.9999999, z: 0.99999964}
       transformModified: 1
     - name: StealthCharRLeg1
-      position: {x: -0, y: 7.56979e-10, z: -0.092286296}
-      rotation: {x: -0.019319301, y: 0.9888059, z: -0.014970778, w: -0.1471921}
-      scale: {x: 0.99999976, y: 1, z: 1.0000001}
+      position: {x: -0, y: 0, z: -0.0922863}
+      rotation: {x: -0.23105401, y: 0.97141093, z: -0.009786099, w: -0.053657994}
+      scale: {x: 1, y: 1, z: 1.0000001}
       transformModified: 1
     - name: StealthCharRLeg2
-      position: {x: -0.5245597, y: 0.000001586628, z: -0.0000010173798}
-      rotation: {x: -0.010514201, y: -0.04127072, z: 0.11632742, w: 0.9922974}
-      scale: {x: 0.99999934, y: 1, z: 1.0000007}
+      position: {x: -0.5245596, y: 0.0000015987396, z: -0.0000009689331}
+      rotation: {x: -0.037336938, y: -0.08381332, z: 0.30176273, w: 0.9489576}
+      scale: {x: 0.99999946, y: 1.0000001, z: 1.0000007}
       transformModified: 1
     - name: StealthCharRLegAnkle
-      position: {x: -0.42797542, y: 0.000000006055832, z: -0.000000024223327}
-      rotation: {x: 0.13174452, y: -0.020851681, z: -0.74831736, w: 0.6497922}
-      scale: {x: 0.9999994, y: 1.000001, z: 0.99999976}
+      position: {x: -0.4279754, y: 0.000000012111664, z: 0}
+      rotation: {x: -0.08140437, y: -0.09851779, z: 0.82129353, w: -0.55600774}
+      scale: {x: 1, y: 1.0000004, z: 0.99999976}
       transformModified: 1
     - name: StealthCharRToe
-      position: {x: -0.19889148, y: -0.000000063586235, z: -0.00000012111664}
-      rotation: {x: 0.000000022817403, y: -0.000000021958847, z: -0.00000003539027,
+      position: {x: -0.19889148, y: -0.000000057530404, z: -0.00000014533997}
+      rotation: {x: 0.000000022351744, y: -0.000000029453085, z: -0.000000037252914,
         w: 1}
-      scale: {x: 0.9999997, y: 0.99999994, z: 1.0000004}
+      scale: {x: 0.99999976, y: 0.9999999, z: 1.0000002}
       transformModified: 1
     - name: StealthCharSpine0
       position: {x: -0, y: 0, z: 0}
-      rotation: {x: 0.000000012597415, y: -0.00000012988473, z: 0.04231887, w: 0.99910414}
-      scale: {x: 1.0000001, y: 1.0000001, z: 1}
+      rotation: {x: 0.000000029895848, y: -0.00000016869834, z: 0.032136984, w: 0.9994835}
+      scale: {x: 1.0000001, y: 0.99999994, z: 1}
       transformModified: 1
     - name: StealthCharSpine1
-      position: {x: -0.2394941, y: -0.000000006055832, z: 0}
-      rotation: {x: -1.0658142e-14, y: -1.4210856e-14, z: -1.5146132e-28, w: 1}
-      scale: {x: 0.99999994, y: 0.99999994, z: 1}
+      position: {x: -0.23949414, y: -0.000000024223327, z: 3.784895e-10}
+      rotation: {x: 0.000000006602355, y: 0.000000028314243, z: -0.14423615, w: 0.9895433}
+      scale: {x: 1.0000001, y: 1.0000001, z: 0.99999994}
       transformModified: 1
     - name: StealthCharChest
-      position: {x: -0.23949419, y: 0, z: 0}
-      rotation: {x: -0.000000012597416, y: 0.00000012988468, z: -0.04231887, w: 0.99910414}
-      scale: {x: 0.99999994, y: 0.99999994, z: 1}
+      position: {x: -0.23949414, y: 0, z: 0}
+      rotation: {x: -0.000000082030816, y: 0.00000009340701, z: -0.052496694, w: 0.9986211}
+      scale: {x: 0.9999998, y: 0.9999998, z: 1.0000001}
       transformModified: 1
     - name: StealthCharLArmCollarbone
-      position: {x: -0, y: -0.000000012111664, z: 0.05481805}
-      rotation: {x: 0.13254409, y: 0.7397294, z: 0.09379718, w: 0.65301967}
-      scale: {x: 1, y: 1, z: 1}
+      position: {x: -0, y: 0, z: 0.05481805}
+      rotation: {x: 0.13254412, y: 0.7397294, z: 0.09379715, w: 0.6530196}
+      scale: {x: 1, y: 1, z: 1.0000001}
       transformModified: 1
     - name: StealthCharLArm1
-      position: {x: -0.14628479, y: 0, z: -0.00000009689331}
-      rotation: {x: -0.06290746, y: -0.029049655, z: -0.17390017, w: 0.9823226}
-      scale: {x: 0.9999995, y: 1.0000002, z: 0.9999998}
+      position: {x: -0.14628479, y: 0.000000048446655, z: 0}
+      rotation: {x: 0.030878648, y: -0.057969883, z: -0.15783127, w: 0.9852794}
+      scale: {x: 0.99999964, y: 1.0000001, z: 0.99999994}
       transformModified: 1
     - name: StealthCharLArm2
-      position: {x: -0.24080446, y: 0.000000006055832, z: 0}
-      rotation: {x: -0.017735343, y: -0.039509147, z: -0.024917092, w: 0.9987511}
-      scale: {x: 1.0000037, y: 0.9999961, z: 1.0000008}
+      position: {x: -0.24080439, y: 0, z: 0}
+      rotation: {x: 0.00059902266, y: -0.016623978, z: -0.021907628, w: 0.9996217}
+      scale: {x: 1.0000035, y: 0.99999607, z: 1.0000007}
       transformModified: 1
     - name: StealthCharLArmPalm
-      position: {x: -0.24212408, y: 0.000000012111664, z: 0}
-      rotation: {x: -0.7498912, y: -0.027623203, z: 0.05625034, w: 0.6585864}
-      scale: {x: 0.9999904, y: 0.9999972, z: 1.0000125}
+      position: {x: -0.24212402, y: 0, z: 0}
+      rotation: {x: -0.7498912, y: -0.027623188, z: 0.056250274, w: 0.6585864}
+      scale: {x: 0.99999034, y: 0.9999968, z: 1.0000126}
       transformModified: 1
     - name: StealthCharLIndex0
-      position: {x: -0.08258987, y: 0.0009793976, z: 0.035307802}
-      rotation: {x: 0.029388307, y: 0.07960553, z: 0.009819923, w: 0.9963448}
-      scale: {x: 1.0000074, y: 1.0000018, z: 0.99999106}
+      position: {x: -0.082590014, y: 0.0009794944, z: 0.035307873}
+      rotation: {x: 0.029388502, y: 0.0796056, z: 0.009821634, w: 0.9963448}
+      scale: {x: 1.0000075, y: 1.0000017, z: 0.99999106}
       transformModified: 1
     - name: StealthCharLIndex1
-      position: {x: -0.042451672, y: 0, z: 0.000000048446655}
-      rotation: {x: -0.0000012358157, y: 0.00000006710429, z: 0.0325647, w: 0.99946964}
-      scale: {x: 1.000009, y: 1.0000007, z: 0.9999902}
+      position: {x: -0.04245172, y: 0.000000024223327, z: 0}
+      rotation: {x: -0.0000012628724, y: 0.000002607701, z: 0.03256834, w: 0.9994695}
+      scale: {x: 1.0000088, y: 1.0000004, z: 0.99999017}
       transformModified: 1
     - name: StealthCharLIndex2
-      position: {x: -0.028952012, y: 0, z: 0}
-      rotation: {x: -0.00000023406001, y: 0.0000001796011, z: 0.13052747, w: 0.9914447}
-      scale: {x: 1.0000021, y: 1.0000075, z: 0.99999034}
+      position: {x: -0.02895206, y: 0.000000024223327, z: 0.000000024223327}
+      rotation: {x: -0.00000031040562, y: 0.00000016015639, z: 0.1305274, w: 0.9914447}
+      scale: {x: 1.0000019, y: 1.0000074, z: 0.99999017}
       transformModified: 1
     - name: StealthCharLMiddleFinger0
-      position: {x: -0.08489874, y: 0.010519997, z: 0.013352383}
-      rotation: {x: -0.016718032, y: 0.062389694, z: 0.00916834, w: 0.9978698}
-      scale: {x: 0.99998945, y: 1.0000023, z: 1.0000083}
+      position: {x: -0.08489874, y: 0.0105199, z: 0.013352383}
+      rotation: {x: -0.016717935, y: 0.06238933, z: 0.009169255, w: 0.9978698}
+      scale: {x: 0.99998945, y: 1.0000021, z: 1.0000085}
       transformModified: 1
     - name: StealthCharLMiddleFinger1
-      position: {x: -0.048911743, y: 0, z: 0}
-      rotation: {x: -0.00000037529, y: 0.00000021418762, z: 0.0370464, w: 0.99931353}
-      scale: {x: 0.99998933, y: 1.0000024, z: 1.0000083}
-      transformModified: 1
-    - name: StealthCharLMiddleFinger2
-      position: {x: -0.026387924, y: 0.00000009689331, z: -0.000000024223327}
-      rotation: {x: -0.00000020922823, y: 0.00000019790387, z: 0.130523, w: 0.9914453}
-      scale: {x: 0.9999886, y: 1.0000031, z: 1.0000085}
-      transformModified: 1
-    - name: StealthCharLPinky0
-      position: {x: -0.08259777, y: 0.00000019378662, z: -0.029991532}
-      rotation: {x: -0.067120336, y: 0.052500658, z: 0.0020438517, w: 0.99636054}
-      scale: {x: 0.9999881, y: 1.0000027, z: 1.0000095}
-      transformModified: 1
-    - name: StealthCharLPinky1
-      position: {x: -0.030952761, y: -0.00000009689331, z: 0}
-      rotation: {x: -0.009524459, y: 0.011392678, z: 0.034889046, w: 0.9992809}
-      scale: {x: 0.99998885, y: 1.0000023, z: 1.0000082}
-      transformModified: 1
-    - name: StealthCharLPinky2
-      position: {x: -0.02197647, y: 0.000000048446655, z: 0}
-      rotation: {x: 0.00000021654955, y: 0.0000003031484, z: 0.08715353, w: 0.9961949}
-      scale: {x: 1.0000008, y: 0.9999912, z: 1.0000086}
-      transformModified: 1
-    - name: StealthCharLRingFinger0
-      position: {x: -0.08174113, y: 0.008570407, z: -0.010741253}
-      rotation: {x: -0.026657537, y: 0.054797392, z: 0.0068123355, w: 0.9981184}
-      scale: {x: 0.99998933, y: 1.0000024, z: 1.0000087}
-      transformModified: 1
-    - name: StealthCharLRingFinger1
-      position: {x: -0.0452203, y: 0, z: 0}
-      rotation: {x: -0.00000040615686, y: 0.000000019668867, z: 0.10154504, w: 0.99483097}
+      position: {x: -0.048911694, y: -0.000000012111664, z: 0}
+      rotation: {x: -0.00000035203973, y: 0.000001732259, z: 0.037044033, w: 0.9993137}
       scale: {x: 0.99998933, y: 1.0000023, z: 1.0000085}
       transformModified: 1
+    - name: StealthCharLMiddleFinger2
+      position: {x: -0.026387876, y: -0.000000024223327, z: 0}
+      rotation: {x: -0.00000028421636, y: 0.00000021809159, z: 0.13052303, w: 0.9914453}
+      scale: {x: 0.99998856, y: 1.0000029, z: 1.0000083}
+      transformModified: 1
+    - name: StealthCharLPinky0
+      position: {x: -0.08259777, y: 0.00000029067994, z: -0.029991483}
+      rotation: {x: -0.06711906, y: 0.052501168, z: 0.0020474389, w: 0.9963606}
+      scale: {x: 0.99998814, y: 1.0000026, z: 1.0000095}
+      transformModified: 1
+    - name: StealthCharLPinky1
+      position: {x: -0.030952761, y: 0, z: 0}
+      rotation: {x: -0.009524251, y: 0.011393426, z: 0.034888938, w: 0.99928087}
+      scale: {x: 0.99998885, y: 1.0000023, z: 1.0000083}
+      transformModified: 1
+    - name: StealthCharLPinky2
+      position: {x: -0.021976518, y: 0.000000024223327, z: 0}
+      rotation: {x: 0.00000024642372, y: 0.0000002608878, z: 0.087153494, w: 0.9961949}
+      scale: {x: 1.0000007, y: 0.99999094, z: 1.0000083}
+      transformModified: 1
+    - name: StealthCharLRingFinger0
+      position: {x: -0.081741184, y: 0.008570503, z: -0.0107411565}
+      rotation: {x: -0.026656827, y: 0.05479803, z: 0.0068139466, w: 0.9981183}
+      scale: {x: 0.99998945, y: 1.0000021, z: 1.0000088}
+      transformModified: 1
+    - name: StealthCharLRingFinger1
+      position: {x: -0.0452203, y: 0.000000036334992, z: 0}
+      rotation: {x: -0.00000027194605, y: -0.0000004246829, z: 0.10154038, w: 0.99483144}
+      scale: {x: 0.9999894, y: 1.0000024, z: 1.0000085}
+      transformModified: 1
     - name: StealthCharLRingFinger2
-      position: {x: -0.025505517, y: 0.003155718, z: 0}
-      rotation: {x: -0.00000031478524, y: 0.0000002290971, z: 0.13052303, w: 0.9914453}
-      scale: {x: 0.9999886, y: 1.000003, z: 1.0000085}
+      position: {x: -0.025505614, y: 0.0031556212, z: 0}
+      rotation: {x: -0.0000003118186, y: 0.00000019942779, z: 0.13052303, w: 0.9914453}
+      scale: {x: 0.9999888, y: 1.0000032, z: 1.0000085}
       transformModified: 1
     - name: StealthCharLThumb0
-      position: {x: -0.01834011, y: -0.011065603, z: 0.028771427}
-      rotation: {x: -0.23561552, y: 0.35157695, z: 0.2172876, w: 0.87958235}
-      scale: {x: 1.0000035, y: 1.0000029, z: 0.9999943}
+      position: {x: -0.01834011, y: -0.011065603, z: 0.02877145}
+      rotation: {x: -0.3205879, y: 0.43827283, z: -0.042801436, w: 0.8386348}
+      scale: {x: 1.0000035, y: 1.0000026, z: 0.99999416}
       transformModified: 1
     - name: StealthCharLThumb1
-      position: {x: -0.046143137, y: 0, z: 0.00000009689331}
-      rotation: {x: -0.00000028398773, y: -0.03859723, z: 0.0000004061738, w: 0.9992549}
-      scale: {x: 1.0000082, y: 1.0000014, z: 0.99999017}
+      position: {x: -0.046143163, y: 0, z: 0.000000012111664}
+      rotation: {x: -0.00000038742996, y: -0.038598903, z: 0.0000006258484, w: 0.9992548}
+      scale: {x: 1.0000083, y: 1.0000017, z: 0.9999903}
       transformModified: 1
     - name: StealthCharLThumb2
-      position: {x: -0.025840137, y: 0, z: 0}
-      rotation: {x: -0.00000021856167, y: -0.13052881, z: -0.00000011895403, w: 0.9914445}
-      scale: {x: 0.99999154, y: 1.0000014, z: 1.0000067}
+      position: {x: -0.025840137, y: 0, z: 0.000000024223327}
+      rotation: {x: -0.0000001760937, y: -0.13052882, z: -0.000000053243404, w: 0.9914445}
+      scale: {x: 0.9999915, y: 1.0000015, z: 1.0000068}
       transformModified: 1
     - name: StealthCharNeck
       position: {x: -0, y: 0, z: 0}
-      rotation: {x: -1.7446094e-14, y: -0.000000006333727, z: -0.032645997, w: 0.999467}
+      rotation: {x: -0.000000014481856, y: -0.000000007055281, z: 0.06951984, w: 0.9975806}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: StealthCharHead
-      position: {x: -0.2060847, y: 0, z: -3.784895e-10}
-      rotation: {x: 9.394997e-15, y: 0.0000000063337264, z: 0.032645997, w: 0.999467}
+      position: {x: -0.2060847, y: 0, z: 0}
+      rotation: {x: 0.0000000060163643, y: -0.0000000017131003, z: 0.13447095, w: 0.99091756}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: StealthCharRArmCollarbone
-      position: {x: -0, y: -0.000000012111664, z: -0.054818057}
-      rotation: {x: -0.13254407, y: -0.73972934, z: 0.09379719, w: 0.6530197}
+      position: {x: -0, y: 0, z: -0.05481805}
+      rotation: {x: -0.13254401, y: -0.7397293, z: 0.09379722, w: 0.65301967}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     - name: StealthCharRArm1
-      position: {x: -0.14628477, y: 0, z: 0}
-      rotation: {x: 0.06290745, y: 0.029049529, z: -0.17390023, w: 0.9823226}
-      scale: {x: 1.0000004, y: 0.9999997, z: 0.99999994}
+      position: {x: -0.14628479, y: -0.00000009689331, z: 0.000000048446655}
+      rotation: {x: 0.2046694, y: 0.021447772, z: -0.17425369, w: 0.96295696}
+      scale: {x: 1.0000005, y: 0.99999976, z: 0.99999994}
       transformModified: 1
     - name: StealthCharRArm2
-      position: {x: -0.24080439, y: 0, z: 0.00000009689331}
-      rotation: {x: 0.017735468, y: 0.039509293, z: -0.024917236, w: 0.9987511}
-      scale: {x: 0.99999684, y: 1.0000043, z: 0.9999994}
+      position: {x: -0.24080428, y: 0, z: 0}
+      rotation: {x: -0.009257283, y: 0.013328101, z: -0.014855054, w: 0.99975795}
+      scale: {x: 0.99999714, y: 1.0000038, z: 0.99999934}
       transformModified: 1
     - name: StealthCharRArmPalm
-      position: {x: -0.24212408, y: -0.000000024223327, z: 0}
-      rotation: {x: 0.74989176, y: 0.027622584, z: 0.056249496, w: 0.65858597}
-      scale: {x: 1.0000093, y: 1.000003, z: 0.999987}
+      position: {x: -0.24212408, y: 0, z: -0.000000048446655}
+      rotation: {x: 0.74989176, y: 0.027622567, z: 0.05624954, w: 0.6585859}
+      scale: {x: 1.0000093, y: 1.0000031, z: 0.99998724}
       transformModified: 1
     - name: StealthCharRIndex0
-      position: {x: -0.08258953, y: 0.0009793007, z: -0.035306443}
-      rotation: {x: -0.029391775, y: -0.07960061, z: 0.009824318, w: 0.99634504}
-      scale: {x: 0.999993, y: 0.99999785, z: 1.0000091}
+      position: {x: -0.08258963, y: 0.0009793007, z: -0.035306443}
+      rotation: {x: -0.029391877, y: -0.079599865, z: 0.009826, w: 0.9963451}
+      scale: {x: 0.99999285, y: 0.999998, z: 1.0000091}
       transformModified: 1
     - name: StealthCharRIndex1
-      position: {x: -0.04245172, y: -0.00000009689331, z: -0.000000024223327}
-      rotation: {x: -0.00000005168856, y: 0.0000007745772, z: 0.032565285, w: 0.9994697}
-      scale: {x: 0.9999916, y: 0.999999, z: 1.0000097}
+      position: {x: -0.04245172, y: 0.000000024223327, z: -0.000000048446655}
+      rotation: {x: -0.000000037252896, y: 0.00000090152, z: 0.03256608, w: 0.9994696}
+      scale: {x: 0.99999136, y: 0.9999986, z: 1.0000094}
       transformModified: 1
     - name: StealthCharRIndex2
-      position: {x: -0.028952012, y: 0, z: -0.000000024223327}
-      rotation: {x: 0.00000023814928, y: -0.00000023918327, z: 0.13052508, w: 0.991445}
-      scale: {x: 0.9999978, y: 0.9999925, z: 1.0000097}
+      position: {x: -0.028952012, y: 0.000000024223327, z: 0}
+      rotation: {x: 0.00000027643927, y: -0.00000015899346, z: 0.13052508, w: 0.991445}
+      scale: {x: 0.9999978, y: 0.99999225, z: 1.0000093}
       transformModified: 1
     - name: StealthCharRMiddleFinger0
-      position: {x: -0.08489855, y: 0.010519416, z: -0.01335105}
-      rotation: {x: 0.016715314, y: -0.062380932, z: 0.009174032, w: 0.9978703}
-      scale: {x: 1.0000105, y: 0.9999972, z: 0.9999921}
+      position: {x: -0.08489864, y: 0.010519416, z: -0.013351026}
+      rotation: {x: 0.016715052, y: -0.062381007, z: 0.009173601, w: 0.99787027}
+      scale: {x: 1.0000103, y: 0.99999726, z: 0.999992}
       transformModified: 1
     - name: StealthCharRMiddleFinger1
-      position: {x: -0.048911743, y: 0, z: 0}
-      rotation: {x: 0.00000017875139, y: -0.00000029907173, z: 0.037048887, w: 0.99931353}
-      scale: {x: 1.0000106, y: 0.9999972, z: 0.999992}
+      position: {x: -0.048911694, y: 0, z: 0}
+      rotation: {x: 0.00000008568167, y: 0.000000104308114, z: 0.03705064, w: 0.9993135}
+      scale: {x: 1.0000106, y: 0.99999726, z: 0.9999919}
       transformModified: 1
     - name: StealthCharRMiddleFinger2
-      position: {x: -0.026387876, y: 0, z: 0}
-      rotation: {x: 0.00000020970053, y: 0.000000012578721, z: 0.13052946, w: 0.99144447}
-      scale: {x: 1.0000113, y: 0.99999654, z: 0.9999922}
+      position: {x: -0.026387876, y: 0, z: 0.000000024223327}
+      rotation: {x: 0.00000019905207, y: 0.00000008632469, z: 0.13052946, w: 0.99144447}
+      scale: {x: 1.0000112, y: 0.9999966, z: 0.99999213}
       transformModified: 1
     - name: StealthCharRPinky0
-      position: {x: -0.082598396, y: -0.00000029067994, z: 0.02999284}
-      rotation: {x: 0.06711691, y: -0.05248695, z: 0.0020551472, w: 0.99636155}
-      scale: {x: 1.0000119, y: 0.99999666, z: 0.999991}
+      position: {x: -0.08259849, y: -0.00000019378662, z: 0.029992815}
+      rotation: {x: 0.067117654, y: -0.05248543, z: 0.0020538152, w: 0.99636155}
+      scale: {x: 1.0000118, y: 0.9999968, z: 0.999991}
       transformModified: 1
     - name: StealthCharRPinky1
-      position: {x: -0.03095281, y: 0.00000009689331, z: 0.000000024223327}
-      rotation: {x: 0.009524681, y: -0.011394649, z: 0.034892164, w: 0.99928075}
-      scale: {x: 1.0000106, y: 0.9999972, z: 0.9999914}
+      position: {x: -0.03095281, y: 0, z: 0}
+      rotation: {x: 0.009524698, y: -0.011397028, z: 0.034893684, w: 0.99928063}
+      scale: {x: 1.0000104, y: 0.9999972, z: 0.9999914}
       transformModified: 1
     - name: StealthCharRPinky2
-      position: {x: -0.02197647, y: 0, z: 0}
-      rotation: {x: -0.00000025551086, y: -0.0000003813492, z: 0.08715805, w: 0.9961945}
-      scale: {x: 0.9999992, y: 1.0000087, z: 0.999992}
+      position: {x: -0.02197647, y: 0.000000024223327, z: 0}
+      rotation: {x: -0.00000013796189, y: -0.00000030375332, z: 0.08715792, w: 0.99619454}
+      scale: {x: 0.9999991, y: 1.0000086, z: 0.99999183}
       transformModified: 1
     - name: StealthCharRRingFinger0
-      position: {x: -0.08174157, y: 0.008570019, z: 0.010742537}
-      rotation: {x: 0.02665533, y: -0.05478692, z: 0.006818564, w: 0.99811894}
-      scale: {x: 1.0000107, y: 0.99999726, z: 0.99999195}
+      position: {x: -0.08174157, y: 0.008570019, z: 0.0107425125}
+      rotation: {x: 0.026654953, y: -0.05478698, z: 0.0068184673, w: 0.998119}
+      scale: {x: 1.0000106, y: 0.9999974, z: 0.99999195}
       transformModified: 1
     - name: StealthCharRRingFinger1
-      position: {x: -0.0452203, y: 0, z: 0}
-      rotation: {x: 0.0000001669115, y: -0.000000026413941, z: 0.10154328, w: 0.9948312}
-      scale: {x: 1.0000107, y: 0.9999974, z: 0.9999921}
+      position: {x: -0.045220204, y: 0.000000012111664, z: 0.000000024223327}
+      rotation: {x: 0.000000089406946, y: 0.00000013411042, z: 0.10154285, w: 0.99483114}
+      scale: {x: 1.0000108, y: 0.9999974, z: 0.99999213}
       transformModified: 1
     - name: StealthCharRRingFinger2
-      position: {x: -0.025505662, y: 0.003155718, z: 0.000000048446655}
-      rotation: {x: 0.00000019017307, y: -0.00000011022881, z: 0.13052952, w: 0.99144447}
-      scale: {x: 1.0000113, y: 0.9999967, z: 0.99999213}
+      position: {x: -0.025505662, y: 0.0031556454, z: 0}
+      rotation: {x: 0.0000002519398, y: -0.00000008706732, z: 0.13052948, w: 0.99144447}
+      scale: {x: 1.0000111, y: 0.9999964, z: 0.999992}
       transformModified: 1
     - name: StealthCharRThumb0
-      position: {x: -0.018339578, y: -0.011065797, z: -0.02877099}
-      rotation: {x: 0.23561636, y: -0.3515742, z: 0.21728961, w: 0.8795827}
-      scale: {x: 0.9999972, y: 0.999997, z: 1.000006}
+      position: {x: -0.018339578, y: -0.0110657, z: -0.028771088}
+      rotation: {x: 0.27785042, y: -0.4149722, z: 0.11522366, w: 0.8586739}
+      scale: {x: 0.9999971, y: 0.99999696, z: 1.000006}
       transformModified: 1
     - name: StealthCharRThumb1
-      position: {x: -0.046143115, y: 0.00000009689331, z: 0}
-      rotation: {x: -0.0000000047834927, y: 0.038595047, z: -0.0000017584398, w: 0.99925494}
-      scale: {x: 0.99999213, y: 0.9999984, z: 1.0000098}
+      position: {x: -0.046143137, y: 0, z: -0.000000048446655}
+      rotation: {x: 0.000000074505806, y: 0.038594007, z: -0.0000017881393, w: 0.99925506}
+      scale: {x: 0.99999213, y: 0.9999982, z: 1.0000097}
       transformModified: 1
     - name: StealthCharRThumb2
-      position: {x: -0.025840089, y: -0.00000009689331, z: -0.000000048446655}
-      rotation: {x: 0.00000027410795, y: 0.13052379, z: -0.00000014129363, w: 0.9914452}
+      position: {x: -0.025840137, y: 0, z: 0}
+      rotation: {x: 0.00000019279291, y: 0.13052371, z: 0.000000019707668, w: 0.9914452}
       scale: {x: 1.0000082, y: 0.99999833, z: 0.9999933}
       transformModified: 1
     - name: StealthCharRLegPlatform
-      position: {x: 0.3625552, y: -1.3829955e-14, z: 0.05482583}
-      rotation: {x: 0.5, y: -0.5, z: -0.50000006, w: 0.50000006}
+      position: {x: 0.12717909, y: -1.3829955e-14, z: 0.05482583}
+      rotation: {x: 0.5, y: -0.5, z: -0.5, w: 0.5}
       scale: {x: 1, y: 1, z: 1}
       transformModified: 1
     armTwist: 0.5
