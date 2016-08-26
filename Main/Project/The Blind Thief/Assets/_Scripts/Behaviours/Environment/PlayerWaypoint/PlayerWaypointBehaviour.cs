@@ -5,26 +5,24 @@ public class PlayerWaypointBehaviour : AnimationController
 {
     private Vector3 targetPosition;
 
-    [SerializeField] private GameObject[] sprites;
-
     void Start()
     {
         PlayerMovementBehaviour.HasFoundLegitPath += MoveToTargetPosition;
+        PlayerMovementBehaviour.HasReachedDestination += TurnOffAnimation;
+
     }
 
     void MoveToTargetPosition()
     {
         targetPosition = InputController.Instance.TargetPosition;
 
-        transform.position = new Vector3(targetPosition.x,targetPosition.y,-5);
+        transform.position = new Vector3(targetPosition.x, targetPosition.y, -5);
 
         InitiateAnimation();
     }
 
     void InitiateAnimation()
-    {
-        StartCoroutine(WaitToTurnOnGameObjects());
-
+    {        
         if (!PlayerMovementBehaviour.Instance.IsSprinting)
         {
             TurnOnAnimation("isSneaking");
@@ -34,29 +32,12 @@ public class PlayerWaypointBehaviour : AnimationController
         {
             TurnOnAnimation("isSprinting");
         }
-
-        StartCoroutine(TurnOffWaypoint());
     }
 
-    IEnumerator WaitToTurnOnGameObjects()
+    void TurnOffAnimation()
     {
-        yield return new WaitForSeconds(0.1f);
-
-        for (int i = 0; i <sprites.Length; i++)
-        {
-            sprites[i].SetActive(true);
-        }
-    }
-
-    IEnumerator TurnOffWaypoint()
-    {
-        yield return new WaitForSeconds(0.6f);
-
-        for (int i = 0; i < sprites.Length; i++)
-        {
-            sprites[i].SetActive(false);
-        }
-
         TurnOnAnimation("isIdle");
     }
+
+  
 }

@@ -12,7 +12,7 @@ PlayerSettings:
   accelerometerFrequency: 60
   companyName: Twelve Axes
   productName: The Blind Thief
-  defaultCursor: {fileID: 2800000, guid: b2bf3818eb8c9c8428713585803ba308, type: 3}
+  defaultCursor: {fileID: 2800000, guid: f4602de084c9ca34f8fb92009ef94203, type: 3}
   cursorHotspot: {x: 0, y: 0}
   m_SplashScreenStyle: 0
   m_ShowUnitySplashScreen: 1

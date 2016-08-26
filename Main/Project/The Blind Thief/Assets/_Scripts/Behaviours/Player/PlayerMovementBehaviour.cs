@@ -39,6 +39,7 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     [SerializeField] private AudioClip legitPathSFX;
 
     public static event Action HasFoundLegitPath;
+    public static event Action HasReachedDestination;
 
     private bool isDead;
 
@@ -50,22 +51,31 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     private RotatingPlatformBehaviour rpbScript;
     private MovingPlatformBehaviour mpbScript;
 
+    private bool isPlayerSetup; //Determines if player has got all components;
+
 	// Use this for initialization
 	void Start ()
 	{
-	    GetComponents();
+	    StartCoroutine(GetComponents());
 
 	    GetNodeList();
 
         SubscribeToEvents();
 	}
 
-    void GetComponents()
+    IEnumerator GetComponents()
     {
-        animController = PlayerSetupBehaviour.Instance.ActiveMesh.GetComponent<PlayerAnimationController>();
-        mesh = PlayerSetupBehaviour.Instance.ActiveMesh.transform;
+        while (PlayerSetupBehaviour.Instance.ActiveMesh == null)
+            yield return new WaitForEndOfFrame();
 
-        rb = GetComponent<Rigidbody>();       
+
+        rb = GetComponent<Rigidbody>();
+
+        mesh = PlayerSetupBehaviour.Instance.ActiveMesh.transform;
+        animController = PlayerSetupBehaviour.Instance.ActiveMesh.GetComponent<PlayerAnimationController>();
+
+        isPlayerSetup = true;
+        
     }
 
     void SubscribeToEvents()
@@ -193,31 +203,37 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     // Update is called once per frame
     void Update()
-    {
-        if (!isDead)
+    { 
+        if(isPlayerSetup)
         {
-            if (isMovingOnPlatform)
-                return;
-
-            //Check Sqr Mag
-            float sqrMag = (targetPosition - transform.position).sqrMagnitude;
-
-            if (sqrMag > lastSqrMag)
+            if (!isDead)
             {
-                TurnOffMovement();                    
+                if (isMovingOnPlatform)
+                    return;
+
+                //Check Sqr Mag
+                float sqrMag = (targetPosition - transform.position).sqrMagnitude;
+
+                if (sqrMag > lastSqrMag)
+                {
+                    TurnOffMovement();
+                }
+
+
+                lastSqrMag = sqrMag;
             }
-
-
-            lastSqrMag = sqrMag;
-        }       
+        }
     }   
 
     void FixedUpdate()
     {
-        if (isMovingOnPlatform)
-            return;
+        if(isPlayerSetup)
+        {
+            if (isMovingOnPlatform)
+                return;
 
-        rb.velocity = desiredVelocity;
+            rb.velocity = desiredVelocity;
+        }
     }
 
     /// <summary>
@@ -238,6 +254,9 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     void TurnOffMovement()
     {
+        if (HasReachedDestination != null)
+            HasReachedDestination();
+
         desiredVelocity = Vector3.zero;
         animController.TurnOnAnimation("isIdle");
         isAlreadyMoving = false;

@@ -40,23 +40,24 @@ public class PlayerSoundWaveController : MonoBehaviour
         }
     }
 
+    //TODO: Remove Animation Events
     void TriggerSoundWave()
     {
-        bool isSneaking;
+        //bool isSneaking;
 
-        if (playerAnim.GetBool("isWalking"))
-            isSneaking = true;
-        else isSneaking = false;     
+        //if (playerAnim.GetBool("isWalking"))
+        //    isSneaking = true;
+        //else isSneaking = false;     
 
-        for(int i = 0; i < soundWaves.Count; i++)
-        {
-            if (!soundWaves[i].activeInHierarchy)
-            {
-                soundWaves[i].transform.position = spawnPoint.transform.position;
-                soundWaves[i].SetActive(true);
-                soundWaves[i].GetComponent<PlayerSoundWaveBehaviour>().InitiateSoundWave(isSneaking);
-                break;
-            }
-        }
+        //for(int i = 0; i < soundWaves.Count; i++)
+        //{
+        //    if (!soundWaves[i].activeInHierarchy)
+        //    {
+        //        soundWaves[i].transform.position = spawnPoint.transform.position;
+        //        soundWaves[i].SetActive(true);
+        //        soundWaves[i].GetComponent<PlayerSoundWaveBehaviour>().InitiateSoundWave(isSneaking);
+        //        break;
+        //    }
+        //}
     }
 }

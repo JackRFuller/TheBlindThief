@@ -34,6 +34,7 @@ public class PlayerSetupBehaviour : Singleton<PlayerSetupBehaviour>
 
             activeMesh = femaleMesh;
         }
+
         if(characterGender == 1)
         {
             femaleMesh.SetActive(false);
@@ -41,7 +42,5 @@ public class PlayerSetupBehaviour : Singleton<PlayerSetupBehaviour>
 
             activeMesh = maleMesh;
         }
-
-        
     }
 }
