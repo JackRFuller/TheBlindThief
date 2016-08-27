@@ -24,7 +24,7 @@ GameObject:
   - 64: {fileID: 64000013438861846}
   - 54: {fileID: 54000014064660446}
   - 114: {fileID: 114000012067393016}
-  m_Layer: 0
+  m_Layer: 2
   m_Name: EnemyDetectionWave
   m_TagString: Untagged
   m_Icon: {fileID: 0}

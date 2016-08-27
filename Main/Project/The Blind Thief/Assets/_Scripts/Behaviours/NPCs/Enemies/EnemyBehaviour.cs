@@ -4,16 +4,13 @@ using System.Collections.Generic;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    public EnemyAttackType enemyAttackType;
+
     private EnemyState enemyState;
     public EnemyState currentEnemyState
     {
         get { return enemyState; }
-    }
-    public enum EnemyState
-    {
-        stalking,
-        aggro,
-    }
+    }   
 
     [Header("Detection Waves")]
     [SerializeField] private GameObject enemyDetectionWaves;
@@ -29,10 +26,39 @@ public class EnemyBehaviour : MonoBehaviour
     [SerializeField] private int numberToSpawn;
     private List<GameObject> soundWaves;
 
+    [Header("Projectiles")]
+    [SerializeField] private GameObject enemyProjectile;
+    [SerializeField] private int numberOfProjectilesToSpawn;
+    private List<GameObject> projectiles;
+    [SerializeField] private float projectileMovementSpeed;
+    [SerializeField] private float projectileMaxDistance; // Determines how far a projectile can travel
+
+    //Enums
+    public enum EnemyState
+    {
+        stalking,
+        aggro,
+    }
+
+    public enum EnemyAttackType
+    {
+        Projectile,
+        AreaOfEffect,
+    }
+
     void Start()
     {
         SpawnInDetectionWaves();
-        SpawnInSoundWaves();
+        switch(enemyAttackType)
+        {
+            case (EnemyAttackType.AreaOfEffect):
+                SpawnInSoundWaves();
+                break;
+            case (EnemyAttackType.Projectile):
+                SpawnInProjectiles();
+                break;
+        }
+       
     }  
     
     void SpawnInDetectionWaves()
@@ -49,9 +75,46 @@ public class EnemyBehaviour : MonoBehaviour
             edwbScript.WaveGrowthSpeed = detectionWaveGrowthSpeed;
             edwbScript.OriginalParent = this.transform;
 
+            detectionWave.transform.parent = this.transform;
+
             detectionWaves.Add(detectionWave);
            
             detectionWave.SetActive(false);
+        }
+    }
+
+    void SpawnInProjectiles()
+    {
+        projectiles = new List<GameObject>();
+
+        for (int i = 0; i < numberOfProjectilesToSpawn; i++)
+        {
+            GameObject projectile = (GameObject)Instantiate(enemyProjectile);
+
+            //Set Projectile Values
+            EnemyProjectileBehaviour epbScript = projectile.GetComponent<EnemyProjectileBehaviour>();
+            epbScript.ProjectileSpeed = projectileMovementSpeed;
+            epbScript.MaxProjectileDistance = projectileMaxDistance;
+            epbScript.OriginalParent = this.transform;
+
+            projectile.transform.parent = this.transform;
+            projectile.transform.localPosition = Vector3.zero;
+
+            projectiles.Add(projectile);
+            projectile.SetActive(false);
+        }
+    }
+
+    void SpawnInSoundWaves()
+    {
+        soundWaves = new List<GameObject>();
+
+        for (int i = 0; i < numberToSpawn; i++)
+        {
+            GameObject _enemySoundWave = (GameObject)Instantiate(enemySoundWave);
+            soundWaves.Add(_enemySoundWave);
+            _enemySoundWave.transform.parent = this.transform;
+            _enemySoundWave.SetActive(false);
         }
     }
 
@@ -82,35 +145,43 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    void SpawnInSoundWaves()
-    {
-        soundWaves = new List<GameObject>();
-
-        for(int i = 0; i < numberToSpawn; i++)
-        {
-            GameObject _enemySoundWave = (GameObject)Instantiate(enemySoundWave);
-            soundWaves.Add(_enemySoundWave);
-            _enemySoundWave.transform.parent = this.transform;
-            _enemySoundWave.SetActive(false);
-        }
-    }
-
     /// <summary>
     /// Trigger by Send Message from Sound Wave Behaviour
     /// </summary>
-	void HitBySoundWave()
+	void HitBySoundWave(Transform playerPosition)
     {
-        Debug.Log("Hit by Soundwave");
         if(enemyState == EnemyState.stalking)
         {
-            InitiateCombat();
+            switch (enemyAttackType)
+            {
+                case (EnemyAttackType.AreaOfEffect):
+                    SendOutSoundWave();
+                    break;
+                case (EnemyAttackType.Projectile):
+                    SendOutProjectile(playerPosition);
+                    break;
+            }
+        }
+    }
+
+    void SendOutProjectile(Transform playerPos)
+    {
+        for (int i = 0; i < projectiles.Count; i++)
+        {
+            if(!projectiles[i].activeInHierarchy)
+            {
+                EnemyProjectileBehaviour projectileScript = projectiles[i].GetComponent<EnemyProjectileBehaviour>();
+                projectileScript.PlayerPosition = playerPos.position;
+                projectiles[i].SetActive(true);
+                break;
+            }
         }
     }
     
     /// <summary>
     /// Looks for sound wave to spawn in
     /// </summary>
-    void InitiateCombat()
+    void SendOutSoundWave()
     {
         enemyState = EnemyState.aggro;
 

@@ -74,7 +74,7 @@ public class EnemyDetectionWaveBehaviour : MonoBehaviour
         if(other.tag.Equals("Player"))
         {
             Debug.Log("Detected Player");
-            originalParent.SendMessage("HitBySoundWave", SendMessageOptions.DontRequireReceiver);
+            originalParent.SendMessage("HitBySoundWave",other.transform, SendMessageOptions.DontRequireReceiver);
         }
     }
 }

@@ -4790,6 +4790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c0118ed00e1c12478071bd135fcb54b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyAttackType: 0
   enemyDetectionWaves: {fileID: 1000014258702282, guid: fa4357e3c8e14144c8a0570bc5405187,
     type: 2}
   numberOfDetectionWavesToSpawn: 5
@@ -4799,6 +4800,11 @@ MonoBehaviour:
   enemySoundWave: {fileID: 1000012782619062, guid: 53a2c8a6dd354224fbefd7c93379b0ab,
     type: 2}
   numberToSpawn: 5
+  enemyProjectile: {fileID: 1000010148964594, guid: ab961e61e4a950d4a92c6596407d6856,
+    type: 2}
+  numberOfProjectilesToSpawn: 5
+  projectileMovementSpeed: 250
+  projectileMaxDistance: 20
 --- !u!114 &313109040
 MonoBehaviour:
   m_ObjectHideFlags: 0
