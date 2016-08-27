@@ -15,6 +15,15 @@ public class EnemyBehaviour : MonoBehaviour
         aggro,
     }
 
+    [Header("Detection Waves")]
+    [SerializeField] private GameObject enemyDetectionWaves;
+    [SerializeField] private int numberOfDetectionWavesToSpawn;
+    private List<GameObject> detectionWaves;
+    [SerializeField] private float detectionWaveMaxSize;
+    [SerializeField] private float detectionWaveGrowthSpeed;
+    [SerializeField] private float detectionWaveFrequency; //How many seconds between each wave
+    private float detectionWaveTimer;    
+
     [Header("Sound Waves")]
     [SerializeField] private GameObject enemySoundWave;
     [SerializeField] private int numberToSpawn;
@@ -22,8 +31,56 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Start()
     {
+        SpawnInDetectionWaves();
         SpawnInSoundWaves();
-    }   
+    }  
+    
+    void SpawnInDetectionWaves()
+    {
+        detectionWaves = new List<GameObject>();
+
+        for(int i = 0; i < numberOfDetectionWavesToSpawn; i++)
+        {
+            GameObject detectionWave = (GameObject)Instantiate(enemyDetectionWaves);
+
+            //Set Detection Wave Values
+            EnemyDetectionWaveBehaviour edwbScript = detectionWave.GetComponent<EnemyDetectionWaveBehaviour>();
+            edwbScript.MaxWaveSize = detectionWaveMaxSize;
+            edwbScript.WaveGrowthSpeed = detectionWaveGrowthSpeed;
+            edwbScript.OriginalParent = this.transform;
+
+            detectionWaves.Add(detectionWave);
+           
+            detectionWave.SetActive(false);
+        }
+    }
+
+    void Update()
+    {
+        DetectionWaveTimer();
+    }
+
+    void DetectionWaveTimer()
+    {
+        detectionWaveTimer += Time.smoothDeltaTime;
+        if(detectionWaveTimer >= detectionWaveFrequency)
+        {
+            SendOutDetectionWave();
+            detectionWaveTimer = 0;
+        }
+    }
+
+    void SendOutDetectionWave()
+    {
+        for(int i = 0; i < detectionWaves.Count; i++)
+        {
+            if(!detectionWaves[i].activeInHierarchy)
+            {
+                detectionWaves[i].SetActive(true);
+                break;
+            }
+        }
+    }
 
     void SpawnInSoundWaves()
     {
