@@ -29,6 +29,7 @@ public class EnemyBehaviour : MonoBehaviour
     [Header("Projectiles")]
     [SerializeField] private GameObject enemyProjectile;
     [SerializeField] private int numberOfProjectilesToSpawn;
+    [SerializeField] private Transform projectileSpawnPoint;
     private List<GameObject> projectiles;
     [SerializeField] private float projectileMovementSpeed;
     [SerializeField] private float projectileMaxDistance; // Determines how far a projectile can travel
@@ -95,9 +96,9 @@ public class EnemyBehaviour : MonoBehaviour
             EnemyProjectileBehaviour epbScript = projectile.GetComponent<EnemyProjectileBehaviour>();
             epbScript.ProjectileSpeed = projectileMovementSpeed;
             epbScript.MaxProjectileDistance = projectileMaxDistance;
-            epbScript.OriginalParent = this.transform;
+            epbScript.OriginalParent = projectileSpawnPoint;
 
-            projectile.transform.parent = this.transform;
+            projectile.transform.parent = projectileSpawnPoint;
             projectile.transform.localPosition = Vector3.zero;
 
             projectiles.Add(projectile);

@@ -70,6 +70,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbb85c8d21c8e1d4c88cc755399d6b4a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  particleSystem: {fileID: 198000012139097664}
+  spriteRenderer: {fileID: 0}
 --- !u!135 &135000012422565674
 SphereCollider:
   m_ObjectHideFlags: 1

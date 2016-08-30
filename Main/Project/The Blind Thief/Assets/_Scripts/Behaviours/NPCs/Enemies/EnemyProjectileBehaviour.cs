@@ -17,7 +17,18 @@ public class EnemyProjectileBehaviour : MonoBehaviour
     private Transform originalParent;
     public Transform OriginalParent { get { return originalParent; } set { originalParent = value; } }
 
-    private bool isMoving; 
+    [Header("Particle System")]
+    [SerializeField] private ParticleSystem particleSystem;
+
+    [Header("Sound Wave")]
+    [SerializeField] private SpriteRenderer spriteRenderer;
+    private float maxSoundWaveSize;
+    public float MaxSoundWaveSize { get { return maxSoundWaveSize; } set { maxSoundWaveSize = value; } }
+    private float soundWaveGrowthSpeed;
+    public float SoundWaveGrowthSpeed { get { return soundWaveGrowthSpeed; } set { soundWaveGrowthSpeed = value; } } 
+
+    private bool isMoving;
+    private bool isExploding;
 
     void Start()
     {
@@ -36,6 +47,9 @@ public class EnemyProjectileBehaviour : MonoBehaviour
 
     void InitiateProjectile()
     {
+        //spriteRenderer.enabled = false;
+        particleSystem.Play();
+
         originalPosition = transform.position;
         targetDirection = playerPosition - originalPosition;
 
@@ -46,6 +60,9 @@ public class EnemyProjectileBehaviour : MonoBehaviour
     {
         if (isMoving)
             MoveProjectile();
+
+        if (isExploding)
+            ExplodeProjectile();
     }
 
     void MoveProjectile()
@@ -57,6 +74,20 @@ public class EnemyProjectileBehaviour : MonoBehaviour
         {
             ResetProjectile();
         }
+    }
+
+    void ExplodeProjectile()
+    {
+     
+    }
+
+    //Used to Control the Explosion
+    void InitiateExplosion()
+    {
+        spriteRenderer.enabled = true;
+        rb.velocity = Vector3.zero;
+        isMoving = false;
+        particleSystem.Stop();
     }
 
     void ResetProjectile()
