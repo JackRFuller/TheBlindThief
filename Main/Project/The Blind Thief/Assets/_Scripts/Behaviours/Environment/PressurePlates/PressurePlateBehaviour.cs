@@ -23,13 +23,7 @@ public class PressurePlateBehaviour : AnimationController
         audioSource = GetComponent<AudioSource>();
     }
 
-    public void OnTriggerEnter(Collider other)
-    {
-        if (other.tag == "Player")
-        {
-            ActivatePressurePlate();
-        }
-    }
+    
 
     void ActivatePressurePlate()
     {
@@ -43,5 +37,13 @@ public class PressurePlateBehaviour : AnimationController
     void PlayAudio()
     {
         audioSource.Play();
+    }
+
+    public void OnTriggerEnter(Collider other)
+    {
+        if (other.tag.Equals("Player") || other.tag.Equals("Enemy"))
+        {
+            ActivatePressurePlate();
+        }
     }
 }

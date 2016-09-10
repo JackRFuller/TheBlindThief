@@ -4,7 +4,14 @@ using System.Collections.Generic;
 
 public class FieldOfView : MonoBehaviour {
 
-	public float viewRadius;
+    [Header("Field of Detection Attributes")]
+    [SerializeField]
+    private float maxViewRadius;
+    public float MaxViewRadius { get { return maxViewRadius; } }
+    [SerializeField]
+    private float fodGrowthSpeed;
+
+	private float viewRadius;
     [Range(0,360)]
     public float viewAngle;
 
@@ -13,6 +20,7 @@ public class FieldOfView : MonoBehaviour {
 
     public List<Transform> visibleTargets = new List<Transform>();
 
+    [Header("FOD Aesthetic Attributes")]
     public float meshResolution;
     public int edgeResolveIterations;
     public float edgeDistanceThreshold;
@@ -35,6 +43,21 @@ public class FieldOfView : MonoBehaviour {
         {
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
+        }
+    }
+
+    void Update()
+    {
+        SendOutFOV();
+    }
+    
+    void SendOutFOV()
+    {
+        viewRadius += fodGrowthSpeed * Time.deltaTime;
+
+        if(viewRadius >= maxViewRadius)
+        {
+            viewRadius = 0;
         }
     }
 

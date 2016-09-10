@@ -33,32 +33,35 @@ public class InputController : Singleton<InputController>
 
         if (Input.GetMouseButtonDown(0))
         {
-
-            if (!oneClick)
-            {
-                //Single Click
-                oneClick = true;
-                timeForDoubleClick = Time.time;
-                doubleClicked = false;
-            }
-            else
-            {
-                //Double Clicked
-                oneClick = false;
-                doubleClicked = true;
-
-                //Debug.Log("Double Clicked");
-            }
-
-            SendOutRaycastFromMousePosition();
+            DetectDoubleClick();            
         }
-
         if (oneClick)
         {
             if ((Time.time - timeForDoubleClick) > _delay)
             {
                 oneClick = false;
+                SendOutRaycastFromMousePosition();
             }
+        }
+    }
+
+    void DetectDoubleClick()
+    {
+        if (!oneClick)
+        {
+            //Single Click
+            oneClick = true;
+            timeForDoubleClick = Time.time;
+            doubleClicked = false;
+        }
+        else
+        {
+            //Double Clicked
+            oneClick = false;
+            doubleClicked = true;
+
+            SendOutRaycastFromMousePosition();
+            //Debug.Log("Double Clicked");
         }
     }
 

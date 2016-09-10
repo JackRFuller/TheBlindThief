@@ -6,7 +6,13 @@ using System.Collections.Generic;
 
 public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 {
+    [SerializeField]
+    private PlayerBreathingController playerBreathingController;
+
     private List<Vector3> nodePositions;
+
+    private PlayerStates.MovementState movementState;
+    public PlayerStates.MovementState MovementState { get { return movementState;} }
 
     //Components
     private Rigidbody rb;
@@ -40,6 +46,8 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     public static event Action HasFoundLegitPath;
     public static event Action HasReachedDestination;
+    public delegate void changeInMovementState();
+    public static changeInMovementState ChangeInMovementState;
 
     private bool isDead;
 
@@ -84,6 +92,9 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
         //When player makes a valid input start movement process
         InputController.PlayerInput += InitiateMovement;
+
+        //Stop Player Moving when Holding Breath
+        playerBreathingController.StartedHoldingBreath += TurnOffMovement;
     }
 
     void GetNodeList()
@@ -157,14 +168,15 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
         if (InputController.Instance.DoubleClicked)
         {
-            _directionalVector = (_targetVector - transform.position).normalized*runSpeed;
-            isSprinting = true;
+            _directionalVector = (_targetVector - transform.position).normalized * runSpeed;
+            movementState = PlayerStates.MovementState.running;
+            ChangeInMovementState();
         }
-
         else
         {
             _directionalVector = (_targetVector - transform.position).normalized * sneakSpeed;
-            isSprinting = false;
+            movementState = PlayerStates.MovementState.sneaking;
+            ChangeInMovementState();
         }          
 
         if (DebugMode)
@@ -260,6 +272,8 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
         desiredVelocity = Vector3.zero;
         animController.TurnOnAnimation("isIdle");
         isAlreadyMoving = false;
+        movementState = PlayerStates.MovementState.idle;
+        ChangeInMovementState();
     }
 
     void HitByEnemy()

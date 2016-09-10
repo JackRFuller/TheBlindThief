@@ -53,8 +53,6 @@ public class WireGeneration : MonoBehaviour
     void ActivateWire()
     {        
         activateWires = true;
-        Debug.Log("Success");
-
     }
 
     void FillWire()

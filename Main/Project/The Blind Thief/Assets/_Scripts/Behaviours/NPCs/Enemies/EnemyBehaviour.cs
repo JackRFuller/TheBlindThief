@@ -49,7 +49,8 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Start()
     {
-        SpawnInDetectionWaves();
+        //SpawnInDetectionWaves();
+
         switch(enemyAttackType)
         {
             case (EnemyAttackType.AreaOfEffect):
@@ -62,27 +63,27 @@ public class EnemyBehaviour : MonoBehaviour
        
     }  
     
-    void SpawnInDetectionWaves()
-    {
-        detectionWaves = new List<GameObject>();
+    //void SpawnInDetectionWaves()
+    //{
+    //    detectionWaves = new List<GameObject>();
 
-        for(int i = 0; i < numberOfDetectionWavesToSpawn; i++)
-        {
-            GameObject detectionWave = (GameObject)Instantiate(enemyDetectionWaves);
+    //    for(int i = 0; i < numberOfDetectionWavesToSpawn; i++)
+    //    {
+    //        GameObject detectionWave = (GameObject)Instantiate(enemyDetectionWaves);
 
-            //Set Detection Wave Values
-            EnemyDetectionWaveBehaviour edwbScript = detectionWave.GetComponent<EnemyDetectionWaveBehaviour>();
-            edwbScript.MaxWaveSize = detectionWaveMaxSize;
-            edwbScript.WaveGrowthSpeed = detectionWaveGrowthSpeed;
-            edwbScript.OriginalParent = this.transform;
+    //        //Set Detection Wave Values
+    //        EnemyDetectionWaveBehaviour edwbScript = detectionWave.GetComponent<EnemyDetectionWaveBehaviour>();
+    //        edwbScript.MaxWaveSize = detectionWaveMaxSize;
+    //        edwbScript.WaveGrowthSpeed = detectionWaveGrowthSpeed;
+    //        edwbScript.OriginalParent = this.transform;
 
-            detectionWave.transform.parent = this.transform;
+    //        detectionWave.transform.parent = this.transform;
 
-            detectionWaves.Add(detectionWave);
+    //        detectionWaves.Add(detectionWave);
            
-            detectionWave.SetActive(false);
-        }
-    }
+    //        detectionWave.SetActive(false);
+    //    }
+    //}
 
     void SpawnInProjectiles()
     {
@@ -119,10 +120,10 @@ public class EnemyBehaviour : MonoBehaviour
         }
     }
 
-    void Update()
-    {
-        DetectionWaveTimer();
-    }
+    //void Update()
+    //{
+    //    DetectionWaveTimer();
+    //}
 
     void DetectionWaveTimer()
     {

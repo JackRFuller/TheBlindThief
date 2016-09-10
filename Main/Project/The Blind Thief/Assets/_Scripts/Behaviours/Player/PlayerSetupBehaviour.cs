@@ -24,7 +24,6 @@ public class PlayerSetupBehaviour : Singleton<PlayerSetupBehaviour>
 	void DetermineGender()
     {
         int characterGender = GameController.Instance.ChatacterGender;
-        Debug.Log(characterGender);
 
         //Is Female
         if(characterGender == 0)

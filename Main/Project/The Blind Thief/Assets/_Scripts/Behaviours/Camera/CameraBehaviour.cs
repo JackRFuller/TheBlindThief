@@ -39,9 +39,7 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private float verticalOffset;
     [SerializeField] private Vector2 playerFocusAreaSize;
     [SerializeField] private bool showPlayerBoundsBox;
-    private PlayerFocusArea playerFocusArea;
-
-    
+    private PlayerFocusArea playerFocusArea;    
 
     void Start()
     {

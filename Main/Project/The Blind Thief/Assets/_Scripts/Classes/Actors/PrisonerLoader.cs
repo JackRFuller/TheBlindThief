@@ -11,10 +11,10 @@ public class PrisonerLoader : MonoBehaviour {
 
         foreach(Prisoner prisoner in pc.prisoner)
         {
-            Debug.Log(prisoner.name);
-            Debug.Log(prisoner.lineOne);
-            Debug.Log(prisoner.lineTwo);
-            Debug.Log(prisoner.lineThree);
+            //Debug.Log(prisoner.name);
+            //Debug.Log(prisoner.lineOne);
+            //Debug.Log(prisoner.lineTwo);
+            //Debug.Log(prisoner.lineThree);
         }
     }
 }
