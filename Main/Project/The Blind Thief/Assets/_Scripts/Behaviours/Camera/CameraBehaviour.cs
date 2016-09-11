@@ -3,6 +3,7 @@ using System.Collections;
 
 public class CameraBehaviour : MonoBehaviour
 {
+    public Transform player;
     public Collider target;
     public Collider cameraCollider;
 
@@ -142,25 +143,36 @@ public class CameraBehaviour : MonoBehaviour
                 {
                     ReturnToPlayerPosition();
                 }
-            }       
+            }
+            else
+            {
+                FollowPlayer();
+            }      
            
         }
     }
 
-    void LateUpdate()
+    void FollowPlayer()
     {
-        playerFocusArea.Update(target.bounds);
-
-        focusPosition = playerFocusArea.centre + Vector2.up * verticalOffset;      
-
-        currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, lookSmoothTimeX);
-
-        focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref smoothVelocityY, verticalSmoothTime);
-        focusPosition += Vector2.right * currentLookAheadX;
-
-        if (!isMovingCamera && !isLerping)
-            transform.position = (Vector3)focusPosition + Vector3.forward * -10;
+        transform.position = new Vector3(player.transform.position.x,
+                                         player.transform.position.y,
+                                         -10);
     }
+
+    //void LateUpdate()
+    //{
+    //    playerFocusArea.Update(target.bounds);
+
+    //    focusPosition = playerFocusArea.centre + Vector2.up * verticalOffset;      
+
+    //    currentLookAheadX = Mathf.SmoothDamp(currentLookAheadX, targetLookAheadX, ref smoothLookVelocityX, lookSmoothTimeX);
+
+    //    focusPosition.y = Mathf.SmoothDamp(transform.position.y, focusPosition.y, ref smoothVelocityY, verticalSmoothTime);
+    //    focusPosition += Vector2.right * currentLookAheadX;
+
+    //    if (!isMovingCamera && !isLerping)
+    //        transform.position = (Vector3)focusPosition + Vector3.forward * -10;
+    //}
 
     void OnDrawGizmos()
     {

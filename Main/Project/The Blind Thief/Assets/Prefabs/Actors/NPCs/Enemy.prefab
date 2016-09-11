@@ -21,6 +21,7 @@ GameObject:
   - 4: {fileID: 4000011067330570}
   - 65: {fileID: 65000012279510408}
   - 54: {fileID: 54000010994405476}
+  - 82: {fileID: 82000012436577840}
   - 114: {fileID: 114000012297046046}
   - 114: {fileID: 114000013177857614}
   m_Layer: 0
@@ -1523,6 +1524,80 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 2, z: 1}
   m_Center: {x: 0, y: 1, z: 0}
+--- !u!82 &82000012436577840
+AudioSource:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1000010075878872}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 8300000, guid: 600b8434b83fa604c960c2106af7b5af, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    - time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 0
 --- !u!95 &95000010393058544
 Animator:
   serializedVersion: 3
@@ -1546,13 +1621,14 @@ MonoBehaviour:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1000012633204090}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d6fc9753eb8a3d040b085d2e793aa056, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewRadius: 5.51
-  viewAngle: 180
+  maxViewRadius: 7.39
+  fodGrowthSpeed: 2
+  viewAngle: 360
   targetMask:
     serializedVersion: 2
     m_Bits: 512
@@ -1591,6 +1667,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: afe51ac0f35df2b4d8dc235eeb2dfdb6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  enemyBehaviour: {fileID: 114000013177857614}
+  fieldOfView: {fileID: 114000012015792608}
   enemyAnim: {fileID: 114000013810880886}
   enemyMesh: {fileID: 4000012615016792}
   characterCollider: {fileID: 65000012279510408}
@@ -1607,22 +1685,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1c0118ed00e1c12478071bd135fcb54b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyAttackType: 0
-  enemyDetectionWaves: {fileID: 1000014258702282, guid: fa4357e3c8e14144c8a0570bc5405187,
-    type: 2}
-  numberOfDetectionWavesToSpawn: 5
-  detectionWaveMaxSize: 10
-  detectionWaveGrowthSpeed: 5
-  detectionWaveFrequency: 1
-  enemySoundWave: {fileID: 1000012782619062, guid: 53a2c8a6dd354224fbefd7c93379b0ab,
-    type: 2}
-  numberToSpawn: 5
+  enemyAnimation: {fileID: 114000013810880886}
+  audioSource: {fileID: 82000012436577840}
+  enemyAttackType: 1
   enemyProjectile: {fileID: 1000010148964594, guid: ab961e61e4a950d4a92c6596407d6856,
     type: 2}
   numberOfProjectilesToSpawn: 5
   projectileSpawnPoint: {fileID: 4000012323409764}
   projectileMovementSpeed: 250
   projectileMaxDistance: 20
+  fov: {fileID: 114000012015792608}
 --- !u!114 &114000013810880886
 MonoBehaviour:
   m_ObjectHideFlags: 1

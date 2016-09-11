@@ -22,10 +22,7 @@ public class RotatingPlatformBehaviour : PlatformBehaviour
     public delegate void startedRotating();
     public startedRotating StartedRotating;
     public delegate void endedRotating();
-    public endedRotating EndedRotating;
-
-    
-    
+    public endedRotating EndedRotating;  
 
     public override void ActivateSwitchBehaviour(Transform _enabler)
     {

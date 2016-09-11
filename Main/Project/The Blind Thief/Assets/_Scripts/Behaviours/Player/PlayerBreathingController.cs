@@ -14,9 +14,7 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
     [SerializeField]
     private float maxIdleBreathingRingSize;
     [SerializeField]
-    private float idleBreathingRingSpeed;
-    [SerializeField]
-    private AnimationCurve idleBreathingRingCurve;
+    private float idleBreathingRingSpeed;    
 
     [Header("Sneaking Settings")]
     [SerializeField]
@@ -25,18 +23,14 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
     private float maxSneakingBreathingRingSize;
     [SerializeField]
     private float sneakingBreathingRingSpeed;
-    [SerializeField]
-    private AnimationCurve sneakingBreathingRingCurve;
-
+  
     [Header("Running Settings")]
     [SerializeField]
     private float minRunningBreathingRingSize;
     [SerializeField]
     private float maxRunningBreathingRingSize;
     [SerializeField]
-    private float runningBreathingRingSpeed;
-    [SerializeField]
-    private AnimationCurve runningBreathingRingCurve;
+    private float runningBreathingRingSpeed;   
 
     [Header("Breathing In Settings")]
     [SerializeField]
@@ -97,17 +91,29 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
     public delegate void releasingBreath();
     public releasingBreath ReleasingBreath;
 
+    public delegate void runningOutOfBreath();
+    public runningOutOfBreath RunningOutOfBreath;
+
+    private BreathingState breathingState; 
+    private enum BreathingState
+    {
+        In,
+        Out,
+    }
+
 
     void Start()
     {
         SubscribeToPlayerMovement();
         ChangeBreathingState();
-        InitialiseBreathingRing();        
+        InitialiseBreathingRing();
+                
     }
 
     void SubscribeToPlayerMovement()
     {
         PlayerMovementBehaviour.ChangeInMovementState += ChangePlayerMovementState;
+        PlayerMovementBehaviour.HasDied += StopBreathingDueToDeath;
     }
 
     /// <summary>
@@ -116,26 +122,30 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
     void ChangePlayerMovementState()
     {
         movementState = PlayerMovementBehaviour.Instance.MovementState;
+        breathingState = BreathingState.Out;
         ChangeBreathingState();
         SwitchBreathingTargets();      
     }
 
-    void InitialiseBreathingRing()
-    {
-        breathingRingTransform.localScale = Vector3.zero;        
-    }
+    
 
     void SwitchBreathingTargets()
     {
         minRingSize = breathingRingTransform.localScale;
 
+        if (isDebugMode)
+            Debug.Log("Breathing Counter: " + breathingCounter);
+
+
         if (breathingCounter == 0)
         {
             maxRingSize = targetRingSize;
+            breathingState = BreathingState.Out;
         }
         else
         {
             maxRingSize = startingRingSize;
+            breathingState = BreathingState.In;
         }
 
         if(isDebugMode)
@@ -161,6 +171,50 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
 
         if (isGasping)
             Gasp();
+    }
+
+    void InitialiseBreathingRing()
+    {
+        breathingRingTransform.localScale = Vector3.zero;
+    }
+
+    void InterpolateBreathingRingSize()
+    {
+        float speed = breathingSpeed;
+        speed *= Time.deltaTime;
+
+        if (breathingState == BreathingState.In)
+            speed = -speed;
+
+        Vector3 newVector = new Vector3(breathingRingTransform.localScale.x + speed,
+                                        breathingRingTransform.localScale.y + speed,
+                                        breathingRingTransform.localScale.z + speed);
+
+        breathingRingTransform.localScale = newVector;
+
+        switch(breathingState)
+        {
+            case BreathingState.In:
+                if (breathingRingTransform.localScale.x <= maxRingSize.x)
+                    SwapBreathingStates();
+                break;
+            case BreathingState.Out:
+                if (breathingRingTransform.localScale.x >= maxRingSize.x)
+                    SwapBreathingStates();
+                break;
+        }        
+    }
+
+    void SwapBreathingStates()
+    {
+        breathingCounter++;
+
+        if (breathingCounter > 1)
+            breathingCounter = 0;
+
+        isBreathing = false;
+
+        SwitchBreathingTargets();
     }
 
     void OnMouseDown()
@@ -208,7 +262,10 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
 
         breathingRingTransform.localScale = Vector3.Lerp(breathingRingStartSize, breathingInTargetSize, holdingInBreathCurve.Evaluate(percentageComplete));
 
-       
+        if(percentageComplete >= 0.5f)
+        {
+            RunningOutOfBreath();
+        }
     }
 
     void InitiateGasp()
@@ -264,25 +321,7 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
         isBreathing = true;
     }
 
-    void InterpolateBreathingRingSize()
-    {
-        float timeSinceStarted = Time.time - timeStarted;
-        float percentageComplete = timeSinceStarted / breathingSpeed;
-
-        breathingRingTransform.localScale = Vector3.Lerp(minRingSize, maxRingSize, breathingCurve.Evaluate(percentageComplete));
-
-        if(percentageComplete >= 1.0f)
-        {
-            breathingCounter++;
-
-            if (breathingCounter > 1)
-                breathingCounter = 0;
-
-            isBreathing = false;
-
-            SwitchBreathingTargets();
-        }
-    }
+   
 
     void ChangeBreathingState()
     {
@@ -291,28 +330,30 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
             case PlayerStates.MovementState.idle:
                 startingRingSize = CreateVector(minIdleBreathingRingSize);
                 targetRingSize = CreateVector(maxIdleBreathingRingSize);
-                breathingSpeed = idleBreathingRingSpeed;
-                breathingCurve = idleBreathingRingCurve;
+                breathingSpeed = idleBreathingRingSpeed;                
                 if (isDebugMode)
                     Debug.Log("Idle");
                 break;
             case PlayerStates.MovementState.sneaking:
                 startingRingSize = CreateVector(minSneakingBreathingRingSize);
                 targetRingSize = CreateVector(maxSneakingBreathingRingSize);
-                breathingSpeed = sneakingBreathingRingSpeed;
-                breathingCurve = sneakingBreathingRingCurve;
+                breathingSpeed = sneakingBreathingRingSpeed;                
                 if (isDebugMode)
                     Debug.Log("Sneaking");
                 break;
             case PlayerStates.MovementState.running:
                 startingRingSize = CreateVector(minRunningBreathingRingSize);
                 targetRingSize = CreateVector(maxRunningBreathingRingSize);
-                breathingSpeed = idleBreathingRingSpeed;
-                breathingCurve = idleBreathingRingCurve;
+                breathingSpeed = runningBreathingRingSpeed;               
                 if (isDebugMode)
                     Debug.Log("Running");
                 break;
         }
+    }
+
+    void StopBreathingDueToDeath()
+    {
+        breathingRingTransform.gameObject.SetActive(false);
     }
 
     Vector3 CreateVector(float size)

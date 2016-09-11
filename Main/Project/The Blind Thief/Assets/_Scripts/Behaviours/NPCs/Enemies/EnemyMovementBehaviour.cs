@@ -5,6 +5,9 @@ using System.Collections.Generic;
 [RequireComponent(typeof(Rigidbody))]
 public class EnemyMovementBehaviour : MonoBehaviour
 {
+    [SerializeField] private EnemyBehaviour enemyBehaviour;
+    [SerializeField] private FieldOfView fieldOfView;
+
     [Header("Animation")]
     [SerializeField] private EnemyAnimationController enemyAnim;
     [SerializeField] private Transform enemyMesh;
@@ -22,7 +25,7 @@ public class EnemyMovementBehaviour : MonoBehaviour
 
     //Subscribing to Dynamic Platforms
     private MovingPlatformBehaviour mpbScript;
-    private RotatingPlatformBehaviour rpbScript;
+    private RotatePlatformBehaviour rpbScript;
     private string platformName;
     private Transform currentPlatform;
 
@@ -50,6 +53,8 @@ public class EnemyMovementBehaviour : MonoBehaviour
     void SubscribeToEvents()
     {
         PathController.Instance.ReEvaluate += InitiateMovement;
+        enemyBehaviour.Attacking += PlayAttackAnimation;
+        fieldOfView.FinishedFOV += StartMovement;            
     }
 
     void InitiateMovement()
@@ -183,6 +188,13 @@ public class EnemyMovementBehaviour : MonoBehaviour
     {
         if(isMoving)
             rb.velocity = desiredVelocity;
+    }
+
+    void PlayAttackAnimation()
+    {
+        isMoving = false;
+        desiredVelocity = Vector3.zero;
+        rb.velocity = desiredVelocity;        
     }
 
     void EndMovement()
@@ -421,15 +433,15 @@ public class EnemyMovementBehaviour : MonoBehaviour
             {
                 currentPlatform = other.transform.parent.parent;        
                 
-                if(currentPlatform.GetComponent<RotatingPlatformBehaviour>() || currentPlatform.GetComponent<MovingPlatformBehaviour>())
+                if(currentPlatform.GetComponent<RotatePlatformBehaviour>() || currentPlatform.GetComponent<MovingPlatformBehaviour>())
                 {
                     //Check if it's rotating
-                    if (currentPlatform.GetComponent<RotatingPlatformBehaviour>())
+                    if (currentPlatform.GetComponent<RotatePlatformBehaviour>())
                     {
                         //Unsubscribe from previous rotating platform
                         UnSubscribeFromEvents();
 
-                        rpbScript = currentPlatform.GetComponent<RotatingPlatformBehaviour>();
+                        rpbScript = currentPlatform.GetComponent<RotatePlatformBehaviour>();
 
                         rpbScript.EndedRotating += Init;
                         rpbScript.StartedRotating += EndMovement;

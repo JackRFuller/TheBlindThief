@@ -1,30 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityStandardAssets.ImageEffects;
 
 public class EnemyBehaviour : MonoBehaviour
 {
+    [SerializeField] private EnemyAnimationController enemyAnimation;
+    [SerializeField] private AudioSource audioSource;
+
     public EnemyAttackType enemyAttackType;
 
     private EnemyState enemyState;
     public EnemyState currentEnemyState
     {
         get { return enemyState; }
-    }   
-
-    [Header("Detection Waves")]
-    [SerializeField] private GameObject enemyDetectionWaves;
-    [SerializeField] private int numberOfDetectionWavesToSpawn;
-    private List<GameObject> detectionWaves;
-    [SerializeField] private float detectionWaveMaxSize;
-    [SerializeField] private float detectionWaveGrowthSpeed;
-    [SerializeField] private float detectionWaveFrequency; //How many seconds between each wave
-    private float detectionWaveTimer;    
-
-    [Header("Sound Waves")]
-    [SerializeField] private GameObject enemySoundWave;
-    [SerializeField] private int numberToSpawn;
-    private List<GameObject> soundWaves;
+    }             
 
     [Header("Projectiles")]
     [SerializeField] private GameObject enemyProjectile;
@@ -33,6 +23,15 @@ public class EnemyBehaviour : MonoBehaviour
     private List<GameObject> projectiles;
     [SerializeField] private float projectileMovementSpeed;
     [SerializeField] private float projectileMaxDistance; // Determines how far a projectile can travel
+
+    [Header("Sound Wave")]
+    [SerializeField]
+    private FieldOfView fov;
+
+    public delegate void attacking();
+    public attacking Attacking;  
+    
+      
 
     //Enums
     public enum EnemyState
@@ -49,41 +48,21 @@ public class EnemyBehaviour : MonoBehaviour
 
     void Start()
     {
+        SubscribeToEvents();
         //SpawnInDetectionWaves();
 
         switch(enemyAttackType)
-        {
-            case (EnemyAttackType.AreaOfEffect):
-                SpawnInSoundWaves();
-                break;
+        {            
             case (EnemyAttackType.Projectile):
                 SpawnInProjectiles();
                 break;
         }
-       
-    }  
-    
-    //void SpawnInDetectionWaves()
-    //{
-    //    detectionWaves = new List<GameObject>();
+    }    
 
-    //    for(int i = 0; i < numberOfDetectionWavesToSpawn; i++)
-    //    {
-    //        GameObject detectionWave = (GameObject)Instantiate(enemyDetectionWaves);
-
-    //        //Set Detection Wave Values
-    //        EnemyDetectionWaveBehaviour edwbScript = detectionWave.GetComponent<EnemyDetectionWaveBehaviour>();
-    //        edwbScript.MaxWaveSize = detectionWaveMaxSize;
-    //        edwbScript.WaveGrowthSpeed = detectionWaveGrowthSpeed;
-    //        edwbScript.OriginalParent = this.transform;
-
-    //        detectionWave.transform.parent = this.transform;
-
-    //        detectionWaves.Add(detectionWave);
-           
-    //        detectionWave.SetActive(false);
-    //    }
-    //}
+    void SubscribeToEvents()
+    {
+        fov.FinishedFOV += StopAttacking;
+    }
 
     void SpawnInProjectiles()
     {
@@ -106,64 +85,40 @@ public class EnemyBehaviour : MonoBehaviour
             projectile.SetActive(false);
         }
     }
-
-    void SpawnInSoundWaves()
-    {
-        soundWaves = new List<GameObject>();
-
-        for (int i = 0; i < numberToSpawn; i++)
-        {
-            GameObject _enemySoundWave = (GameObject)Instantiate(enemySoundWave);
-            soundWaves.Add(_enemySoundWave);
-            _enemySoundWave.transform.parent = this.transform;
-            _enemySoundWave.SetActive(false);
-        }
-    }
-
-    //void Update()
-    //{
-    //    DetectionWaveTimer();
-    //}
-
-    void DetectionWaveTimer()
-    {
-        detectionWaveTimer += Time.smoothDeltaTime;
-        if(detectionWaveTimer >= detectionWaveFrequency)
-        {
-            SendOutDetectionWave();
-            detectionWaveTimer = 0;
-        }
-    }
-
-    void SendOutDetectionWave()
-    {
-        for(int i = 0; i < detectionWaves.Count; i++)
-        {
-            if(!detectionWaves[i].activeInHierarchy)
-            {
-                detectionWaves[i].SetActive(true);
-                break;
-            }
-        }
-    }
-
+   
     /// <summary>
     /// Trigger by Send Message from Sound Wave Behaviour
     /// </summary>
-	void HitBySoundWave(Transform playerPosition)
+	void HitByMainCharacter(Transform playerPosition)
     {
         if(enemyState == EnemyState.stalking)
         {
             switch (enemyAttackType)
             {
                 case (EnemyAttackType.AreaOfEffect):
-                    SendOutSoundWave();
+                    StartCoroutine(ActivateSoundWave());                 
                     break;
                 case (EnemyAttackType.Projectile):
                     SendOutProjectile(playerPosition);
                     break;
             }
         }
+    }
+
+    IEnumerator ActivateSoundWave()
+    {
+        Attacking();
+        enemyAnimation.TurnOnAnimation("isAttacking");
+        yield return new WaitForSeconds(1.5f);
+        audioSource.Play();
+        fov.enabled = true;
+        CameraEffectsController.Instance.SetEnemySoundWaveToCameraShake();
+    }
+
+    void StopAttacking()
+    {
+        CameraEffectsController.Instance.StopCameraShake(); ;
+        audioSource.Stop();
     }
 
     void SendOutProjectile(Transform playerPos)
@@ -178,24 +133,6 @@ public class EnemyBehaviour : MonoBehaviour
                 break;
             }
         }
-    }
-    
-    /// <summary>
-    /// Looks for sound wave to spawn in
-    /// </summary>
-    void SendOutSoundWave()
-    {
-        enemyState = EnemyState.aggro;
-
-        for(int i = 0; i < soundWaves.Count; i++)
-        {
-            if (!soundWaves[i].activeInHierarchy)
-            {
-                soundWaves[i].SetActive(true);
-                soundWaves[i].transform.position = transform.position;
-                soundWaves[i].GetComponent<EnemySoundWaveBehaviour>().InitiateSoundWave();
-                break;
-            }
-        }
-    }
+    }   
+   
 }

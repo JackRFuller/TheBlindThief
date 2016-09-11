@@ -14,7 +14,9 @@ public class PlatformBehaviour : MonoBehaviour
     private float timeFadeInStarted;
 
     [Header("Audio")]
-    [SerializeField] private AudioSource audioSource;
+    [SerializeField] protected AudioSource audioSource;
+    [SerializeField] private AudioClip platformActivated;
+    [SerializeField] protected AudioClip stopMovement;
 
     public virtual void ActivateSwitchBehaviour(Transform _enablerer)
     {
@@ -24,12 +26,37 @@ public class PlatformBehaviour : MonoBehaviour
     public virtual void ActivatePlatform()
     {
         InitiateFadeIn();
+        audioSource.clip = platformActivated;
         PlayAudio();
     }
 
-    void PlayAudio()
+    protected void PlayAudio()
     {
         audioSource.Play();
+    }
+
+    protected void TurnOffNodeColliders()
+    {
+        foreach (Transform child in transform)
+        {
+            foreach (Transform node in child)
+            {
+                if (node.GetComponent<Collider>())
+                    node.GetComponent<Collider>().enabled = false;
+            }
+        }
+    }
+
+    protected void TurnOnNodeColliders()
+    {
+        foreach (Transform child in transform)
+        {
+            foreach (Transform node in child)
+            {
+                if (node.GetComponent<Collider>())
+                    node.GetComponent<Collider>().enabled = true;
+            }
+        }
     }
 
     void InitiateFadeIn()

@@ -71,6 +71,8 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 
 		timeStartedLerping = Time.time;
 		isMoving = true;
+
+        TurnOffNodeColliders();
 	}
 
 	public override void Update()
@@ -96,7 +98,13 @@ public class MovingPlatformBehaviour : PlatformBehaviour
 
     void EndPlatformMovement()
     {
+        TurnOnNodeColliders();
+         
         isMoving = false;
+
+        audioSource.clip = stopMovement;
+        PlayAudio();
+
         //Trigger Recalculating of the Nodes
         StartCoroutine(PathController.Instance.RegisterMovementOfPlatforms());
 

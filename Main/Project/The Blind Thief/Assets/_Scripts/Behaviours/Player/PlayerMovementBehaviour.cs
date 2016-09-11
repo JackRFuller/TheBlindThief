@@ -56,8 +56,11 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     //Platform Relationship
     private bool isMovingOnPlatform; //Stops Registering Player Input if the Character is on a moving platform
     private Transform currentPlatform;
-    private RotatingPlatformBehaviour rpbScript;
+    private RotatePlatformBehaviour rpbScript;
     private MovingPlatformBehaviour mpbScript;
+
+    public delegate void hasDied();
+    public static hasDied HasDied;
 
     private bool isPlayerSetup; //Determines if player has got all components;
 
@@ -170,12 +173,14 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
         {
             _directionalVector = (_targetVector - transform.position).normalized * runSpeed;
             movementState = PlayerStates.MovementState.running;
+            animController.TurnOnAnimation("isSprinting");
             ChangeInMovementState();
         }
         else
         {
             _directionalVector = (_targetVector - transform.position).normalized * sneakSpeed;
             movementState = PlayerStates.MovementState.sneaking;
+            animController.TurnOnAnimation("isWalking");
             ChangeInMovementState();
         }          
 
@@ -195,22 +200,9 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
         desiredVelocity = _directionalVector;
 
-        if (!isAlreadyMoving)
-        {
-            audioSource.clip = legitPathSFX;
-            audioSource.Play();            
-
-            if (InputController.Instance.DoubleClicked)
-            {
-                animController.TurnOnAnimation("isSprinting");
-            }
-            else
-            {
-                animController.TurnOnAnimation("isWalking");
-            }
-
-            isAlreadyMoving = true;
-        }
+        
+        audioSource.clip = legitPathSFX;
+        audioSource.Play();
     }
 
     // Update is called once per frame
@@ -278,6 +270,9 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     void HitByEnemy()
     {
+        //Trigger Death Delegate
+        HasDied();
+
         desiredVelocity = Vector3.zero;
         isDead = true;
         animController.TurnOnAnimation("isDead");
@@ -623,13 +618,13 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
             {
                 currentPlatform = other.transform.parent.parent;
 
-                if(currentPlatform.GetComponent<RotatingPlatformBehaviour>() || currentPlatform.GetComponent<MovingPlatformBehaviour>())
+                if(currentPlatform.GetComponent<RotatePlatformBehaviour>() || currentPlatform.GetComponent<MovingPlatformBehaviour>())
                 {
-                    if (currentPlatform.GetComponent<RotatingPlatformBehaviour>())
+                    if (currentPlatform.GetComponent<RotatePlatformBehaviour>())
                     {
                         UnSubscribeFromEvents();
 
-                        rpbScript = currentPlatform.GetComponent<RotatingPlatformBehaviour>();
+                        rpbScript = currentPlatform.GetComponent<RotatePlatformBehaviour>();
 
                         rpbScript.EndedRotating += PlatformHasStoppedMoving;
                         rpbScript.StartedRotating += PlayerIsOnMovingPlatfrom;

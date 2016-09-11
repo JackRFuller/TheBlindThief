@@ -27,15 +27,21 @@ public class FieldOfView : MonoBehaviour {
 
     public MeshFilter viewMeshFilter;
     Mesh viewMesh;
-    
-    void Start()
+
+    public delegate void finishedFOV();
+    public finishedFOV FinishedFOV;  
+
+    //Activation variables
+    private bool isActive;
+
+    void OnEnable()
     {
         viewMesh = new Mesh();
         viewMesh.name = "View Mesh";
         viewMeshFilter.mesh = viewMesh;
 
         StartCoroutine(FindTargetsWithDelay(.2f));
-    }
+    }     
 
     IEnumerator FindTargetsWithDelay(float delay)
     {
@@ -44,21 +50,35 @@ public class FieldOfView : MonoBehaviour {
             yield return new WaitForSeconds(delay);
             FindVisibleTargets();
         }
-    }
+    } 
 
     void Update()
-    {
-        SendOutFOV();
-    }
-    
-    void SendOutFOV()
     {
         viewRadius += fodGrowthSpeed * Time.deltaTime;
 
         if(viewRadius >= maxViewRadius)
         {
-            viewRadius = 0;
+            ResetFOV();
         }
+    }
+
+    void ResetFOV()
+    {
+        FinishedFOV();
+
+        //Clear Size
+        viewRadius = 0;
+        isActive = false;
+
+        //Remove Player From Detection List
+        StopAllCoroutines();
+        visibleTargets.Clear();
+
+        //Clear Mesh
+        viewMesh.Clear();
+        viewMesh = null;        
+
+        enabled = false;
     }
 
     void LateUpdate()
@@ -83,6 +103,11 @@ public class FieldOfView : MonoBehaviour {
                 if(!Physics.Raycast(transform.position,dirToTarget,distToTarget, obstacleMask))
                 {
                     visibleTargets.Add(target);
+                    if(target.tag.Equals("PlayerHurtSpot"))
+                    {
+                        target.parent.SendMessage("HitByEnemy", SendMessageOptions.DontRequireReceiver);
+                        ResetFOV();
+                    }
                 }
             }
         }
@@ -143,7 +168,6 @@ public class FieldOfView : MonoBehaviour {
         viewMesh.vertices = vertices;
         viewMesh.triangles = triangles;
         viewMesh.RecalculateNormals();
-
     }
 
     EdgeInfo FindEdge(ViewCastInfo minViewCast, ViewCastInfo maxViewCast)
