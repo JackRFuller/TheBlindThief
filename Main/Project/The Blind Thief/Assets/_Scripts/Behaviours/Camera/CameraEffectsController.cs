@@ -26,6 +26,11 @@ namespace UnityStandardAssets.ImageEffects
 
         private bool hasActivatedCameraShake;
 
+        //CameraZoom
+        private float originalZoom;
+        private float maxZoom;
+        
+
         [Header("Breathing In Effects")]
         [SerializeField]
         private float vignetteStartingValue;
@@ -37,18 +42,24 @@ namespace UnityStandardAssets.ImageEffects
         private float vignetteReleasingBreathSpeed;
         [SerializeField]
         private AnimationCurve vignetteCurve;
-        private float timeStartedHoldingBreath;      
-        
+        private float timeStartedHoldingBreath;
+
+        private VignetteEffect vignette;
+        private float timeStartedVignette;
+        private bool isShowingVignette;
+
         void Awake()
         {
-            if (instance == null)
+            if(instance == null)
+            {
                 instance = this;
+            }
             else
             {
                 Destroy(gameObject);
             }
-        }          
-        
+        }
+                
         void Start()
         {
             SubscribeToEvents();
@@ -65,9 +76,32 @@ namespace UnityStandardAssets.ImageEffects
             //CameraShake
             PlayerBreathingController.Instance.RunningOutOfBreath += SetHoldingBreathToCameraShake;
             PlayerBreathingController.Instance.ReleasingBreath += StopCameraShake;
-            
+        }
 
+        public void IntitateVignetteEffect(VignetteEffect vignetteEffect)
+        {
+            vignette = vignetteEffect;
+            timeStartedVignette = Time.time;
+            isShowingVignette = true;
+        }
 
+        void Update()
+        {
+            if (isShowingVignette)
+                LerpVignette();
+        }
+
+        void LerpVignette()
+        {
+            float timeSinceStarted = Time.time - timeStartedVignette;
+            float percentageComplete = timeSinceStarted / vignette.speed;
+
+            vignetteController.intensity = Mathf.Lerp(vignette.startingValue, vignette.endValue, vignette.movementCurve.Evaluate(percentageComplete));
+
+            if(percentageComplete > 1.0f)
+            {
+                isShowingVignette = false;
+            }
         }
 
         /// <summary>

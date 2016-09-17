@@ -4,8 +4,10 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
+public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IReset
 {
+
+    [Header("Components")]
     [SerializeField]
     private PlayerBreathingController playerBreathingController;
 
@@ -15,15 +17,23 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     public PlayerStates.MovementState MovementState { get { return movementState;} }
 
     //Components
+    [SerializeField]
     private Rigidbody rb;
-    private PlayerAnimationController animController;
-   
-    [SerializeField] private Collider playerCollider;
+    [SerializeField]
+    private PlayerAnimationController animController;   
+    [SerializeField]
+    private Collider playerCollider;
 
     //Mesh
-    private Transform mesh;    
+    [SerializeField]
+    private Transform mesh;
+
+    [Header("Positioning")]
+    [SerializeField]
+    private Transform playerSpawnPosition;
 
     //Movement
+    [Header("Movement")]
     [SerializeField] private float sneakSpeed;
     [SerializeField] private float runSpeed;
     private bool isSprinting;
@@ -44,6 +54,9 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip legitPathSFX;
 
+    [Header("Death Camera Effect")]
+    [SerializeField] private VignetteEffect vignetteEffect;
+
     public static event Action HasFoundLegitPath;
     public static event Action HasReachedDestination;
     public delegate void changeInMovementState();
@@ -62,42 +75,37 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     public delegate void hasDied();
     public static hasDied HasDied;
 
-    private bool isPlayerSetup; //Determines if player has got all components;
+    //Used to communication with camera
+    public delegate void movingOnPlatform();
+    public movingOnPlatform MovingOnPlatform;
+
+    public delegate void stoppedMovingOnPlatform();
+    public stoppedMovingOnPlatform StoppedMovingOnPlatform;
 
 	// Use this for initialization
 	void Start ()
-	{
-	    StartCoroutine(GetComponents());
-
+	{	    
+        PositionPlayer();
 	    GetNodeList();
-
         SubscribeToEvents();
-	}
+	}    
 
-    IEnumerator GetComponents()
+    void PositionPlayer()
     {
-        while (PlayerSetupBehaviour.Instance.ActiveMesh == null)
-            yield return new WaitForEndOfFrame();
-
-
-        rb = GetComponent<Rigidbody>();
-
-        mesh = PlayerSetupBehaviour.Instance.ActiveMesh.transform;
-        animController = PlayerSetupBehaviour.Instance.ActiveMesh.GetComponent<PlayerAnimationController>();
-
-        isPlayerSetup = true;
-        
+        isDead = false;
+        transform.position = playerSpawnPosition.position;
+        mesh.rotation = playerSpawnPosition.rotation;        
     }
 
     void SubscribeToEvents()
     {
         PathController.Instance.ReEvaluate += CheckIfPlayerIsMoving;
-
         //When player makes a valid input start movement process
         InputController.PlayerInput += InitiateMovement;
-
         //Stop Player Moving when Holding Breath
         playerBreathingController.StartedHoldingBreath += TurnOffMovement;
+        //Reset Controller
+        ResetController.ResetLevel += Reset;
     }
 
     void GetNodeList()
@@ -207,37 +215,32 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     // Update is called once per frame
     void Update()
-    { 
-        if(isPlayerSetup)
-        {
-            if (!isDead)
-            {
-                if (isMovingOnPlatform)
-                    return;
-
-                //Check Sqr Mag
-                float sqrMag = (targetPosition - transform.position).sqrMagnitude;
-
-                if (sqrMag > lastSqrMag)
-                {
-                    TurnOffMovement();
-                }
-
-
-                lastSqrMag = sqrMag;
-            }
-        }
-    }   
-
-    void FixedUpdate()
-    {
-        if(isPlayerSetup)
+    {         
+        if (!isDead)
         {
             if (isMovingOnPlatform)
                 return;
 
-            rb.velocity = desiredVelocity;
+            //Check Sqr Mag
+            float sqrMag = (targetPosition - transform.position).sqrMagnitude;
+
+            if (sqrMag > lastSqrMag)
+            {
+                TurnOffMovement();
+            }
+
+
+            lastSqrMag = sqrMag;
         }
+        
+    }   
+
+    void FixedUpdate()
+    {        
+        if (isMovingOnPlatform)
+            return;
+
+        rb.velocity = desiredVelocity;        
     }
 
     /// <summary>
@@ -245,6 +248,7 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
     /// </summary>
     void PlayerIsOnMovingPlatfrom()
     {
+        MovingOnPlatform();
         isMovingOnPlatform = true;
         playerCollider.enabled = false;
         TurnOffMovement();
@@ -252,8 +256,10 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
 
     void PlatformHasStoppedMoving()
     {
+        StoppedMovingOnPlatform();
         isMovingOnPlatform = false;
         playerCollider.enabled = true;
+        Debug.Log("Stopped Moving");
     }
 
     void TurnOffMovement()
@@ -276,7 +282,10 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
         desiredVelocity = Vector3.zero;
         isDead = true;
         animController.TurnOnAnimation("isDead");
-    }
+
+        UnityStandardAssets.ImageEffects.CameraEffectsController.Instance.IntitateVignetteEffect(vignetteEffect);
+        StartCoroutine(LevelUIController.Instance.TriggerDeathScreen(vignetteEffect.speed));
+    }    
 
     bool isThereAVerticalPath()
     {
@@ -659,4 +668,12 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour>
             mpbScript.EndedMoving -= PlatformHasStoppedMoving;
         }
     }
+
+    public void Reset()
+    {
+        TurnOffMovement();
+        PositionPlayer();
+    }
+
+    
 }

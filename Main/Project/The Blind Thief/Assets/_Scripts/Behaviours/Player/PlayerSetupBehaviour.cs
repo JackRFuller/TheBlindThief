@@ -16,7 +16,7 @@ public class PlayerSetupBehaviour : Singleton<PlayerSetupBehaviour>
     {
         DetermineGender();
 	}
-	
+
     /// <summary>
     /// Used to Determine if the CHaracter is Male or Female
     /// Called right at the beginning of the game

@@ -3,8 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 
 [RequireComponent(typeof(Rigidbody))]
-public class EnemyMovementBehaviour : MonoBehaviour
+public class EnemyMovementBehaviour : MonoBehaviour, IReset
 {
+    //Setup
+    private Vector3 spawnPosition;
+    private Quaternion startingMeshRotation;
+
     [SerializeField] private EnemyBehaviour enemyBehaviour;
     [SerializeField] private FieldOfView fieldOfView;
 
@@ -40,21 +44,24 @@ public class EnemyMovementBehaviour : MonoBehaviour
 
     void Start()
     {
-        Init();
-    }
-
-    void Init()
-    {
+        GetStartingPoint();
         SubscribeToEvents();
         GetComponents();
         InitiateMovement();
+    }    
+
+    void GetStartingPoint()
+    {
+        spawnPosition = transform.position;
+        startingMeshRotation = enemyMesh.rotation;
     }
 
     void SubscribeToEvents()
     {
         PathController.Instance.ReEvaluate += InitiateMovement;
         enemyBehaviour.Attacking += PlayAttackAnimation;
-        fieldOfView.FinishedFOV += StartMovement;            
+        fieldOfView.FinishedFOV += StartMovement;
+        ResetController.ResetLevel += Reset;          
     }
 
     void InitiateMovement()
@@ -443,7 +450,7 @@ public class EnemyMovementBehaviour : MonoBehaviour
 
                         rpbScript = currentPlatform.GetComponent<RotatePlatformBehaviour>();
 
-                        rpbScript.EndedRotating += Init;
+                        rpbScript.EndedRotating += InitiateMovement;
                         rpbScript.StartedRotating += EndMovement;
 
                         if (DebugMode)
@@ -458,7 +465,7 @@ public class EnemyMovementBehaviour : MonoBehaviour
                         mpbScript = currentPlatform.GetComponent<MovingPlatformBehaviour>();
 
                         mpbScript.StartedMoving += EndMovement;
-                        mpbScript.EndedMoving += Init;
+                        mpbScript.EndedMoving += InitiateMovement;
 
                         if (DebugMode)
                             Debug.Log("<color=yellow>Got Moving Platform Component</color>");
@@ -477,7 +484,7 @@ public class EnemyMovementBehaviour : MonoBehaviour
         //Rotating Platform
         if (rpbScript != null)
         {
-            rpbScript.EndedRotating -= Init;
+            rpbScript.EndedRotating -= InitiateMovement;
             rpbScript.StartedRotating -= EndMovement;
         }
 
@@ -485,8 +492,16 @@ public class EnemyMovementBehaviour : MonoBehaviour
         if(mpbScript != null)
         {
             mpbScript.StartedMoving -= EndMovement;
-            mpbScript.EndedMoving -= Init;
+            mpbScript.EndedMoving -= InitiateMovement;
         }
+    }
+
+    public void Reset()
+    {
+        EndMovement();
+        transform.position = spawnPosition;
+        enemyMesh.rotation = startingMeshRotation;
+        InitiateMovement();
     }
 
 

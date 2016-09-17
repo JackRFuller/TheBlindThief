@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PlayerBreathingController : Singleton<PlayerBreathingController>
+public class PlayerBreathingController : Singleton<PlayerBreathingController>, IReset
 { 
     [SerializeField]
     private PlayerStates.MovementState movementState;
@@ -104,10 +104,15 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
 
     void Start()
     {
+        SubscribeToReset();
         SubscribeToPlayerMovement();
         ChangeBreathingState();
         InitialiseBreathingRing();
-                
+    }
+
+    void SubscribeToReset()
+    {
+        ResetController.ResetLevel += Reset;
     }
 
     void SubscribeToPlayerMovement()
@@ -127,11 +132,10 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
         SwitchBreathingTargets();      
     }
 
-    
-
     void SwitchBreathingTargets()
     {
-        minRingSize = breathingRingTransform.localScale;
+        if(breathingRingTransform)
+            minRingSize = breathingRingTransform.localScale;
 
         if (isDebugMode)
             Debug.Log("Breathing Counter: " + breathingCounter);
@@ -351,6 +355,11 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
         }
     }
 
+    void TurnOnBreathingRing()
+    {
+        breathingRingTransform.gameObject.SetActive(true);
+    }
+
     void StopBreathingDueToDeath()
     {
         breathingRingTransform.gameObject.SetActive(false);
@@ -360,5 +369,11 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>
     {
         Vector3 newVector = new Vector3(size, size, 1);
         return newVector;
-    }    	
+    }  
+    
+    public void Reset()
+    {
+        InitialiseBreathingRing();
+        TurnOnBreathingRing();
+    }  	
 }

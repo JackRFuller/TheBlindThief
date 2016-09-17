@@ -8,17 +8,18 @@ public class AnimationController : MonoBehaviour
 
     public virtual void TurnOnAnimation(string _targetAnim)
     {
-        for (int i = 0; i < animController.parameters.Length; i++)
-        {
-            if (_targetAnim == animController.parameters[i].name)
+        if(animController)
+            for (int i = 0; i < animController.parameters.Length; i++)
             {
-                animController.SetBool(_targetAnim, true);
+                if (_targetAnim == animController.parameters[i].name)
+                {
+                    animController.SetBool(_targetAnim, true);
+                }
+                else
+                {
+                    string _paraName = animController.parameters[i].name;
+                    animController.SetBool(_paraName, false);
+                }
             }
-            else
-            {
-                string _paraName = animController.parameters[i].name;
-                animController.SetBool(_paraName, false);
-            }
-        }
     }
 }

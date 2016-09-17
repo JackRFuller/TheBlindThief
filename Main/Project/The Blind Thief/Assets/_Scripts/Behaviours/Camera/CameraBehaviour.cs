@@ -40,16 +40,27 @@ public class CameraBehaviour : MonoBehaviour
     [SerializeField] private float verticalOffset;
     [SerializeField] private Vector2 playerFocusAreaSize;
     [SerializeField] private bool showPlayerBoundsBox;
-    private PlayerFocusArea playerFocusArea;    
+    private PlayerFocusArea playerFocusArea;
+
+    private bool followPlayer = true;
+    private bool isPlayerOnMovingPlatform;
 
     void Start()
     {
+
+        SubscribeToEvents();
         
         cameraFocusArea = new CameraFocusArea(cameraCollider.bounds, cameraFocusAreaSize);
         //Vector2 focusPosition = cameraFocusArea.centre;
 
         playerFocusArea = new PlayerFocusArea(target.bounds, playerFocusAreaSize);
         
+    }
+
+    void SubscribeToEvents()
+    {
+        PlayerMovementBehaviour.Instance.MovingOnPlatform += PlayerIsOnMovingPlatform;
+        PlayerMovementBehaviour.Instance.StoppedMovingOnPlatform += InitiateReturnToPlayer;
     }
 
     struct PlayerFocusArea
@@ -140,13 +151,19 @@ public class CameraBehaviour : MonoBehaviour
                     InitiateReturnToPlayer();
                 }
                 else
-                {
-                    ReturnToPlayerPosition();
+                {    
+                   ReturnToPlayerPosition();
                 }
             }
             else
             {
-                FollowPlayer();
+                if(followPlayer)
+                    FollowPlayer();
+                else
+                {
+                    if(isLerping)
+                        ReturnToPlayerPosition();
+                }
             }      
            
         }
@@ -158,6 +175,7 @@ public class CameraBehaviour : MonoBehaviour
                                          player.transform.position.y,
                                          -10);
     }
+    
 
     //void LateUpdate()
     //{
@@ -195,17 +213,16 @@ public class CameraBehaviour : MonoBehaviour
         movementVector = Vector3.zero;
         movementVector = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0) * movementSpeed;
 
-
         //Make sure it isn't outside of the bounds box
         if (transform.position.x < cameraFocusArea.left)
-                movementVector.x = 0.1f;
+                movementVector.x = 0.01f;
         if (transform.position.x > cameraFocusArea.right)
-            movementVector.x = 0.1f; ;
+            movementVector.x = 0.01f; 
 
         if (transform.position.y > cameraFocusArea.top)
-            movementVector.y = 0.1f; ;
+            movementVector.y = 0.01f; 
         if (transform.position.y < cameraFocusArea.bottom)
-            movementVector.y = 0.1f; ;
+            movementVector.y = 0.01f; 
 
         transform.Translate(movementVector * Time.smoothDeltaTime);
 
@@ -219,10 +236,19 @@ public class CameraBehaviour : MonoBehaviour
     void InitiateReturnToPlayer()
     {
         startPosition = transform.position;
-        endPosition = originalPosition;
+        endPosition = new Vector3(player.position.x,
+                                  player.position.y,
+                                  -10);
 
         timeStartedMoving = Time.time;
-        isLerping = true;       
+        isLerping = true;
+        followPlayer = false;      
+    }
+
+    void PlayerIsOnMovingPlatform()
+    {
+        isPlayerOnMovingPlatform = true;
+        followPlayer = false;
     }
 
     void ReturnToPlayerPosition()
@@ -237,9 +263,8 @@ public class CameraBehaviour : MonoBehaviour
             isLerping = false;
             hasMovedCamera = false;
             isMovingCamera = false;
+            followPlayer = true;
+            isPlayerOnMovingPlatform = false;
         }
     }
-
-
-	
 }
