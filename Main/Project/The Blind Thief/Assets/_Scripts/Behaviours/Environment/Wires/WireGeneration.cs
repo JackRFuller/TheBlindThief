@@ -80,7 +80,7 @@ public class WireGeneration : MonoBehaviour
 
         for(int i = 0; i < targetPlatforms.Length; i++)
         {
-            targetPlatforms[i].SendMessage("ActivatePlatform", SendMessageOptions.DontRequireReceiver);
+            targetPlatforms[i].SendMessage("ActivatePlatform",false, SendMessageOptions.DontRequireReceiver);
         }
     }
 

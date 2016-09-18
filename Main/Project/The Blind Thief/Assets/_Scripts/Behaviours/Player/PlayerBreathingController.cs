@@ -69,6 +69,12 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
     [SerializeField]
     private Transform breathingRingTransform;
 
+    [Header("Camera Effects")]
+    [SerializeField]
+    private CameraZoomEffect breathInEffect;
+    [SerializeField]
+    private CameraZoomEffect breathOutEffect;
+
     private float timeStarted;
     private Vector3 startingRingSize;
     private Vector3 targetRingSize;
@@ -240,6 +246,9 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
     {
         isBreathing = false;
 
+        //Camera Effects
+        UnityStandardAssets.ImageEffects.CameraEffectsController.Instance.InitiateZoomEffect(breathInEffect);
+
         breathingRingStartSize = breathingRingTransform.localScale;
         breathingInTargetSize = Vector3.zero;
 
@@ -288,6 +297,8 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
     void Gasp()
     {
         ReleasingBreath();
+        //Camera Effects
+        UnityStandardAssets.ImageEffects.CameraEffectsController.Instance.InitiateZoomEffect(breathOutEffect);
 
         float timeSinceStarted = Time.time - timeStartedGasping;
         float percentageComplete = timeSinceStarted / gaspSpeed;
@@ -315,7 +326,7 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
     }
 
     void EndOfHoldingBreath()
-    {
+    {        
         breathingCounter = 1; //Go to the smallest size - breathing in
         isBreathingIn = false;
         isGasping = false;                
@@ -324,8 +335,6 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
         StartCoroutine(HoldingBreathCooldown());
         isBreathing = true;
     }
-
-   
 
     void ChangeBreathingState()
     {

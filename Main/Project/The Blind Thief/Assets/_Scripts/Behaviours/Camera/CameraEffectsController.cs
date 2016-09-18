@@ -5,6 +5,10 @@ namespace UnityStandardAssets.ImageEffects
 {
     public class CameraEffectsController : MonoBehaviour
     {
+        [SerializeField]
+        private Camera mainCamera;
+        
+
         private static CameraEffectsController instance;
         public static CameraEffectsController Instance
         {
@@ -48,6 +52,10 @@ namespace UnityStandardAssets.ImageEffects
         private float timeStartedVignette;
         private bool isShowingVignette;
 
+        private CameraZoomEffect cameraZoom;
+        private float timeStartedZooming;
+        private bool isZooming;
+
         void Awake()
         {
             if(instance == null)
@@ -85,10 +93,42 @@ namespace UnityStandardAssets.ImageEffects
             isShowingVignette = true;
         }
 
+        public void InitiateZoomEffect(CameraZoomEffect Zoom)
+        {
+            cameraZoom = Zoom;
+
+            if (cameraZoom.isZoomingOut)
+                cameraZoom.startingPoint = mainCamera.orthographicSize;
+
+            timeStartedZooming = Time.time;
+            isZooming = true;
+        }
+
+        public void StopZoomEffect()
+        {
+            isZooming = false;
+        }
+
         void Update()
         {
             if (isShowingVignette)
                 LerpVignette();
+
+            if (isZooming)
+                LerpZoom();
+        }
+
+        void LerpZoom()
+        {
+            float timeSinceStarted = Time.time - timeStartedZooming;
+            float percentageComplete = timeSinceStarted / cameraZoom.zoomSpeed;
+
+            mainCamera.orthographicSize = Mathf.Lerp(cameraZoom.startingPoint, cameraZoom.endPoint, cameraZoom.movementCurve.Evaluate(percentageComplete));
+
+            if(percentageComplete >= 1.0)
+            {
+                isZooming = false;
+            }
         }
 
         void LerpVignette()

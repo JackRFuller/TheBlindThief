@@ -29,8 +29,8 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IRes
     private Transform mesh;
 
     [Header("Positioning")]
-    [SerializeField]
-    private Transform playerSpawnPosition;
+    private Vector3 startPosition;
+    private Quaternion startRotation;
 
     //Movement
     [Header("Movement")]
@@ -84,17 +84,23 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IRes
 
 	// Use this for initialization
 	void Start ()
-	{	    
-        PositionPlayer();
+	{
+        GetStartingPosition();       
 	    GetNodeList();
         SubscribeToEvents();
-	}    
+	}  
+    
+    void GetStartingPosition()
+    {
+        startPosition = transform.position;
+        startRotation = mesh.rotation;
+    }  
 
     void PositionPlayer()
     {
         isDead = false;
-        transform.position = playerSpawnPosition.position;
-        mesh.rotation = playerSpawnPosition.rotation;        
+        transform.position = startPosition;
+        mesh.rotation = startRotation;        
     }
 
     void SubscribeToEvents()
