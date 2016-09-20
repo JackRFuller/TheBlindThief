@@ -9,7 +9,6 @@ public class EnemySoundWaveBehaviour : MonoBehaviour
     [SerializeField] private AnimationCurve soundWaveGrowthCurve;
     private Vector3 soundWaveGrowTarget;
     private bool isGrowing;
-    private bool foundPlayer;
     private float timeStartedGrowing;
 
     private AudioSource audioSource;
@@ -99,7 +98,6 @@ public class EnemySoundWaveBehaviour : MonoBehaviour
     void ResetSoundWave()
     {
         isGrowing = false;
-        foundPlayer = false;
         gameObject.SetActive(false);
         audioSource.Stop();
         transform.parent = originalParent;

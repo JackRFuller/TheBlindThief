@@ -30,10 +30,7 @@ public class FieldOfView : MonoBehaviour
     Mesh viewMesh;
 
     public delegate void finishedFOV();
-    public finishedFOV FinishedFOV;  
-
-    //Activation variables
-    private bool isActive;
+    public finishedFOV FinishedFOV; 
 
     void OnEnable()
     {
@@ -69,7 +66,6 @@ public class FieldOfView : MonoBehaviour
 
         //Clear Size
         viewRadius = 0;
-        isActive = false;
 
         //Remove Player From Detection List
         StopAllCoroutines();

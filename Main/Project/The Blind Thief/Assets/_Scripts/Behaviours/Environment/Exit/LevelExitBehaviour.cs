@@ -16,19 +16,19 @@ public class LevelExitBehaviour : Singleton<LevelExitBehaviour>
     private int maxNumberOfKeys;
     private int currentNumberOfKeys;
 
-    //Events
-    public event Action EndOfLevel; //Used when the player enters the door
-
     void Start()
     {
-        InitiateKeyHoles();
-
-        SubscribeToEvents();
+        InitiateKeyHoles();        
     }
 
-    void SubscribeToEvents()
+    void OnEnable()
     {
-        LevelController.Instance.PlayerAcquiresKey += PlayerHasAcquiredKey;
+        EventManager.StartListening("AcquiredKey", PlayerHasAcquiredKey);
+    }
+
+    void OnDisable()
+    {
+        EventManager.StopListening("AcquiredKey", PlayerHasAcquiredKey);
     }
 
     void InitiateKeyHoles()
@@ -50,7 +50,6 @@ public class LevelExitBehaviour : Singleton<LevelExitBehaviour>
         {
             OpenDoor();
         }
-
     }
 
     void OpenDoor()
@@ -63,10 +62,7 @@ public class LevelExitBehaviour : Singleton<LevelExitBehaviour>
     {
         if (other.tag == "Player")
         {
-            Debug.Log("Level Complete");
-
-            if (EndOfLevel != null)
-                EndOfLevel();
+            EventManager.TriggerEvent("EndOfLevel");
         }
 
     }

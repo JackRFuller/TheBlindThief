@@ -50,6 +50,16 @@ public class EnemyMovementBehaviour : MonoBehaviour, IReset
         InitiateMovement();
     }    
 
+    void OnEnable()
+    {
+        EventManager.StartListening("Reset", Reset);
+    }
+
+    void OnDisable()
+    {
+        EventManager.StopListening("Reset", Reset);
+    }
+
     void GetStartingPoint()
     {
         spawnPosition = transform.position;
@@ -60,8 +70,7 @@ public class EnemyMovementBehaviour : MonoBehaviour, IReset
     {
         PathController.Instance.ReEvaluate += InitiateMovement;
         enemyBehaviour.Attacking += PlayAttackAnimation;
-        fieldOfView.FinishedFOV += StartMovement;
-        ResetController.ResetLevel += Reset;          
+        fieldOfView.FinishedFOV += StartMovement;        
     }
 
     void InitiateMovement()

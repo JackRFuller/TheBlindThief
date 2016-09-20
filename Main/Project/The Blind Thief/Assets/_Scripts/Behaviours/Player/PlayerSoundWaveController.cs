@@ -9,20 +9,14 @@ public class PlayerSoundWaveController : MonoBehaviour
     [SerializeField] private int numberToSpawn;
     [SerializeField] private Transform spawnPoint;
 
-    private Animator playerAnim;
+    
 
     private List<GameObject> soundWaves;
 
     void Start()
     {
-        SpawnInSoundWaves();
-        GetAnimator();
-    }
-
-    void GetAnimator()
-    {
-        playerAnim = GetComponent<Animator>();
-    }
+        SpawnInSoundWaves();        
+    }    
 
     void SpawnInSoundWaves()
     {

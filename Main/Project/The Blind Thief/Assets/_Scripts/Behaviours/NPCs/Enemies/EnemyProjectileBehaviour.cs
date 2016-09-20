@@ -18,7 +18,7 @@ public class EnemyProjectileBehaviour : MonoBehaviour
     public Transform OriginalParent { get { return originalParent; } set { originalParent = value; } }
 
     [Header("Particle System")]
-    [SerializeField] private ParticleSystem particleSystem;
+    [SerializeField] private ParticleSystem particles;
 
     [Header("Sound Wave")]
     [SerializeField] private SpriteRenderer spriteRenderer;
@@ -48,7 +48,7 @@ public class EnemyProjectileBehaviour : MonoBehaviour
     void InitiateProjectile()
     {
         //spriteRenderer.enabled = false;
-        particleSystem.Play();
+        GetComponent<ParticleSystem>().Play();
 
         originalPosition = transform.position;
         targetDirection = playerPosition - originalPosition;
@@ -87,7 +87,7 @@ public class EnemyProjectileBehaviour : MonoBehaviour
         spriteRenderer.enabled = true;
         rb.velocity = Vector3.zero;
         isMoving = false;
-        particleSystem.Stop();
+        GetComponent<ParticleSystem>().Stop();
     }
 
     void ResetProjectile()

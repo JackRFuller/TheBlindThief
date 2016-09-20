@@ -69,7 +69,12 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
     [SerializeField]
     private Transform breathingRingTransform;
 
-    [Header("Camera Effects")]
+    [Header("Camera Effects - Vignette")]
+    [SerializeField]
+    private VignetteEffect breathInVignette;
+    [SerializeField]
+    private VignetteEffect breathOutVignette;
+    [Header("Camera Effects - Zoom")]
     [SerializeField]
     private CameraZoomEffect breathInEffect;
     [SerializeField]
@@ -83,22 +88,7 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
     private float breathingSpeed;
     private AnimationCurve breathingCurve;
     private bool isBreathing = true;
-    private int breathingCounter;
-
-    public delegate void startedHoldingBreath();
-    public startedHoldingBreath StartedHoldingBreath;
-
-    public delegate void holdingBreath();
-    public holdingBreath HoldingBreath;
-
-    public delegate void startedReleasingBreath();
-    public startedReleasingBreath StartedReleasingBreath;
-
-    public delegate void releasingBreath();
-    public releasingBreath ReleasingBreath;
-
-    public delegate void runningOutOfBreath();
-    public runningOutOfBreath RunningOutOfBreath;
+    private int breathingCounter;    
 
     private BreathingState breathingState; 
     private enum BreathingState
@@ -109,22 +99,27 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
 
 
     void Start()
-    {
-        SubscribeToReset();
+    {       
         SubscribeToPlayerMovement();
         ChangeBreathingState();
         InitialiseBreathingRing();
     }
 
-    void SubscribeToReset()
+    void OnEnable()
     {
-        ResetController.ResetLevel += Reset;
+        EventManager.StartListening("PlayerDeath", StopBreathingDueToDeath);
+        EventManager.StartListening("Reset", Reset);
     }
+
+    void OnDisable()
+    {
+        EventManager.StopListening("PlayerDeath", StopBreathingDueToDeath);
+        EventManager.StopListening("Reset", Reset);
+    }   
 
     void SubscribeToPlayerMovement()
     {
-        PlayerMovementBehaviour.ChangeInMovementState += ChangePlayerMovementState;
-        PlayerMovementBehaviour.HasDied += StopBreathingDueToDeath;
+        PlayerMovementBehaviour.ChangeInMovementState += ChangePlayerMovementState;       
     }
 
     /// <summary>
@@ -256,12 +251,12 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
         breathingTimer = 0;
         isBreathingIn = true;
 
-        StartedHoldingBreath();
+        UnityStandardAssets.ImageEffects.CameraEffectsController.Instance.IntitateVignetteEffect(breathInVignette);
     }
 
     void BreathIn()
     {
-        HoldingBreath();
+        //HoldingBreath();
 
         breathingTimer += Time.deltaTime;
         if (breathingTimer >= holdingBreathTimer)
@@ -277,13 +272,13 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
 
         if(percentageComplete >= 0.5f)
         {
-            RunningOutOfBreath();
+            //RunningOutOfBreath();
         }
     }
 
     void InitiateGasp()
     {
-        StartedReleasingBreath();
+        //StartedReleasingBreath();
 
         gaspingStartingVector = breathingRingTransform.localScale;
         float gaspSize = CalcateSizeOfGasp();
@@ -296,7 +291,7 @@ public class PlayerBreathingController : Singleton<PlayerBreathingController>, I
 
     void Gasp()
     {
-        ReleasingBreath();
+        //ReleasingBreath();
         //Camera Effects
         UnityStandardAssets.ImageEffects.CameraEffectsController.Instance.InitiateZoomEffect(breathOutEffect);
 

@@ -20,8 +20,6 @@ public class InputController : Singleton<InputController>
     private bool oneClick = false;
     [SerializeField] private float timeForDoubleClick;
 
-    public static event Action PlayerInput; //Registers when theres been a valid input
-
     void Update()
     {
         GetPlayerInput();
@@ -77,8 +75,7 @@ public class InputController : Singleton<InputController>
             {
                 targetPosition = _hit.point;
 
-                if (PlayerInput != null)
-                    PlayerInput();
+                EventManager.TriggerEvent("PlayerInput");
             }
             else
             {

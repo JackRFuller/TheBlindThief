@@ -5,11 +5,5 @@ using System.Collections;
 
 public class ResetController : Singleton<ResetController>
 {
-    public static event Action ResetLevel;
-
-    public void Reset()
-    {
-        ResetLevel();
-    }
-
+   
 }

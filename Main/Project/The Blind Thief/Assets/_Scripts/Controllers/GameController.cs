@@ -3,18 +3,26 @@ using System.Collections;
 
 public class GameController : Singleton<GameController>
 {
-    private int characterGender; //Determines what gender the character is 0 - Female, 1 - Male
-    public int ChatacterGender { get { return characterGender; } }
+    //Level Data
+    [SerializeField]
+    private LevelData[] levels;
+    public LevelData[] Levels { get { return levels; } }
 
-	public override void Awake()
+    private int levelIndex;
+    public int LevelIndex { get { return levelIndex; } }
+
+    void OnEnable()
     {
-        base.Awake();
-
-        DeterminePlayerCharacterGender();
+        EventManager.StartListening("NextLevel", IncrementLevel);
     }
 
-    void DeterminePlayerCharacterGender()
+    void OnDisable()
     {
-        characterGender = Random.Range(0, 2);
+        EventManager.StopListening("NextLevel", IncrementLevel);
+    }
+
+    public void IncrementLevel()
+    {
+        levelIndex++;
     }
 }

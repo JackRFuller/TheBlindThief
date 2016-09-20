@@ -10,8 +10,9 @@ public class EnemyBehaviour : MonoBehaviour
 
     public EnemyAttackType enemyAttackType;
 
+
     private EnemyState enemyState;
-    public EnemyState currentEnemyState
+    public EnemyState CurrentEnemyState
     {
         get { return enemyState; }
     }             

@@ -18,7 +18,6 @@ public class PlatformTriggerBehaviour : MonoBehaviour
         }
         if(other.tag == "Enemy")
         {
-            Debug.Log("Enemy Hit");
             transform.parent.SendMessage("ActivatePlatform", true, SendMessageOptions.DontRequireReceiver);
             hasEnemyOnIt = true;
             hasBeenActivated = false;

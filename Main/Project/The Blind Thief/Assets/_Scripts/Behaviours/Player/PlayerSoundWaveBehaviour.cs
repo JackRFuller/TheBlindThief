@@ -91,7 +91,7 @@ public class PlayerSoundWaveBehaviour : MonoBehaviour
         {
             EnemyBehaviour enemyBehaviour = other.GetComponent<EnemyBehaviour>();
 
-            if(enemyBehaviour.currentEnemyState == EnemyBehaviour.EnemyState.stalking)
+            if(enemyBehaviour.CurrentEnemyState == EnemyBehaviour.EnemyState.stalking)
                 other.SendMessage("HitBySoundWave", SendMessageOptions.DontRequireReceiver);
         }
     }

@@ -66,25 +66,7 @@ namespace UnityStandardAssets.ImageEffects
             {
                 Destroy(gameObject);
             }
-        }
-                
-        void Start()
-        {
-            SubscribeToEvents();
-        }   
-
-        void SubscribeToEvents()
-        {
-            //Vignette
-            PlayerBreathingController.Instance.StartedHoldingBreath += InitiateBreathingInEffect;
-            PlayerBreathingController.Instance.StartedReleasingBreath += InitiateBreathingInEffect;
-            PlayerBreathingController.Instance.HoldingBreath += HoldingBreathEffect;
-            PlayerBreathingController.Instance.ReleasingBreath += ReleasingBreathEffect;
-
-            //CameraShake
-            PlayerBreathingController.Instance.RunningOutOfBreath += SetHoldingBreathToCameraShake;
-            PlayerBreathingController.Instance.ReleasingBreath += StopCameraShake;
-        }
+        }  
 
         public void IntitateVignetteEffect(VignetteEffect vignetteEffect)
         {

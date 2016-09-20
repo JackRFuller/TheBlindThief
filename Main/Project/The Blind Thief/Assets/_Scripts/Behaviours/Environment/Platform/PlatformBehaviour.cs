@@ -76,9 +76,6 @@ public class PlatformBehaviour : MonoBehaviour
     public virtual void ActivatePlatform(bool isActivatedByEnemy)
     {
         if (isActivatedByEnemy)
-            Debug.Log("Hit by Enemy");
-
-        if (isActivatedByEnemy)
         {
             if (platformState == PlatformState.disabled)
                 return;

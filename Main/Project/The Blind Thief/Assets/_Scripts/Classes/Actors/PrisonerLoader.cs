@@ -7,14 +7,14 @@ public class PrisonerLoader : MonoBehaviour {
 
     void Start ()
     {
-        PrisonerContainer pc = PrisonerContainer.Load(path);
+        //PrisonerContainer pc = PrisonerContainer.Load(path);
 
-        foreach(Prisoner prisoner in pc.prisoner)
-        {
-            //Debug.Log(prisoner.name);
-            //Debug.Log(prisoner.lineOne);
-            //Debug.Log(prisoner.lineTwo);
-            //Debug.Log(prisoner.lineThree);
-        }
+        //foreach(Prisoner prisoner in pc.prisoner)
+        //{
+        //    //Debug.Log(prisoner.name);
+        //    //Debug.Log(prisoner.lineOne);
+        //    //Debug.Log(prisoner.lineTwo);
+        //    //Debug.Log(prisoner.lineThree);
+        //}
     }
 }

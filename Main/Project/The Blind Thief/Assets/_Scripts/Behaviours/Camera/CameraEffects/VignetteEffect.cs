@@ -5,5 +5,6 @@ public class VignetteEffect
     public float endValue;   
     public float speed;   
     public float returnSpeed;   
-    public UnityEngine.AnimationCurve movementCurve;    
+    public UnityEngine.AnimationCurve movementCurve;
+    private bool isReturningToOriginal;
 }

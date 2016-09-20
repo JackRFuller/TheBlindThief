@@ -9,11 +9,13 @@ public class PlayerWaypointBehaviour : AnimationController
     {
         PlayerMovementBehaviour.HasFoundLegitPath += MoveToTargetPosition;
         PlayerMovementBehaviour.HasReachedDestination += TurnOffAnimation;
-
     }
 
     void MoveToTargetPosition()
     {
+        if (InputController.Instance == null)
+            Debug.Log("Failure");
+
         targetPosition = InputController.Instance.TargetPosition;
 
         transform.position = new Vector3(targetPosition.x, targetPosition.y, -5);

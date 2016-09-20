@@ -47,14 +47,29 @@ public class CameraBehaviour : MonoBehaviour
 
     void Start()
     {
-
+        GetPlayer();
         SubscribeToEvents();
         
         cameraFocusArea = new CameraFocusArea(cameraCollider.bounds, cameraFocusAreaSize);
         //Vector2 focusPosition = cameraFocusArea.centre;
 
-        playerFocusArea = new PlayerFocusArea(target.bounds, playerFocusAreaSize);
-        
+        playerFocusArea = new PlayerFocusArea(target.bounds, playerFocusAreaSize);        
+    }
+
+    void OnEnable()
+    {
+        EventManager.StartListening("NewLevel", GetPlayer);
+    }
+
+    void OnDisable()
+    {
+        EventManager.StopListening("NewLevel", GetPlayer);
+    }
+
+    void GetPlayer()
+    {
+        player = PlayerMovementBehaviour.Instance.gameObject.transform;
+        target = player.GetComponent<Collider>();
     }
 
     void SubscribeToEvents()
@@ -171,9 +186,10 @@ public class CameraBehaviour : MonoBehaviour
 
     void FollowPlayer()
     {
-        transform.position = new Vector3(player.transform.position.x,
-                                         player.transform.position.y,
-                                         -10);
+        if(player)
+            transform.position = new Vector3(player.transform.position.x,
+                                            player.transform.position.y,
+                                            -10);
     }
     
 

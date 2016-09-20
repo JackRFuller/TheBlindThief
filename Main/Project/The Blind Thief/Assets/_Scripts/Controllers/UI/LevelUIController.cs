@@ -10,31 +10,31 @@ public class LevelUIController : Singleton<LevelUIController>
     [SerializeField] private GameObject deathScreen;
 
     [Header("Respawn Screen")]
-    [SerializeField] private VignetteEffect vignette;
+    [SerializeField] private VignetteEffect vignette;    
 
-    void Start()
+    void OnEnable()
     {
-        SubscribeToEvents();
+        EventManager.StartListening("EndOfLevel", EndOfLevel);
     }
 
-    void SubscribeToEvents()
+    void OnDisable()
     {
-        LevelExitBehaviour.Instance.EndOfLevel += EndOfLevel;
-    }
+        EventManager.StopListening("EndOfLevel", EndOfLevel);
+    }    
 
     void EndOfLevel()
     {
         endOfLevelScreen.SetBool("isFadeIn",true);
     }
 
-    public void NextLevel()
+    void NextLevel()
     {
         endOfLevelScreen.SetBool("isFadeIn", false);
         endOfLevelScreen.SetBool("isFadeOut", true);
     }
 
     /// <summary>
-    /// Triggered by Enemy Movement Behaviour
+    /// Triggered by Player Movement Behaviour
     /// </summary>
     /// <returns></returns>
     public IEnumerator TriggerDeathScreen(float waitTime)
@@ -48,11 +48,18 @@ public class LevelUIController : Singleton<LevelUIController>
         deathScreen.SetActive(true);
     }
 
-    public void RespawnPlayer()
+    public void OnClickRespawnPlayer()
     {
-        deathScreen.SetActive(false);
-        ResetController.Instance.Reset();
+        EventManager.TriggerEvent("Reset");
+        deathScreen.SetActive(false);        
         UnityStandardAssets.ImageEffects.CameraEffectsController.Instance.IntitateVignetteEffect(vignette);
+    }
+
+    public void OnClickNextLevel()
+    {
+        GameController.Instance.IncrementLevel();
+        LevelController.Instance.IncrementLevel();
+        NextLevel();        
     }
 	
 }

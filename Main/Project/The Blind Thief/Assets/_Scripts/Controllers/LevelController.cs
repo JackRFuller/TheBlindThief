@@ -7,50 +7,68 @@ using System.Collections;
 public class LevelController : Singleton<LevelController>
 {
     [SerializeField] private LevelMode levelMode;
+    
+    //Level Elements
+    [SerializeField]
+    private LevelData currentLevel;
+    public LevelData CurrentLevel  { get { return currentLevel; } }
 
-    [SerializeField] private LevelData currentLevel;
-    public LevelData CurrentLevel
-    {
-        get { return currentLevel; }
-    }
+    private int previousLevelIndex = 0;
+    private GameObject currentLevelGeometry;
 
     private int numberOfHeldKeys;
-    public int NumberOfHeldKeys
-    {
-        get { return numberOfHeldKeys; }
-    }
-
-    public event Action PlayerAcquiresKey; //Subscribed to by the Doors
+    public int NumberOfHeldKeys { get { return numberOfHeldKeys; } }    
 
     //Enums
     private enum LevelMode
     {
         Building,
         Testing,
+    }    
+
+    void Start()
+    {
+        if (levelMode == LevelMode.Testing)
+        {
+            GetCurrentLevel();
+            LoadInLevel();
+        }
     }
 
-
-    public override void Awake()
+    void OnEnable()
     {
-        base.Awake();
+        EventManager.StartListening("NextLevel", IncrementLevel);
+    }
 
-        if(levelMode == LevelMode.Testing)
-            LoadInLevel();
+    void OnDisable()
+    {
+        EventManager.StopListening("NextLevel", IncrementLevel);
+    }
+
+    void GetCurrentLevel()
+    {
+        //Check it's not the first level
+        if(GameController.Instance.LevelIndex > 0)
+        {
+            while (GameController.Instance.LevelIndex == previousLevelIndex)
+                return;
+        }
+        
+        currentLevel = GameController.Instance.Levels[GameController.Instance.LevelIndex];
+        previousLevelIndex = GameController.Instance.LevelIndex;
     }
 
     void LoadInLevel()
     {
-        Instantiate(currentLevel.levelGeometry);
-
+        currentLevelGeometry = Instantiate(currentLevel.levelGeometry);
+        EventManager.TriggerEvent("NewLevel");
         StartCoroutine(NodeController.Instance.GetNodes());
     }
 
     public void AcquireKey()
     {
         numberOfHeldKeys++;
-
-        if (PlayerAcquiresKey != null)
-            PlayerAcquiresKey();
+        EventManager.TriggerEvent("AcquiredKey");   
     }
 
     void Update()
@@ -62,6 +80,16 @@ public class LevelController : Singleton<LevelController>
             ResetGame();
     }
 
+    public void IncrementLevel()
+    {
+        DestroyImmediate(currentLevelGeometry);
+
+        GetCurrentLevel();
+        LoadInLevel();
+    }
+
+    #region PlayerInput
+
     void QuitApplication()
     {
         Application.Quit();
@@ -71,4 +99,6 @@ public class LevelController : Singleton<LevelController>
     {
         SceneManager.LoadScene(0);
     }
+
+    #endregion
 }

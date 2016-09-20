@@ -4,7 +4,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IReset
+public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IReset, IEvent
 {
 
     [Header("Components")]
@@ -72,9 +72,6 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IRes
     private RotatePlatformBehaviour rpbScript;
     private MovingPlatformBehaviour mpbScript;
 
-    public delegate void hasDied();
-    public static hasDied HasDied;
-
     //Used to communication with camera
     public delegate void movingOnPlatform();
     public movingOnPlatform MovingOnPlatform;
@@ -89,6 +86,18 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IRes
 	    GetNodeList();
         SubscribeToEvents();
 	}  
+
+    public void OnEnable()
+    {
+        EventManager.StartListening("PlayerInput", InitiateMovement);
+        EventManager.StartListening("Reset", Reset);
+    }
+
+    public void OnDisable()
+    {
+        EventManager.StopListening("PlayerInput", InitiateMovement);
+        EventManager.StopListening("Reset", Reset);
+    }
     
     void GetStartingPosition()
     {
@@ -105,13 +114,10 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IRes
 
     void SubscribeToEvents()
     {
-        PathController.Instance.ReEvaluate += CheckIfPlayerIsMoving;
-        //When player makes a valid input start movement process
-        InputController.PlayerInput += InitiateMovement;
+        PathController.Instance.ReEvaluate += CheckIfPlayerIsMoving;        
+        
         //Stop Player Moving when Holding Breath
-        playerBreathingController.StartedHoldingBreath += TurnOffMovement;
-        //Reset Controller
-        ResetController.ResetLevel += Reset;
+        //playerBreathingController.StartedHoldingBreath += TurnOffMovement;       
     }
 
     void GetNodeList()
@@ -264,8 +270,7 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IRes
     {
         StoppedMovingOnPlatform();
         isMovingOnPlatform = false;
-        playerCollider.enabled = true;
-        Debug.Log("Stopped Moving");
+        playerCollider.enabled = true;        
     }
 
     void TurnOffMovement()
@@ -282,8 +287,8 @@ public class PlayerMovementBehaviour : Singleton<PlayerMovementBehaviour> , IRes
 
     void HitByEnemy()
     {
-        //Trigger Death Delegate
-        HasDied();
+        //Trigger Death Event
+        EventManager.TriggerEvent("PlayerDeath");
 
         desiredVelocity = Vector3.zero;
         isDead = true;
