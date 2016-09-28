@@ -23,13 +23,11 @@ public class PressurePlateBehaviour : AnimationController
         audioSource = GetComponent<AudioSource>();
     }
 
-    
-
     void ActivatePressurePlate()
     {
         TurnOnAnimation("Activate");
         col.enabled = false;
-        target.SendMessage("ActivateSwitch");
+        target.SendMessage("ActivateSwitch",SendMessageOptions.DontRequireReceiver);
 
         PlayAudio();
     }
@@ -41,7 +39,7 @@ public class PressurePlateBehaviour : AnimationController
 
     public void OnTriggerEnter(Collider other)
     {
-        if (other.tag.Equals("Player") || other.tag.Equals("Enemy"))
+        if (other.tag.Equals("Accused") || other.tag.Equals("Enemy"))
         {
             ActivatePressurePlate();
         }

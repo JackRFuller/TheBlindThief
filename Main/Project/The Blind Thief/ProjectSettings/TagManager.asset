@@ -8,6 +8,8 @@ TagManager:
   - Switch
   - Enemy
   - PlayerHurtSpot
+  - Platform
+  - Accused
   layers:
   - Default
   - TransparentFX
@@ -21,9 +23,9 @@ TagManager:
   - Player
   - Outline
   - SpawnPoints
-  - 
-  - 
-  - 
+  - Accused
+  - Bridge
+  - Sage
   - 
   - 
   - 
