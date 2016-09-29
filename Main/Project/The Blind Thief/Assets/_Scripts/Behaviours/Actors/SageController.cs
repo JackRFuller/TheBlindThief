@@ -5,7 +5,7 @@ public class SageController : MonoBehaviour, IEvent
 {
     [Header("Components")]
     [SerializeField]
-    private CharacterMovement movementBehaviour;
+    private SageMovement movementBehaviour;
 
     public void OnEnable()
     {

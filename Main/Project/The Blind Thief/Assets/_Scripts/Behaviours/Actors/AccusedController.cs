@@ -5,7 +5,7 @@ public class AccusedController : MonoBehaviour {
 
     [Header("Components")]
     [SerializeField]
-    private CharacterMovement movementBehaviour;
+    private AccusedMovement movementBehaviour;
 
     public void OnEnable()
     {
