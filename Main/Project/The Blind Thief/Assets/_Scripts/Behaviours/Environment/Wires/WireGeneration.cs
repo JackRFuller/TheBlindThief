@@ -28,6 +28,7 @@ public class WireGeneration : MonoBehaviour
     [SerializeField] private GameObject wireBorder;
     [SerializeField] private GameObject wireConnectorBorder;
     private GameObject wireHolder;
+    private Transform lastWire;
     
 
     //TODO: Need to add audio to wires
@@ -122,6 +123,7 @@ public class WireGeneration : MonoBehaviour
                 //Generation Connections
                 _newConnector = (GameObject)Instantiate(wireConnector);
                 _newConnector.transform.position = wireWaypoints[i].position;
+                _newConnector.transform.eulerAngles = GetConnectorRotation(lastWire.eulerAngles);
                 _newConnector.GetComponent<RectTransform>().SetParent(wireHolder.transform);
 
                 Image connectorImage = _newConnector.GetComponent<Image>();
@@ -155,6 +157,7 @@ public class WireGeneration : MonoBehaviour
 
             _transform.SetParent(wireHolder.transform);
             _transform.SetSiblingIndex(wirePosition);
+            lastWire = _transform;
             wirePosition++;            
 
             Image wireImage = _newWire.GetComponent<Image>();
@@ -190,10 +193,11 @@ public class WireGeneration : MonoBehaviour
     }
 
     //TODO: Make it so connector rotation is set automatically
-    Vector3 GetConnectorRotation(Vector3 wireRot)
+    Vector3 GetConnectorRotation(Vector3 lastWireRot)
     {
-        float zRot = wireRot.z;
+        float zRot = lastWireRot.z;
         zRot = Mathf.Round(zRot);
+        zRot = Mathf.Abs(zRot);
 
         Debug.Log(zRot);
 
@@ -201,19 +205,19 @@ public class WireGeneration : MonoBehaviour
 
         if(zRot == 0)
         {
-            newZRot = 90;
+            newZRot = 180;
         }
         else if(zRot == 180)
         {
-            newZRot = -90;
+            newZRot = 0;
         }
         else if(zRot == 90)
         {
-            newZRot = -180;
+            newZRot = 270;
         }
         else if(zRot == 270)
         {
-            newZRot = 0;
+            newZRot = 90;
         }
 
         Vector3 newRot = new Vector3(0,0,newZRot);

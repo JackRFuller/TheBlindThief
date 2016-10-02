@@ -1,8 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class AccusedMovement : MonoBehaviour {
+public class AccusedMovement : Singleton<AccusedMovement>, IReset
+{
     [Header("Components")]
+    [SerializeField]
+    private Collider col;
     [SerializeField]
     private Rigidbody rb;
     [SerializeField]
@@ -16,23 +19,62 @@ public class AccusedMovement : MonoBehaviour {
     [SerializeField]
     protected float fallingSpeed;
     protected Vector3 movementDirection;
+    protected Vector3 fallingDirection;
     private float distToGround;
     private float characterRotation;
+    public float CharacterRotation { get { return characterRotation; } }
 
     [Header("Grounded")]
     [SerializeField]
+    private LayerMask groundedLayer;
+    [SerializeField]
     private float distToGroundModifier;
+    [SerializeField]
+    private bool isGrounded;
+    private float cooldownFromLanded; //Determines how long to wait until player can move again;
+    private bool canMove = true;
+    private bool hasFinishedRotating = true;
+    [SerializeField]
+    private float maxFallingHeight;
+    private bool isFalling;
+    private Vector3 startFallingPosition;
+
+    private bool hasDied;
+    private bool hasStartedMoving;
+    private bool hasMoved;
 
     [Header("Debug")]
     [SerializeField]
     protected bool DebugMode;
 
+    //Reset
+    private Vector3 spawnPoint;
+    private Vector3 spawnRotation;
+
+    void OnEnable()
+    {
+        EventManager.StartListening("Reset", Reset);
+    }
+
+    void OnDisable()
+    {
+        EventManager.StopListening("Reset", Reset);
+    }
+
     private RotatePlatformBehaviour rotatePlatformScript;
+    private MovingPlatformBehaviour movingPlatformScript;
 
     void Start()
     {
-        distToGround = GetComponent<Collider>().bounds.extents.y * distToGroundModifier;
+        col = GetComponent<Collider>();
+        distToGround = col.bounds.extents.y;
         Debug.Log(distToGround);
+    }
+
+    void GetStartingPoint()
+    {
+        spawnPoint = transform.position;
+        spawnRotation = transform.eulerAngles;
     }
 
     public virtual void ActivateMovement()
@@ -61,34 +103,71 @@ public class AccusedMovement : MonoBehaviour {
     {
         if (CheckIfGrounded())
         {
-            GetMovementDirection();
-        }
+            if(canMove)
+            {
+                GetMovementDirection();
+            }
+        } 
         else
-        {
-            DetermineFallingDirection();
+        {            
+            if(!isFalling)
+                if(hasFinishedRotating)
+                    DetermineFallingDirection();
+
+            if (isFalling)
+                CheckDistanceFalling();
         }
     }
 
     public virtual void GetMovementDirection()
     {
-        movementDirection = ReturnInputVectors();
+        movementDirection = ReturnMobileInputVectors();
+        //movementDirection = ReturnInputVectors();        
     }
 
     void DetermineFallingDirection()
     {
         if (characterRotation == 0)
-            movementDirection = new Vector3(0, -fallingSpeed, 0);
+            fallingDirection = new Vector3(0, -fallingSpeed, 0);
 
         if (characterRotation == 180)
-            movementDirection = new Vector3(0, fallingSpeed, 0);
+            fallingDirection = new Vector3(0, fallingSpeed, 0);
 
         if (characterRotation == 90)
-            movementDirection = new Vector3(fallingSpeed, 0, 0);
+            fallingDirection = new Vector3(fallingSpeed, 0, 0);
 
         if (characterRotation == 270)
-            movementDirection = new Vector3(-fallingSpeed, 0, 0);
+            fallingDirection = new Vector3(-fallingSpeed, 0, 0);
 
+        startFallingPosition = transform.position;
+        isFalling = true;
         animController.SetBool("Falling", true);
+        animController.SetBool("Landed", false);
+    }
+
+    /// <summary>
+    /// Runs while the character is falling
+    /// </summary>
+    void CheckDistanceFalling()
+    {
+        Vector3 currentFallingPosition = transform.position;
+
+        float distanceFallen = 0;
+
+        if(characterRotation == 0 || characterRotation == 180)
+        {
+            distanceFallen = Mathf.Abs(startFallingPosition.y - currentFallingPosition.y);            
+        }
+        else if(characterRotation == 90 || characterRotation == 270)
+        {
+            distanceFallen = Mathf.Abs(startFallingPosition.x - currentFallingPosition.x);            
+        }
+        
+        if(distanceFallen >= maxFallingHeight)
+        {
+            Debug.Log("Dead MOFO!!");
+            hasDied = true;
+        }
     }
 
     public virtual Vector3 ReturnInputVectors()
@@ -97,7 +176,7 @@ public class AccusedMovement : MonoBehaviour {
 
         float worldRot = ReturnWorldRotation();
 
-        if (worldRot == 0 || worldRot == 180)
+        if (characterRotation == 0 || characterRotation == 180)
         {
             inputVector = new Vector3(Input.GetAxis("Horizontal"), 0, 0);
             
@@ -106,9 +185,8 @@ public class AccusedMovement : MonoBehaviour {
             else
                 animController.SetFloat("Movement", inputVector.x);
         }
-            
 
-        if (worldRot == 90 || worldRot == 270)
+        if (characterRotation == 90 || characterRotation == 270)
         {
             inputVector = new Vector3(0, Input.GetAxis("Vertical"), 0);
 
@@ -122,31 +200,85 @@ public class AccusedMovement : MonoBehaviour {
         return inputVector;
     }
 
-    public virtual void FixedUpdate()
+    public virtual Vector3 ReturnMobileInputVectors()
     {
-        MoveCharacter();
+        Vector3 inputVector = MobileInputController.Instance.MovementVector;
+
+        if(characterRotation == 0)
+            animController.SetFloat("Movement", inputVector.x);
+        if(characterRotation == 180)
+            animController.SetFloat("Movement", -inputVector.x);
+
+        if (characterRotation == 90)
+            animController.SetFloat("Movement", inputVector.y);
+        if (characterRotation == 270)
+            animController.SetFloat("Movement", -inputVector.y);
+
+        return inputVector;
     }
 
+    public virtual void FixedUpdate()
+    {
+        if(isGrounded)
+        {
+            MoveCharacter();            
+        }
+        else
+        {
+            MakeCharacterFall();
+        }       
+    }
+
+    //Used for Left/Right or Up & Down
     protected virtual void MoveCharacter()
     {
-        Vector3 movement = movementDirection * sneakSpeed;
+        if (movementDirection == Vector3.zero)
+        {
+            rb.velocity = Vector3.zero;
+            return;
+        }
+
+        Vector3 movement = Vector3.zero;
+        movement = movementDirection;
+
+        movement *= sneakSpeed;
         rb.velocity = movement * Time.fixedDeltaTime;
+        hasMoved = true;
+        hasStartedMoving = true;     
+    }
+
+    void MakeCharacterFall()
+    {
+        Vector3 movement = fallingDirection;
+        rb.velocity = movement * Time.fixedDeltaTime;
+        Debug.Log("Falling");
     }
 
     void FreezeCharacter()
     {
         rb.constraints = RigidbodyConstraints.FreezeAll;
+        rb.isKinematic = true;
+        hasFinishedRotating = false;
     }
 
     void UnFreezeCharacter()
     {
         rb.constraints = RigidbodyConstraints.None;
         rb.constraints = RigidbodyConstraints.FreezeRotation | RigidbodyConstraints.FreezePositionZ;
-
         //Determine New Player Rotation
         characterRotation = ReturnWorldRotation();
-    }
+        Debug.Log(characterRotation);
+        while(!CheckIfGrounded())
+        {
+            rb.isKinematic = true;
+        }
 
+        rb.isKinematic = false;
+        hasFinishedRotating = true;
+
+        EventManager.TriggerEvent("CharacterRotated");
+    }
+   
     bool CheckIfGrounded()
     {
         Vector3[] raycastPositions = new Vector3[3];
@@ -160,24 +292,28 @@ public class AccusedMovement : MonoBehaviour {
         if (characterRotation == 0)
         {
             directionOfRayCast = Vector3.down;
+            raycastPositions[0] = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             raycastPositions[1] = new Vector3(transform.position.x - 0.25f, transform.position.y, transform.position.z);
             raycastPositions[2] = new Vector3(transform.position.x + 0.25f, transform.position.y, transform.position.z);
         }
         if (characterRotation == 180)
         {
             directionOfRayCast = Vector3.up;
+            raycastPositions[0] = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             raycastPositions[1] = new Vector3(transform.position.x - 0.25f, transform.position.y, transform.position.z);
             raycastPositions[2] = new Vector3(transform.position.x + 0.25f, transform.position.y, transform.position.z);
         }
         if (characterRotation == 90)
         {
             directionOfRayCast = Vector3.right;
+            raycastPositions[0] = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             raycastPositions[1] = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
             raycastPositions[2] = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
         }
         if (characterRotation == 270)
         {
             directionOfRayCast = Vector3.left;
+            raycastPositions[0] = new Vector3(transform.position.x, transform.position.y, transform.position.z);
             raycastPositions[1] = new Vector3(transform.position.x, transform.position.y + 0.25f, transform.position.z);
             raycastPositions[2] = new Vector3(transform.position.x, transform.position.y - 0.25f, transform.position.z);
         }
@@ -205,9 +341,8 @@ public class AccusedMovement : MonoBehaviour {
         {
             RaycastHit hit;
 
-
             //Checks for Bridges & if Grounded
-            if (Physics.Raycast(rays[i], out hit, distToGround))
+            if (Physics.Raycast(rays[i], out hit, distToGround + 0.1f))
             {
                 if (hit.collider.gameObject.layer != LayerMask.NameToLayer("Bridge"))
                 {
@@ -221,25 +356,42 @@ public class AccusedMovement : MonoBehaviour {
                     }
                 }
             }
-
         }
 
-        if (DebugMode)
-            Debug.Log(numberOfGroundedRays);
-
         if (numberOfGroundedRays == 0)
+        {
+            isGrounded = false;
             return false;
+        }
         else
         {
             if(animController.GetBool("Falling"))
             {
-                animController.SetBool("Falling", false);
-                animController.SetBool("Landing", true);
+                if(hasDied)
+                {
+                    animController.SetBool("Died", true);
+                }
+                else
+                {
+                    canMove = false;
+                    animController.SetBool("Falling", false);
+                    animController.SetBool("Landing", true);
+                    StartCoroutine(WaitForLandingCooldown());
+                }
+                
             }
 
+            isGrounded = true;
             return true;
         }
            
+    }
+
+    IEnumerator WaitForLandingCooldown()
+    {
+        yield return new WaitForSeconds(cooldownFromLanded);
+        canMove = true;
+        animController.SetBool("Landed", true);
     }
 
     public virtual float ReturnWorldRotation()
@@ -270,7 +422,14 @@ public class AccusedMovement : MonoBehaviour {
                     rotatePlatformScript = transform.parent.GetComponent<RotatePlatformBehaviour>();
                     SubscribeToRotationEvents();
                 }
-
+            }
+            if(transform.parent.GetComponent<MovingPlatformBehaviour>())
+            {
+                if(movingPlatformScript != transform.parent.GetComponent<MovingPlatformBehaviour>())
+                {
+                    movingPlatformScript = transform.parent.GetComponent<MovingPlatformBehaviour>();
+                    SubscribeToMovingPlatformEvents();
+                }
             }
         }
     }
@@ -279,6 +438,19 @@ public class AccusedMovement : MonoBehaviour {
     {
         rotatePlatformScript.StartedRotating += FreezeCharacter;
         rotatePlatformScript.EndedRotating += UnFreezeCharacter;
+    }
+
+    void SubscribeToMovingPlatformEvents()
+    {
+        movingPlatformScript.StartedMoving += FreezeCharacter;
+        movingPlatformScript.EndedMoving += UnFreezeCharacter;
+    }
+
+    public void Reset()
+    {
+        rb.velocity = Vector3.zero;
+        transform.position = spawnPoint;
+        transform.rotation = Quaternion.Euler(spawnRotation);
     }
 
     public virtual void OnTriggerExit(Collider other)

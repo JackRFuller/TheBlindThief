@@ -11,6 +11,11 @@ public class GameController : Singleton<GameController>
     private int levelIndex;
     public int LevelIndex { get { return levelIndex; } }
 
+    void Start()
+    {
+        Application.targetFrameRate = 30;
+    }
+
     void OnEnable()
     {
         EventManager.StartListening("NextLevel", IncrementLevel);
@@ -24,5 +29,16 @@ public class GameController : Singleton<GameController>
     public void IncrementLevel()
     {
         levelIndex++;
+    }
+
+    void Update()
+    {
+
+    }
+
+    void Cheats()
+    {
+        if (Input.GetKeyUp(KeyCode.R))
+            EventManager.TriggerEvent("Reset");
     }
 }

@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class CameraController : MonoBehaviour
+public class CameraController : MonoBehaviour, IEvent
 {
     [SerializeField]
     private StartingTarget startingTarget;
@@ -36,6 +36,16 @@ public class CameraController : MonoBehaviour
         DetermineStartingTarget();
     }
 
+    public void OnEnable()
+    {
+        EventManager.StartListening("CharacterSwitch", SwitchTarget);
+    }
+
+    public void OnDisable()
+    {
+        EventManager.StopListening("CharacterSwitch", SwitchTarget);
+    }
+
     void DetermineStartingTarget()
     {
         switch(startingTarget)
@@ -51,7 +61,6 @@ public class CameraController : MonoBehaviour
                 break;
         }
     }
-
   
     void Update()
     {
