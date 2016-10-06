@@ -18,6 +18,8 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
     protected float sprintSpeed;
     [SerializeField]
     protected float fallingSpeed;
+
+    private bool isSprinting;
     protected Vector3 movementDirection;
     protected Vector3 fallingDirection;
     private float distToGround;
@@ -28,8 +30,7 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
     [SerializeField]
     private LayerMask groundedLayer;
     [SerializeField]
-    private float distToGroundModifier;
-    [SerializeField]
+    private float distToGroundModifier;    
     private bool isGrounded;
     private float cooldownFromLanded; //Determines how long to wait until player can move again;
     private bool canMove = true;
@@ -50,6 +51,7 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
     //Reset
     private Vector3 spawnPoint;
     private Vector3 spawnRotation;
+    private Transform originalParent;
 
     void OnEnable()
     {
@@ -75,6 +77,7 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
     {
         spawnPoint = transform.position;
         spawnRotation = transform.eulerAngles;
+        originalParent = transform.parent;
     }
 
     public virtual void ActivateMovement()
@@ -114,8 +117,8 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
                 if(hasFinishedRotating)
                     DetermineFallingDirection();
 
-            if (isFalling)
-                CheckDistanceFalling();
+            //if (isFalling)
+            //    CheckDistanceFalling();
         }
     }
 
@@ -140,6 +143,7 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
             fallingDirection = new Vector3(-fallingSpeed, 0, 0);
 
         startFallingPosition = transform.position;
+
         isFalling = true;
         animController.SetBool("Falling", true);
         animController.SetBool("Landed", false);
@@ -203,6 +207,9 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
     public virtual Vector3 ReturnMobileInputVectors()
     {
         Vector3 inputVector = MobileInputController.Instance.MovementVector;
+        isSprinting = MobileInputController.Instance.IsSprinting;
+
+        
 
         if(characterRotation == 0)
             animController.SetFloat("Movement", inputVector.x);
@@ -213,6 +220,9 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
             animController.SetFloat("Movement", inputVector.y);
         if (characterRotation == 270)
             animController.SetFloat("Movement", -inputVector.y);
+
+        animController.SetBool("Sprinting", isSprinting);
+        animController.SetBool("Walking", !isSprinting);
 
         return inputVector;
     }
@@ -241,7 +251,13 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
         Vector3 movement = Vector3.zero;
         movement = movementDirection;
 
-        movement *= sneakSpeed;
+        if(isSprinting)
+            movement *= sprintSpeed;
+        else
+        {
+            movement *= sneakSpeed;
+        }
+        
         rb.velocity = movement * Time.fixedDeltaTime;
         hasMoved = true;
         hasStartedMoving = true;     
@@ -250,8 +266,7 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
     void MakeCharacterFall()
     {
         Vector3 movement = fallingDirection;
-        rb.velocity = movement * Time.fixedDeltaTime;
-        Debug.Log("Falling");
+        rb.velocity = movement * Time.fixedDeltaTime;        
     }
 
     void FreezeCharacter()
@@ -381,6 +396,7 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
                 
             }
 
+            isFalling = false;
             isGrounded = true;
             return true;
         }
@@ -423,12 +439,30 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
                     SubscribeToRotationEvents();
                 }
             }
+            else
+            {
+                if(rotatePlatformScript)
+                {
+                    UnSubscribeFromRotationEvents();
+                    rotatePlatformScript = null;
+                }
+            }
+
+
             if(transform.parent.GetComponent<MovingPlatformBehaviour>())
             {
                 if(movingPlatformScript != transform.parent.GetComponent<MovingPlatformBehaviour>())
                 {
                     movingPlatformScript = transform.parent.GetComponent<MovingPlatformBehaviour>();
                     SubscribeToMovingPlatformEvents();
+                }
+            }
+            else
+            {
+                if(movingPlatformScript)
+                {
+                    UnSubscribeFromMovingPlatformEvents();
+                    movingPlatformScript = null;
                 }
             }
         }
@@ -446,6 +480,18 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
         movingPlatformScript.EndedMoving += UnFreezeCharacter;
     }
 
+    void UnSubscribeFromRotationEvents()
+    {
+        rotatePlatformScript.StartedRotating -= FreezeCharacter;
+        rotatePlatformScript.EndedRotating -= UnFreezeCharacter;
+    }
+
+    void UnSubscribeFromMovingPlatformEvents()
+    {
+        movingPlatformScript.StartedMoving -= FreezeCharacter;
+        movingPlatformScript.EndedMoving -= UnFreezeCharacter;
+    }
+
     public void Reset()
     {
         rb.velocity = Vector3.zero;
@@ -457,8 +503,19 @@ public class AccusedMovement : Singleton<AccusedMovement>, IReset
     {
         if (other.tag.Equals("Platform"))
         {
-            transform.parent = null;
-            rotatePlatformScript = null;
+            transform.parent = originalParent;
+
+            if (movingPlatformScript)
+            {
+                UnSubscribeFromMovingPlatformEvents();
+                movingPlatformScript = null;
+            }
+            if (rotatePlatformScript)
+            {
+                UnSubscribeFromRotationEvents();
+                rotatePlatformScript = null;
+            }
+
         }
     }
 }

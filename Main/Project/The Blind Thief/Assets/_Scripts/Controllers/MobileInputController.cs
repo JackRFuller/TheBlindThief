@@ -18,6 +18,14 @@ public class MobileInputController : Singleton<MobileInputController>, IEvent
     private int characterIndex = 0; //0 = Accused, 1 = Sage
     private float currentCharacterRotation;
 
+    //Double Click
+    private int numberOfTaps;
+    private float tapTime;
+    private int inputIndex; //1 = Right or Vertical, 0 = Left or Down
+
+    private bool isSprinting;
+    public bool IsSprinting { get { return isSprinting; } }
+
     void Start()
     {
         SetupCharacter();
@@ -63,18 +71,23 @@ public class MobileInputController : Singleton<MobileInputController>, IEvent
 
     public void MoveRight()
     {
+        isSprinting = CheckDoubleTap();
+
         horizontalDirection = 1;
         CreateMovementVector();
     }
 
     public void MoveLeft()
     {
+        isSprinting = CheckDoubleTap();
+
         horizontalDirection = -1;
         CreateMovementVector();        
     }
 
     public void ReleaseRight()
     {
+        isSprinting = false;
         horizontalDirection = 0;
 
         if (movementVector.x != -1)
@@ -83,6 +96,7 @@ public class MobileInputController : Singleton<MobileInputController>, IEvent
 
     public void ReleaseLeft()
     {
+        isSprinting = false;
         horizontalDirection = 0;
 
         if (movementVector.x != 1)
@@ -95,12 +109,16 @@ public class MobileInputController : Singleton<MobileInputController>, IEvent
 
     public void MoveUp()
     {
+        isSprinting = CheckDoubleTap();
+
         verticalDirection = 1;
         CreateMovementVector();
     }
 
     public void MoveDown()
     {
+        isSprinting = CheckDoubleTap();
+
         verticalDirection = -1;
         CreateMovementVector();
     }
@@ -121,10 +139,31 @@ public class MobileInputController : Singleton<MobileInputController>, IEvent
 
     #endregion
 
+    bool CheckDoubleTap()
+    {
+        numberOfTaps++;
+
+        if (numberOfTaps == 1)
+            tapTime = Time.time;
+
+        if (numberOfTaps > 1 && Time.time - tapTime < 0.5f)
+        {
+            numberOfTaps = 0;
+            tapTime = 0;
+            Debug.Log("Double Tap");
+            return true;           
+        }
+        else if (numberOfTaps > 2 || Time.time - tapTime > 1)
+        {
+            numberOfTaps = 0;
+        }
+
+        return false;
+    }
+
     void CreateMovementVector()
     {
-        movementVector = new Vector3(horizontalDirection, verticalDirection, 0);
-        Debug.Log(movementVector);
+        movementVector = new Vector3(horizontalDirection, verticalDirection, 0);       
     }
 
     public void OnClickSwitchCharcaters()
