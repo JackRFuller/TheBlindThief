@@ -51,6 +51,9 @@ public class MobileInputController : Singleton<MobileInputController>, IEvent
     {
         if (characterIndex == 0)
             currentCharacterRotation = AccusedMovement.Instance.CharacterRotation;
+
+        if (characterIndex == 1)
+            currentCharacterRotation = SageMovement.Instance.CharacterRotation;
     }
 
     void SetInputOrientation()
